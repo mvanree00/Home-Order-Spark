@@ -1,0 +1,20 @@
+{
+  "name": "Home-Order-Spark",
+  "version": "1.0.0",
+  "description": "Please note that any time the server is run in these scripts `nodemon` is used in place of `node` for easier development. If you are interested in how this works follow the nodemon In the project directory, you can run:",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mvanree00/Home-Order-Spark.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mvanree00/Home-Order-Spark/issues"
+  },
+  "homepage": "https://github.com/mvanree00/Home-Order-Spark#readme"
+}
