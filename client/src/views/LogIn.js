@@ -17,6 +17,7 @@ const LogIn = (props) => {
 
         setFields({email: '', password: ''} );
         if(user) {
+            console.log('hello');
             props.onLoginSuccess(user);
             props.history.push('/');
         }
