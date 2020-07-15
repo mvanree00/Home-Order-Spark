@@ -1,20 +1,13 @@
 {
-  "name": "server",
+  "name": "home_order",
   "version": "1.0.0",
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \\\"nodemon server.js\\\" \\\"cd ../client && npm run start\\\"",
+    "dev": "concurrently \"node server.js\" \"cd ../client && npm start\"",
     "build": "cd ../client && npm build",
     "start": "nodemon server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/UFWebApps/MERN-Template.git"
-  },
-  "keywords": [],
-  "author": "Dakota Rennemann",
-  "license": "MIT",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",

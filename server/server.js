@@ -30,7 +30,7 @@ app.use('/api/users', userRouter);
 app.use(express.static(path.join(__dirname, '../client/public')));
 // Handle React routing, return all requests to React app
 app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
+   res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
 });
 //}
 app.listen(port, () => console.log(`Server now running on port ${port}!`));
