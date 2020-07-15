@@ -1,4 +1,4 @@
-## npm run-script dev
+## npm run-script dev (while in server directory)
 Runs frontend and backend, make sure in server folder to add config folder with config.js as follows.
 ## module.exports = {
 ##     db: {
