@@ -8,9 +8,9 @@
 
 .nav-logo {
     display:flex;
-    height: 50px;
-    width: 50px;
-    padding: 10%;
+    height: 60px;
+    width: 60px;
+    padding: 2%;
 }
 
 .nav-logo:hover {
