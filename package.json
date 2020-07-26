@@ -1,20 +1,27 @@
 {
-  "name": "Home-Order-Spark",
+  "name": "home_order",
   "version": "1.0.0",
-  "description": "Please note that any time the server is run in these scripts `nodemon` is used in place of `node` for easier development. If you are interested in how this works follow the nodemon In the project directory, you can run:",
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "concurrently \"cd server && node server.js\" \"cd client && npm start\"",
+    "build": "cd client && npm build",
+    "start": "node server/server.js",
+    "install-all": "concurrently \"npm install\" \"cd client && npm install\""
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mvanree00/Home-Order-Spark.git"
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.19.0",
+    "concurrently": "^4.1.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mocha": "^6.2.1",
+    "mongoose": "^5.7.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^1.18.10",
+    "should": "^13.2.3",
+    "supertest": "^4.0.2"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mvanree00/Home-Order-Spark/issues"
-  },
-  "homepage": "https://github.com/mvanree00/Home-Order-Spark#readme"
+  "homepage": "https://github.com/UFWebApps/React_Template_Repo#readme"
 }
