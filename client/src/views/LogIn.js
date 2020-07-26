@@ -46,7 +46,7 @@ const LogIn = (props) => {
                     <Input type="password" placeholder="Password" name="password" value={fields.password} />
                 </div>
                 <div align="center">
-                    <Button variant ="contained" color="primary">Log In</Button>
+                    <Button variant ="contained" color="primary" type="submit">Log In</Button>
                 </div>
                 <div>
                     <Typography className="Text">

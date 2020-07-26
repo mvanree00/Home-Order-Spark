@@ -6,7 +6,8 @@ const storeSchema = new mongoose.Schema({
     items: [{
         itemName: {type: String, required: true, unique: true},
         description: { type: String, required: true },
-        price: {type: mongoose.Number}
+        price: {type: mongoose.Number},
+        quantity: {type: mongoose.Number}
     }]
 });
 
