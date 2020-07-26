@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.11.0",
-    "fontsource-roboto": "^2.2.6",
-    "jwt-decode": "^2.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-password-strength": "^2.4.0",
-    "react-scripts": "^3.4.1"
+    "react-scripts": "^3.4.1",
+    "@material-ui/core": "^4.11.0",
+    "fontsource-roboto": "^2.2.6",
+    "jwt-decode": "^2.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
