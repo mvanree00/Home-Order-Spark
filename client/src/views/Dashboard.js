@@ -2,7 +2,7 @@ import React from 'react'
 import Button from '@material-ui/core/Button'
 
 const Dashboard = (props) => {
-    if(props.user.atype == "Volunteer"){
+    if(props.user.atype === "Volunteer"){
         return (
             <div align="center">
                 <h1>Welcome to your volunteer dashboard, {props.user.name}!</h1>
@@ -13,7 +13,7 @@ const Dashboard = (props) => {
             </div>
         )
     }
-    else if(props.user.atype == "Store"){
+    else if(props.user.atype === "Store"){
         return (
             <div align="center">
                 <h1>Welcome to your store dashboard, {props.user.name}!</h1>

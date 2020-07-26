@@ -5,7 +5,6 @@ import LogIn from "./views/LogIn.js"
 import SignUp from "./views/SignUp"
 import LogOut from "./views/LogOut"
 import Dashboard from "./views/Dashboard.js"
-import Home from "./views/Home/Home"
 import NotFound from "./views/NotFound"
 import NavBar from "./components/Header/NavBar.js"
 
@@ -39,11 +38,9 @@ const App = () => {
           <Route path="/dashboard" render={(props) => {
               return currentUser ? <Dashboard {...props} user={currentUser}/> : <Redirect to="/login" />
           }}/>
-
-        <Route exact path="/Home" render={Home} />
-        <Route exact path="/">
-          <Redirect to="/Home" />
-        </Route>
+          <Route exact path="/" render={(props) => {
+              return currentUser ? <Dashboard {...props} user={currentUser}/> : <Redirect to="/login" />
+          }}/>
         <Route render={NotFound}/>
       </Switch>
     </div>

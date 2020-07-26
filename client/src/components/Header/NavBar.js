@@ -12,10 +12,6 @@ const NavBar = (props) => {
 
             {/* Page Links */}
             <div className = "nav-items">
-                <Link className = "nav-link" to='/Home'>Home</Link>
-                <a className = "nav-link" target='_blank' rel="noopener noreferrer" href="https://reactjs.org/docs/getting-started.html">
-                    React Docs
-                </a>
                 {props.currentUser ?
                     (
                         <span>
