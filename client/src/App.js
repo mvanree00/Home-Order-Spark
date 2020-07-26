@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import { Route, Switch, Redirect  } from 'react-router-dom'
 import httpUser from './httpUser'
-
 import LogIn from "./views/LogIn.js"
 import SignUp from "./views/SignUp"
 import LogOut from "./views/LogOut"
@@ -37,8 +36,8 @@ const App = () => {
           <Route path="/logout" render={(props) => {
               return <LogOut onLogOut={logOut} />
           }}/>
-          <Route path="/dashboard" render={() => {
-              return currentUser ? <Dashboard /> : <Redirect to="/login" />
+          <Route path="/dashboard" render={(props) => {
+              return currentUser ? <Dashboard {...props} user={currentUser}/> : <Redirect to="/login" />
           }}/>
 
         <Route exact path="/Home" render={Home} />
