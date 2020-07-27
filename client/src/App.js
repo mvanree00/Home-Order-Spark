@@ -7,6 +7,7 @@ import LogOut from "./views/LogOut"
 import Dashboard from "./views/Dashboard.js"
 import NotFound from "./views/NotFound"
 import NavBar from "./components/Header/NavBar.js"
+import Inventory from "./views/Inventory.js"
 
 
 const App = () => {
@@ -41,6 +42,12 @@ const App = () => {
           <Route exact path="/" render={(props) => {
               return currentUser ? <Dashboard {...props} user={currentUser}/> : <Redirect to="/login" />
           }}/>
+           
+           <Route path="/inventory" render={(props) => {
+              return currentUser ? <Inventory {...props} user={currentUser}/> : <Redirect to="/login" />
+          }}/>
+         
+         
         <Route render={NotFound}/>
       </Switch>
     </div>

@@ -18,10 +18,12 @@
 }
 
 .nav-items {
+
     display:flex;
     margin-left: auto;
     margin-right: 5%;
     align-items: center;
+    
 }
 
 .nav-link {
@@ -30,6 +32,7 @@
     padding: 14px 25px;
     text-align: center;
     text-decoration: none;
+    
 }
 
 .nav-link:hover {

@@ -16,6 +16,7 @@ const NavBar = (props) => {
                     (
                         <span>
                             <Link className ="nav-link" to='/dashboard'>Profile</Link>
+                            < Link className ="nav-link" to='/inventory'>Inventory</Link>
                             <Link className ="nav-link" to='/logout'>Log Out</Link>
                         </span>
                     ) :

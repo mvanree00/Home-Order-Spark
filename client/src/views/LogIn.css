@@ -1,5 +1,6 @@
 body {
     margin: 0
+
 }
 
 .Header{
@@ -16,4 +17,8 @@ body {
 .Text {
     padding-top: 30px;
     text-align: center;
+}
+.button {
+    text-align:center;
+    padding-top: 30px;
 }

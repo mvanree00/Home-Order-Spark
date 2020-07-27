@@ -54,10 +54,11 @@ const SignUp = (props) => {
                     <ButtonGroup color="primary">
                         <Button onClick={() => {fields.atype="Volunteer"}}>Volunteer</Button>
                         <Button onClick={() => {fields.atype="Store"}}>Store Owner</Button>
+                        <Button onClick={() => {fields.atype="Customer"}}>Customer</Button>
                     </ButtonGroup>
                 </div>
                 
-                <div align="center">
+                <div className = "button" >
                     <Button variant ="contained" color="primary" type="submit">Sign Up</Button>
                 </div>
             </form>
