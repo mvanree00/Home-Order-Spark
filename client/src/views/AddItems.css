@@ -1,0 +1,7 @@
+.AddItem {
+  margin-left: 400px; /* Same as the width of the sidenav */
+  margin-right: 400px;
+  font-size: 18px; /* Increased text to enable scrolling */
+  padding: 10px 10px;
+  background-color: #3F3F3F;/*3F3F3F*/
+}

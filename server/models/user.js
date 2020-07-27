@@ -6,6 +6,17 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true},
     atype: {type: String, required: true} // account type (volunteer, store owner, null if customer)
+    store : {
+        storeName: {type: String, required: true},
+        address: {type: String, required: true},
+        items: [{
+            itemName: {type: String, required: true, unique: true},
+            description: { type: String, required: true },
+            price: {type: mongoose.Number},
+            quantity: {type: mongoose.Number}
+        }],
+        required : false
+    }
 });
 
 // adds method to user to create hashed password

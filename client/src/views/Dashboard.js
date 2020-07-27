@@ -2,6 +2,7 @@ import React from 'react'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import 'fontsource-roboto'
+import AddItems from './AddItems.js'
 
 const Dashboard = (props) => {
     if(props.user.atype === "Volunteer"){
@@ -18,9 +19,7 @@ const Dashboard = (props) => {
     else if(props.user.atype === "Store"){
         return (
             <div align="center">
-                <Typography variant="h1">Welcome to your store dashboard, {props.user.name}!</Typography>
-                <Typography variant="h2">Add Inventory</Typography>
-                <Typography variant="h2">View Inventory</Typography>
+                <AddItems {...props}/>
             </div>
         )
     }
