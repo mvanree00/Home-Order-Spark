@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography'
 import './NavBar.css';
+import 'fontsource-roboto'
 
 const NavBar = (props) => {
     return (
@@ -11,20 +13,20 @@ const NavBar = (props) => {
             </Link>
 
             {/* Page Links */}
-            <div className = "nav-items">
+            <div className = "nav-items" font-family = "Roboto">
                 {props.currentUser ?
                     (
-                        <span>
+                        <Typography>
                             <Link className ="nav-link" to='/dashboard'>Profile</Link>
                             < Link className ="nav-link" to='/inventory'>Inventory</Link>
                             <Link className ="nav-link" to='/logout'>Log Out</Link>
-                        </span>
+                        </Typography>
                     ) :
                     (
-                    <span>
+                    <Typography>
                         <Link className ="nav-link" to="/login">Log In</Link>
                         <Link className ="nav-link" to="/signup">Sign Up</Link>
-                    </span>
+                    </Typography>
                     )
                 }
             </div>
