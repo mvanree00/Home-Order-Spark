@@ -13,7 +13,7 @@ module.exports = {
     create: async (req, res) => {
         try{
             const item = await Item.create(req.body);
-            res.json({success: true, message: "User created with token", token});
+            res.json({success: true, message: "Item created."});
         } catch(err) {
             res.json({success: false, code: err.code});
         }

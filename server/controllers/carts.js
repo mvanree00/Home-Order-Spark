@@ -1,28 +1,27 @@
-const Item = require('../models/item.js');
+const Cart = require('../models/cart.js');
 
 module.exports = {
-    // creates new user
     index: async (req, res) => {
         try {
-            const items = await Item.find({});
-            res.json(items);
+            const carts = await Cart.find({});
+            res.json(carts);
         } catch(err) {
             alert(err);
         }
     },
     create: async (req, res) => {
         try{
-            const item = await Item.create(req.body);
-            res.json({success: true, message: "User created with token", token});
+            const cart = await Cart.create(req.body);
+            res.json({success: true, message: "Cart created."});
         } catch(err) {
             res.json({success: false, code: err.code});
         }
     },
     show: async (req, res) => {
         try {
-            const items = await Item.find({email: req.params.email});
-            console.log(items)
-            res.json(items);
+            const carts = await Cart.find({email: req.params.email});
+            console.log(carts)
+            res.json(carts);
         } catch(err) {
             alert(err);
         }
