@@ -4,11 +4,12 @@ import Input from '@material-ui/core/Input'
 import './Inventory.js'
 import './AddItems.css'
 import 'fontsource-roboto'
+import httpUser from '../httpUser'
 import { Link } from 'react-router-dom';
 
 
 const AddItems = (props) => {
-    const [fields, setFields] = useState({name: "", description: "", price: "", quantity: ""});
+    const [fields, setFields] = useState({email: props.user.email, itemName: "", description: "", price: "", quantity: ""});
     
     // used to update user input for either password or email
     const onInputChange = (e) => {
@@ -19,24 +20,17 @@ const AddItems = (props) => {
     // used to submit user values for password and email
     const onUpdate = async (e) => {
         e.preventDefault();
-
-        var item = {
-            itemName: fields.name,
-            description: fields.description,
-            price: fields.price,
-            quantity: fields.quantity
-        }
-
-        setFields({name: "", description: "", price: "", quantity: ""} );
+        await httpUser.addItem(fields);
+        setFields({email: props.user.email, itemName: "", description: "", price: "", quantity: ""});
     };
     return (
 
         <div align="center">
-            <form onChange={onInputChange}>
+            <form onChange={onInputChange} onSubmit={onUpdate}>
                 <h1>Welcome to your store dashboard, {props.user.name}!</h1>
                 <div class="AddItem">
                     <div className="ItemName">
-                        <Input type="text" placeholder="Item Name" name="name" value={fields.name}/>
+                        <Input type="text" placeholder="Item Name" name="itemName" value={fields.itemName}/>
                     </div>
                     <div className="ItemPrice">
                         <Input type="text" placeholder="Price" name="price" value={fields.price}/>

@@ -19,7 +19,7 @@ const Dashboard = (props) => {
     else if(props.user.atype === "Store"){
         return (
             <div align="center">
-                <AddItems {...props}/>
+                <AddItems {...props} user={props.user}/>
             </div>
         )
     }
