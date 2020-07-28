@@ -45,6 +45,9 @@ httpUser.signUp = async function(userInfo) {
         return false;
     }
 };
+httpUser.addItem = async function(itemInfo) {
+    await axios.post('/api/items', itemInfo);
+};
 
 httpUser.logOut = function() {
     localStorage.removeItem('token');
