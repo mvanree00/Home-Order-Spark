@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
     name: {type: String},
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true},
-    atype: {type: String, required: true} // account type (volunteer, store owner, null if customer)
+    atype: {type: String, required: true}, // account type (volunteer, store owner, null if customer)
     store : {
         storeName: {type: String, required: true},
         address: {type: String, required: true},

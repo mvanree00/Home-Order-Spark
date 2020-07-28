@@ -43,7 +43,7 @@ const App = () => {
               return currentUser ? <Dashboard {...props} user={currentUser}/> : <Redirect to="/login" />
           }}/>
            
-           <Route path="/inventory" render={(props) => {
+          <Route path="/inventory" render={(props) => {
               return currentUser ? <Inventory {...props} user={currentUser}/> : <Redirect to="/login" />
           }}/>
          
