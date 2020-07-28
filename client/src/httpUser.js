@@ -49,6 +49,10 @@ httpUser.addItem = async function(itemInfo) {
     await axios.post('/api/items', itemInfo);
 };
 
+httpUser.addCart = async function(itemInfo) {
+    await axios.post('/api/carts', itemInfo);
+};
+
 httpUser.logOut = function() {
     localStorage.removeItem('token');
     delete this.defaults.headers.common.token;

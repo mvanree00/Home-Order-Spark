@@ -5,6 +5,7 @@ const path = require('path'),
     bodyParser = require('body-parser'),
     userRouter = require('./routes/users.js'),
     itemRouter = require('./routes/items.js');
+    cartRouter = require('./routes/carts.js');
 
 // Use env port or default
 const port = process.env.PORT || 5000;
@@ -26,6 +27,7 @@ app.use(bodyParser.json());
 // add a router
 app.use('/api/users', userRouter);
 app.use('/api/items', itemRouter);
+app.use('/api/carts', cartRouter);
 if (process.env.NODE_ENV === 'production') {
     // Serve any static files
     app.use(express.static(path.join(__dirname, '../client/build')));

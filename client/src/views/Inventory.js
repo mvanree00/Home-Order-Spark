@@ -11,6 +11,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import axios from 'axios'
+import httpUser from '../httpUser'
 
 const useStyles = makeStyles({
     table: {
@@ -29,6 +30,7 @@ const useStyles = makeStyles({
 
 const Inventory = (props) => {
     const classes = useStyles();
+    const [fields, setFields] = useState({email: props.user.email, prodId: ''});
     const [items, setItems] = useState({vals: []});
 
     useEffect (() => {
@@ -56,6 +58,12 @@ const Inventory = (props) => {
         fetchData();
     }, []);
 
+    const onUpdate = () => {
+        console.log(fields)
+        httpUser.addCart(fields);
+        setFields({email: props.user.email, prodId: ''});
+    };
+    
     const itemList = () => {
         return items.vals.map(function(currentItem, i){
             return (
@@ -65,7 +73,7 @@ const Inventory = (props) => {
                     <TableCell>{currentItem.quantity}</TableCell>
                     {props.user.atype === "Customer" && 
                         <>
-                            <TableCell><Button variant ="contained" color="primary" type="submit">Add To Cart</Button></TableCell>
+                            <TableCell><Button variant ="contained" color="primary" onClick={() => {fields.prodId=currentItem._id;onUpdate()}}>Add To Cart</Button></TableCell>
                         </>
                     }
                 </TableRow>
