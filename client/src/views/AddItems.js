@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import Button from '@material-ui/core/Button'
 import Input from '@material-ui/core/Input'
 import './Inventory.js'
-import './AddItems.css'
+import './LogIn.css'
 import 'fontsource-roboto'
 import httpUser from '../httpUser'
 import { Link } from 'react-router-dom';
