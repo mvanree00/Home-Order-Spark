@@ -23,7 +23,6 @@ module.exports = {
     show: async (req, res) => {
         try {
             const orders = await Order.find({email: req.params.email});
-            console.log(orders)
             res.json(orders);
         } catch(err) {
             alert(err);

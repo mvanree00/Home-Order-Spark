@@ -3,5 +3,5 @@ const express = require('express'),
     orderController = require('../controllers/orders.js');
 
 orderRouter.route('/').get(orderController.index).post(orderController.create); // create order
-orderRouter.route('/email/:email').get(orderController.show); // show all orders
+orderRouter.route('/customer/:email').get(orderController.show); // show all orders
 module.exports = orderRouter;

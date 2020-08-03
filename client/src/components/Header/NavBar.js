@@ -44,12 +44,13 @@ const NavBar = (props) => {
                 console.log(error);
             })
         }
-        fetchData();
-        setItems(list)
+        if(props.user && props.user.atype==='Customer'){
+            fetchData();
+            setItems(list)
+        }
     }, []);
 
     const itemList = () => {
-        console.log('hello')
         return items.map(function(currentItem, i){
             return (
                 <TableRow>
@@ -67,24 +68,27 @@ const NavBar = (props) => {
             <Link className = "nav-title" to="/">
                 <img className = "nav-logo" src={ "/newhammer.svg" } alt="Home Order logo" />
             </Link>
-
-            <Drawer
-                docked={false}
-                anchor={"right"}
-                width={50000}
-                open={drawerOpen.open}
-                onRequestChange={toggle}
-                variant="persistent">
-                {itemList()}
-                <div>Total: {totals}</div>
-                <Button component={ Link } to="/checkout" variant="contained" color="primary" onClick={toggle}>Checkout</Button>
-            </Drawer>
             {/* Page Links */}
             <div className = "nav-items" fontFamily = "Roboto">
                 {props.user ?
                     (
                         <Typography>
-                            <Link className ="nav-link" onClick={toggle}>Cart</Link>
+                            {props.user.atype === "Customer" && 
+                                <>
+                                    <Drawer
+                                    docked={false}
+                                    anchor={"right"}
+                                    width={50000}
+                                    open={drawerOpen.open}
+                                    onRequestChange={toggle}
+                                    variant="persistent">
+                                    {itemList()}
+                                    <div>Total: {totals}</div>
+                                    <Button component={ Link } to="/checkout" variant="contained" color="primary" onClick={toggle}>Checkout</Button>
+                                    </Drawer>
+                                    <Link className ="nav-link" onClick={toggle}>Cart</Link>
+                                </>
+                            }
                             <Link className ="nav-link" to='/dashboard'>Profile</Link>
                             <Link className ="nav-link" to='/inventory'>Inventory</Link>
                             <Link className ="nav-link" to='/logout'>Log Out</Link>
