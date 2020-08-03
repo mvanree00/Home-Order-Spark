@@ -8,6 +8,7 @@ import Dashboard from "./views/Dashboard.js"
 import NotFound from "./views/NotFound"
 import NavBar from "./components/Header/NavBar.js"
 import Inventory from "./views/Inventory.js"
+import Checkout from "./views/Checkout.js"
 
 
 const App = () => {
@@ -24,7 +25,7 @@ const App = () => {
 
   return (
     <div>
-      <NavBar currentUser={currentUser} />
+      <NavBar user={currentUser} />
 
       <Switch>
           <Route path="/login" render={(props) => {
@@ -47,7 +48,10 @@ const App = () => {
               return currentUser ? <Inventory {...props} user={currentUser}/> : <Redirect to="/login" />
           }}/>
          
-         
+         <Route path="/checkout" render={(props) => {
+              return currentUser ? <Checkout {...props} user={currentUser}/> : <Redirect to="/login" />
+          }}/>
+
         <Route render={NotFound}/>
       </Switch>
     </div>

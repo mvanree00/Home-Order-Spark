@@ -36,7 +36,7 @@ const Inventory = (props) => {
     useEffect (() => {
         async function fetchData() {
             if(props.user.atype === "Customer"){
-                axios.get('http://localhost:3000/api/items')
+                axios.get('/api/items')
                         .then(response => {
                             setItems({ vals: response.data });
                         })
@@ -45,7 +45,7 @@ const Inventory = (props) => {
                         })
             }
             else if(props.user.atype === "Store"){
-                axios.get('http://localhost:3000/api/items/'+props.user.email)
+                axios.get('/api/items/'+props.user.email)
                 .then(response => {
                     setItems({ vals: response.data });
                 })

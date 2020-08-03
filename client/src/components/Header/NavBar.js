@@ -1,13 +1,65 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Drawer from '@material-ui/core/Drawer'
 import './NavBar.css';
 import 'fontsource-roboto'
+import axios from 'axios'
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 const NavBar = (props) => {
     const[drawerOpen, setDrawerOpen] = useState({open: false});
     const toggle = () => setDrawerOpen({open: !drawerOpen.open});
+    const [items, setItems] = useState([]);
+    const [totals, setTotal] = useState(0.0);
+    let list = [];
+
+    useEffect (() => {
+        function setData(response){
+            response.forEach((currentItem) => {
+                let item = {};
+                axios.get('/api/items/search/'+currentItem.prodId)
+                .then(response => {
+                    item = response.data;
+                    list.push(item)
+                    setTotal(totals+item.price)
+                })
+                .catch(function (error){
+                    console.log(error);
+                })
+            })
+        }
+        async function fetchData() {
+            axios.get('/api/carts/'+props.user.email)
+            .then(response => {
+                setData(response.data);
+            })
+            .catch(function (error){
+                console.log(error);
+            })
+        }
+        fetchData();
+        setItems(list)
+    }, []);
+
+    const itemList = () => {
+        console.log('hello')
+        return items.map(function(currentItem, i){
+            return (
+                <TableRow>
+                    <TableCell>{currentItem.itemName}</TableCell>
+                    <TableCell>{currentItem.price}</TableCell>
+                    <TableCell>{currentItem.quantity}</TableCell>
+                </TableRow>
+            )
+        })
+    };
 
     return (
         <div className = "header">
@@ -19,21 +71,23 @@ const NavBar = (props) => {
             <Drawer
                 docked={false}
                 anchor={"right"}
-                minWidth={600}
+                width={50000}
                 open={drawerOpen.open}
                 onRequestChange={toggle}
                 variant="persistent">
-                <div>test</div>
+                {itemList()}
+                <div>Total: {totals}</div>
+                <Button component={ Link } to="/checkout" variant="contained" color="primary" onClick={toggle}>Checkout</Button>
             </Drawer>
             {/* Page Links */}
             <div className = "nav-items" fontFamily = "Roboto">
-                {props.currentUser ?
+                {props.user ?
                     (
                         <Typography>
-                            <Link className ="nav-link" to='/dashboard'>Profile</Link>
-                            < Link className ="nav-link" to='/inventory'>Inventory</Link>
-                            <Link className ="nav-link" to='/logout'>Log Out</Link>
                             <Link className ="nav-link" onClick={toggle}>Cart</Link>
+                            <Link className ="nav-link" to='/dashboard'>Profile</Link>
+                            <Link className ="nav-link" to='/inventory'>Inventory</Link>
+                            <Link className ="nav-link" to='/logout'>Log Out</Link>
                         </Typography>
                     ) :
                     (

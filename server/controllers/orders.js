@@ -1,30 +1,32 @@
-const Item = require('../models/item.js');
+const Order = require('../models/order.js');
 
 module.exports = {
-    // creates new user
+    // list orders
     index: async (req, res) => {
         try {
-            const items = await Item.find({});
-            res.json(items);
+            const orders = await Order.find({});
+            res.json(orders);
         } catch(err) {
             alert(err);
         }
     },
     create: async (req, res) => {
         try{
-            const item = await Item.create(req.body);
+            const order = await Order.create(req.body);
+            console.log(req.body);
             res.json({success: true, message: "Order created."});
         } catch(err) {
             res.json({success: false, code: err.code});
         }
     },
+    // show orders
     show: async (req, res) => {
         try {
-            const items = await Item.find({email: req.params.email});
-            console.log(items)
-            res.json(items);
+            const orders = await Order.find({email: req.params.email});
+            console.log(orders)
+            res.json(orders);
         } catch(err) {
             alert(err);
         }
-    },
+    }
 };

@@ -1,7 +1,7 @@
 const express = require('express'),
-    itemRouter = new express.Router(),
-    itemController = require('../controllers/items.js');
+    orderRouter = new express.Router(),
+    orderController = require('../controllers/orders.js');
 
-itemRouter.route('/').get(itemController.index).post(itemController.create);
-itemRouter.route('/:email').get(itemController.show);
-module.exports = itemRouter;
+orderRouter.route('/').get(orderController.index).post(orderController.create); // create order
+orderRouter.route('/email/:email').get(orderController.show); // show all orders
+module.exports = orderRouter;

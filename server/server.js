@@ -4,8 +4,9 @@ const path = require('path'),
     morgan = require('morgan'),
     bodyParser = require('body-parser'),
     userRouter = require('./routes/users.js'),
-    itemRouter = require('./routes/items.js');
-    cartRouter = require('./routes/carts.js');
+    itemRouter = require('./routes/items.js'),
+    cartRouter = require('./routes/carts.js'),
+    orderRouter = require('./routes/orders.js');
 
 // Use env port or default
 const port = process.env.PORT || 5000;
@@ -28,6 +29,7 @@ app.use(bodyParser.json());
 app.use('/api/users', userRouter);
 app.use('/api/items', itemRouter);
 app.use('/api/carts', cartRouter);
+app.use('/api/orders', orderRouter);
 if (process.env.NODE_ENV === 'production') {
     // Serve any static files
     app.use(express.static(path.join(__dirname, '../client/build')));

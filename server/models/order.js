@@ -1,9 +1,10 @@
-const mongoose = require('mongoose'),
+const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
     status: {type: String, required: true},
-    total: {type: mongoose.Number, required: true},
     email: {type: String, required:true},
+    placed: {type: Date, default: Date.now},
+    total: {type: mongoose.Number},
     ids: [{type: String}]
 });
 

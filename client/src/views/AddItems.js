@@ -11,7 +11,6 @@ import './LogIn.css'
 
 const AddItems = (props) => {
     const [fields, setFields] = useState({email: props.user.email, itemName: "", description: "", price: "", quantity: ""});
-    
     // used to update user input for either password or email
     const onInputChange = (e) => {
         e.persist();
@@ -21,6 +20,7 @@ const AddItems = (props) => {
     // used to submit user values for password and email
     const onUpdate = async (e) => {
         e.preventDefault();
+        console.log(fields);
         await httpUser.addItem(fields);
         setFields({email: props.user.email, itemName: "", description: "", price: "", quantity: ""});
     };

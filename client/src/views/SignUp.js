@@ -12,7 +12,6 @@ import 'fontsource-roboto'
  
 const SignUp = (props) => {
     const [fields, setFields] = useState({name: '', email: "", password: "", atype: "Customer", storeName: "", address: ""});
- 
     // used to update user input for either password or email
     const onInputChange = (e) => {
         e.persist();

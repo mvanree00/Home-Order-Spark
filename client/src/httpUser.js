@@ -46,11 +46,16 @@ httpUser.signUp = async function(userInfo) {
     }
 };
 httpUser.addItem = async function(itemInfo) {
+    console.log(itemInfo)
     await axios.post('/api/items', itemInfo);
 };
 
 httpUser.addCart = async function(itemInfo) {
     await axios.post('/api/carts', itemInfo);
+};
+
+httpUser.addOrder = async function(orderInfo) {
+    await axios.post('/api/orders', orderInfo);
 };
 
 httpUser.logOut = function() {
