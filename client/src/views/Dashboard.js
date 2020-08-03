@@ -20,9 +20,25 @@ const Dashboard = (props) => {
                     console.log(error);
                 })
             }
+            else if(props.user.atype==="Volunteer"){
+                axios.get('/api/orders/volunteer')
+                .then(response => {
+                    setOrders({ vals: response.data });
+                })
+                .catch(function (error){
+                    console.log(error);
+                })
+            }
         }
         fetchData();
     }, []);
+
+    const acceptOrder = (orderid) => {
+        axios.patch('/api/orders/volunteer/'+orderid,{email: props.user.email})
+        .catch(function (error){
+            console.log(error);
+        })
+    };
 
     const itemList = () => {
         return orders.vals.map(function(currentOrder, i){
@@ -32,6 +48,12 @@ const Dashboard = (props) => {
                     <TableCell>${currentOrder.total}</TableCell>
                     <TableCell>Date Placed: {new Date(currentOrder.placed).toDateString()}</TableCell>
                     <TableCell>{currentOrder.status}</TableCell>
+                    <TableCell>{currentOrder.store}</TableCell>
+                    {props.user.atype === "Volunteer" && 
+                        <>
+                            <TableCell><Button variant="contained" color="primary" onClick={() => {acceptOrder(currentOrder._id)}}>Accept Order</Button></TableCell>
+                        </>
+                    }
                 </TableRow>
             )
         })
@@ -41,10 +63,12 @@ const Dashboard = (props) => {
         return (
             <div align="center">
                 <Typography variant="h1">Welcome to your volunteer dashboard, {props.user.name}!</Typography>
-                <Typography variant="h2">Current open orders:</Typography>
-                <div align="center">
-                    <Button variant ="contained" color="primary" type="submit">Accept Order</Button>
-                </div>
+                {orders ? 
+                (<div>
+                    <Typography variant="h2">Current open orders:</Typography>
+                    {itemList()}
+                </div>)
+                : (<Typography variant="h2">No orders to accept.</Typography>)}
             </div>
         )
     }

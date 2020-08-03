@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography'
 import './LogIn.css'
 
 const AddItems = (props) => {
-    const [fields, setFields] = useState({email: props.user.email, itemName: "", description: "", price: "", quantity: ""});
+    const [fields, setFields] = useState({email: props.user.email, itemName: "", description: "", price: "", quantity: "", store: ""});
     // used to update user input for either password or email
     const onInputChange = (e) => {
         e.persist();
@@ -19,10 +19,11 @@ const AddItems = (props) => {
 
     // used to submit user values for password and email
     const onUpdate = async (e) => {
+        fields.store=props.user.storeName;
         e.preventDefault();
         console.log(fields);
         await httpUser.addItem(fields);
-        setFields({email: props.user.email, itemName: "", description: "", price: "", quantity: ""});
+        setFields({email: props.user.email, itemName: "", description: "", price: "", quantity: "", store: ""});
     };
     return (
 

@@ -53,6 +53,15 @@ const Inventory = (props) => {
                     console.log(error);
                 })
             }
+            else{
+                axios.get('/api/orders/email/'+props.user.email)
+                .then(response => {
+                    setItems({ vals: response.data });
+                })
+                .catch(function (error){
+                    console.log(error);
+                })
+            }
         }
 
         fetchData();
@@ -81,10 +90,35 @@ const Inventory = (props) => {
         })
     };
 
+    const completeOrder = (orderid) => {
+        axios.patch('/api/orders/completed/'+orderid)
+        .catch(function (error){
+            console.log(error);
+        })
+    };
+
+    const orderList = () => {
+        return items.vals.map(function(currentOrder, i){
+            return (
+                <TableRow>
+                    <TableCell>{currentOrder.ids.length} items</TableCell>
+                    <TableCell>${currentOrder.total}</TableCell>
+                    <TableCell>Date Placed: {new Date(currentOrder.placed).toDateString()}</TableCell>
+                    <TableCell>{currentOrder.status}</TableCell>
+                    <TableCell>{currentOrder.store}</TableCell>
+                    <TableCell><Button variant="contained" color="primary" onClick={() => {completeOrder(currentOrder._id)}}>Delivered</Button></TableCell>
+                </TableRow>
+            )
+        })
+    };
+
     if(props.user.atype === "Volunteer"){
         return (
             <div align="center">
-                <Typography variant="h1">Here are the items you are currently delivering, {props.user.name}!</Typography>
+                <Typography variant="h1">Here are your current and past accepted orders, {props.user.name}!</Typography>
+                <TableBody>
+                    { orderList() }
+                </TableBody>
             </div>
         )
     }

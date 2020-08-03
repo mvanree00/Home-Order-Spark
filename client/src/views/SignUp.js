@@ -21,6 +21,7 @@ const SignUp = (props) => {
     // used to submit user values for password and email
     const onFormSubmit = async (e) => {
         e.preventDefault();
+        fields.storeName=fields.storeName+" "+fields.address;
         const user = await httpUser.signUp(fields);
  
         setFields({name: '', email: "", password: "", atype: "Customer", storeName: "", address: ""});

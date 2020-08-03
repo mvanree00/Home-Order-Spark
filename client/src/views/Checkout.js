@@ -13,7 +13,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
 const Checkout = (props) => {
-    const [fields, setFields] = useState({status: '', email: props.user.email, ids: [], placed: '', total: 0.0});
+    const [fields, setFields] = useState({status: '', email: props.user.email, ids: [], placed: '', total: 0.0, store: ''});
     const [items, setItems] = useState([]);
     const [totals, setTotal] = useState(0.0);
     let idss = [];
@@ -45,7 +45,7 @@ const Checkout = (props) => {
         }
         fetchData();
         setItems(list)
-        setFields({status: '', email: props.user.email, ids: idss, placed: '', total: 0});
+        setFields({status: '', email: props.user.email, ids: idss, placed: '', total: 0, store: ''});
     }, []);
 
     const itemList = () => {
@@ -66,6 +66,7 @@ const Checkout = (props) => {
         fields.status='placed'
         fields.total=totals
         fields.placed = new Date
+        fields.store=items[0].store
         //await httpUser.addOrder({status: "placed", email: props.user.email, ids: idss, placed: new Date});
         await httpUser.addOrder(fields);
     };

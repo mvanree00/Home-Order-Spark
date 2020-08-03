@@ -5,7 +5,9 @@ const orderSchema = new mongoose.Schema({
     email: {type: String, required:true},
     placed: {type: Date, default: Date.now},
     total: {type: mongoose.Number},
-    ids: [{type: String}]
+    ids: [{type: String}],
+    volunteer: {type: String},
+    store: {type: String}
 });
 
 module.exports = mongoose.model('order', orderSchema);
