@@ -9,4 +9,5 @@ orderRouter.route('/email/:email').get(orderController.current); // display volu
 orderRouter.route('/volunteer/:id').patch(orderController.accepted); // accept order (volunteer)
 orderRouter.route('/completed/:id').patch(orderController.delivered); // complete order (volunteer)
 orderRouter.route('/cancel/:id').patch(orderController.canceled); // cancel order (customer)
+orderRouter.route('/order/:id').get(orderController.items); // show current items in order
 module.exports = orderRouter;

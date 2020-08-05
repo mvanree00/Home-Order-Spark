@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import Button from '@material-ui/core/Button'
+import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography'
 import 'fontsource-roboto'
 import AddItems from './AddItems.js'
@@ -59,6 +60,11 @@ const Dashboard = (props) => {
                     {props.user.atype === "Volunteer" && 
                         <>
                             <TableCell><Button variant="contained" color="primary" onClick={() => {acceptOrder(currentOrder._id)}}>Accept Order</Button></TableCell>
+                        </>
+                    }
+                    {props.user.atype === "Customer" &&
+                        <>
+                            <Button component={ Link } to={{pathname:"/order", state: {order: currentOrder}}} variant="contained" color="primary">View Order</Button>
                         </>
                     }
                     {props.user.atype === "Customer" && currentOrder.status === "placed" &&

@@ -79,10 +79,9 @@ const Checkout = (props) => {
                     <Table>
                         <TableBody>
                             {itemList()}
-                            {items.length !== 0 &&
-                                <>
-                                    <div>Total: {props.location.state.total}</div>
-                                </>
+                            {props.location.state ?
+                            (<div>Total: {props.location.state.total}</div>)
+                            : (props.history.push("/inventory"))
                             }
                         </TableBody>
                     </Table>

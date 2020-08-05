@@ -1,5 +1,5 @@
 const Order = require('../models/order.js');
-
+const Item = require('../models/item.js');
 module.exports = {
     // list orders
     index: async (req, res) => {
@@ -67,6 +67,15 @@ module.exports = {
             res.json({success: true, message: "Order Delivered", order});
         } catch(err) {
             res.json({success: false, code: err.code});
+        }
+    },
+    items: async (req, res) => {
+        try {
+            const items = await Order.find({_id: req.params.id})
+            objs = await Item.find({'_id': {$in: items[0].ids}})
+            res.json(objs);
+        } catch(err) {
+            alert(err);
         }
     }
 };

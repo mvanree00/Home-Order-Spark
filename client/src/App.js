@@ -9,6 +9,7 @@ import NotFound from "./views/NotFound"
 import NavBar from "./components/Header/NavBar.js"
 import Inventory from "./views/Inventory.js"
 import Checkout from "./views/Checkout.js"
+import Order from "./views/Order.js"
 
 
 const App = () => {
@@ -50,6 +51,10 @@ const App = () => {
          
          <Route path="/checkout" render={(props) => {
               return currentUser ? <Checkout {...props} user={currentUser}/> : <Redirect to="/login" />
+          }}/>
+
+         <Route path="/order" render={(props) => {
+              return currentUser ? <Order {...props} user={currentUser}/> : <Redirect to="/login" />
           }}/>
 
         <Route render={NotFound}/>

@@ -17,9 +17,7 @@ const NavBar = (props) => {
     const[drawerOpen, setDrawerOpen] = useState({open: false});
     const toggle = () => setDrawerOpen({open: !drawerOpen.open});
     const [items, setItems] = useState([]);
-    const [totals, setTotal] = useState(0.0);
     let list = [];
-    let total = 0;
     useEffect (() => {
         function setData(response){
             response.forEach((currentItem) => {
@@ -81,7 +79,7 @@ const NavBar = (props) => {
                 {props.user ?
                     (
                         <Typography>
-                            {props.user.atype === "Customer" && 
+                            {props.user.atype === "Customer" &&
                                 <>
                                     <Drawer
                                     docked={false}
