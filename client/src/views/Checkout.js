@@ -15,7 +15,7 @@ import TableRow from '@material-ui/core/TableRow';
 const Checkout = (props) => {
     const [fields, setFields] = useState({status: '', email: props.user.email, ids: [], placed: '', total: 0.0, store: ''});
     const [items, setItems] = useState([]);
-    const [totals, setTotal] = useState(0.0);
+    const [totals, setTotal] = useState('');
     let idss = [];
     let list = [];
     useEffect (() => {
@@ -27,7 +27,7 @@ const Checkout = (props) => {
                     item = response.data;
                     idss.push(item._id)
                     list.push(item)
-                    setTotal(totals+item.price)
+                    setTotal(currentItem._id)
                 })
                 .catch(function (error){
                     console.log(error);
@@ -64,9 +64,9 @@ const Checkout = (props) => {
         e.preventDefault();
         console.log(totals)
         fields.status='placed'
-        fields.total=totals
         fields.placed = new Date
         fields.store=items[0].store
+        fields.total=props.location.state.total
         //await httpUser.addOrder({status: "placed", email: props.user.email, ids: idss, placed: new Date});
         await httpUser.addOrder(fields);
     };
@@ -79,10 +79,15 @@ const Checkout = (props) => {
                     <Table>
                         <TableBody>
                             {itemList()}
+                            {items.length !== 0 &&
+                                <>
+                                    <div>Total: {props.location.state.total}</div>
+                                </>
+                            }
                         </TableBody>
                     </Table>
                 </TableContainer>
-                    <Button variant="contained" color="primary" type="submit">Place Order</Button>
+                <Button variant="contained" color="primary" type="submit">Place Order</Button>
             </div>
         </form>
     )

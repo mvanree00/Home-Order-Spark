@@ -19,7 +19,7 @@ const NavBar = (props) => {
     const [items, setItems] = useState([]);
     const [totals, setTotal] = useState(0.0);
     let list = [];
-
+    let total = 0;
     useEffect (() => {
         function setData(response){
             response.forEach((currentItem) => {
@@ -28,7 +28,6 @@ const NavBar = (props) => {
                 .then(response => {
                     item = response.data;
                     list.push(item)
-                    setTotal(totals+item.price)
                 })
                 .catch(function (error){
                     console.log(error);
@@ -50,6 +49,15 @@ const NavBar = (props) => {
         }
     }, []);
 
+    const reducer = (total, currentValue) => {
+        if(total instanceof Object){
+            total = parseFloat(total.price)
+        }
+        if(currentValue instanceof Object){
+            currentValue = parseFloat(currentValue.price)
+        }
+        return total + currentValue;
+    }
     const itemList = () => {
         return items.map(function(currentItem, i){
             return (
@@ -83,8 +91,12 @@ const NavBar = (props) => {
                                     onRequestChange={toggle}
                                     variant="persistent">
                                     {itemList()}
-                                    <div>Total: {totals}</div>
-                                    <Button component={ Link } to="/checkout" variant="contained" color="primary" onClick={toggle}>Checkout</Button>
+                                    {items.length !== 0 && 
+                                    <>
+                                        <div>Total: {items.reduce(reducer)}</div>
+                                        <Button component={ Link } to={{pathname:"/checkout", state: {total:items.reduce(reducer)}}} variant="contained" color="primary" onClick={toggle}>Checkout</Button>
+                                    </>
+                                    }
                                     </Drawer>
                                     <Link className ="nav-link" onClick={toggle}>Cart</Link>
                                 </>

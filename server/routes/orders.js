@@ -7,5 +7,6 @@ orderRouter.route('/customer/:email').get(orderController.show); // get all orde
 orderRouter.route('/volunteer').get(orderController.open); // show all unaccepted orders (volunteer)
 orderRouter.route('/email/:email').get(orderController.current); // display volunteers accepted order
 orderRouter.route('/volunteer/:id').patch(orderController.accepted); // accept order (volunteer)
-orderRouter.route('/completed/:id').patch(orderController.delivered); // accept order (volunteer)
+orderRouter.route('/completed/:id').patch(orderController.delivered); // complete order (volunteer)
+orderRouter.route('/cancel/:id').patch(orderController.canceled); // cancel order (customer)
 module.exports = orderRouter;

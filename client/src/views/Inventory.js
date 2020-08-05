@@ -135,11 +135,6 @@ const Inventory = (props) => {
                                 <TableCell>Name</TableCell>
                                 <TableCell>Price</TableCell>
                                 <TableCell>Quantity</TableCell>
-                                {props.user.atype === "Customer" && 
-                                    <>
-                                        <TableCell></TableCell>
-                                    </>
-                                }
                             </TableRow>
                         </TableHead>
                         <TableBody>

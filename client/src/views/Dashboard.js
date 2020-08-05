@@ -40,6 +40,13 @@ const Dashboard = (props) => {
         })
     };
 
+    const cancelOrder = (orderid) => {
+        axios.patch('/api/orders/cancel/'+orderid)
+        .catch(function (error){
+            console.log(error);
+        })
+    };
+
     const itemList = () => {
         return orders.vals.map(function(currentOrder, i){
             return (
@@ -52,6 +59,11 @@ const Dashboard = (props) => {
                     {props.user.atype === "Volunteer" && 
                         <>
                             <TableCell><Button variant="contained" color="primary" onClick={() => {acceptOrder(currentOrder._id)}}>Accept Order</Button></TableCell>
+                        </>
+                    }
+                    {props.user.atype === "Customer" && currentOrder.status === "placed" &&
+                        <>
+                            <Button variant="contained" color="primary" onClick={() => {cancelOrder(currentOrder._id)}}>Cancel Order</Button>
                         </>
                     }
                 </TableRow>
@@ -85,7 +97,6 @@ const Dashboard = (props) => {
                 <Typography variant="h1">Welcome to your dashboard, {props.user.name}!</Typography>
                 <Typography variant="h2">Recent orders:</Typography>
                 {itemList()}
-                <Button variant ="contained" color="primary" type="submit">Cancel Order</Button>
             </div>
             
         )

@@ -38,9 +38,17 @@ module.exports = {
     },
     accepted: async (req, res) => {
         try {
-            console.log(req.body.email)
             const order = await Order.findOneAndUpdate({_id: req.params.id},{status: "accepted", volunteer: req.body.email});
             res.json({success: true, message: "Order Accepted", order});
+        } catch(err) {
+            res.json({success: false, code: err.code});
+        }
+    },
+    canceled: async (req, res) => {
+        try {
+            console.log(req.params.id)
+            const order = await Order.findOneAndUpdate({_id: req.params.id},{status: "canceled"});
+            res.json({success: true, message: "Order Canceled", order});
         } catch(err) {
             res.json({success: false, code: err.code});
         }
@@ -55,7 +63,6 @@ module.exports = {
     },
     delivered: async (req, res) => {
         try {
-            console.log(req.body.email)
             const order = await Order.findOneAndUpdate({_id: req.params.id},{status: "delivered"});
             res.json({success: true, message: "Order Delivered", order});
         } catch(err) {
