@@ -22,7 +22,7 @@ module.exports = {
     // show orders
     show: async (req, res) => {
         try {
-            const orders = await Order.find({email: req.params.email});
+            const orders = await Order.find({email: req.params.email}).sort('-placed');
             res.json(orders);
         } catch(err) {
             alert(err);
@@ -55,7 +55,7 @@ module.exports = {
     },
     current: async (req, res) => {
         try {
-            const orders = await Order.find({volunteer: req.params.email});
+            const orders = await Order.find({volunteer: req.params.email}).sort('-placed');
             res.json(orders);
         } catch(err) {
             alert(err);

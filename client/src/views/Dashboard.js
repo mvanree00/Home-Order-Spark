@@ -75,7 +75,7 @@ const Dashboard = (props) => {
         return (
             <div align="center">
                 <Typography variant="h1">Welcome to your volunteer dashboard, {props.user.name}!</Typography>
-                {orders ? 
+                {orders.length!=undefined ? 
                 (<div>
                     <Typography variant="h2">Current open orders:</Typography>
                     {itemList()}
