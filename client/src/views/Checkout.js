@@ -55,7 +55,6 @@ const Checkout = (props) => {
                 <TableRow>
                     <TableCell>{currentItem.itemName}</TableCell>
                     <TableCell>{currentItem.price}</TableCell>
-                    <TableCell>{currentItem.quantity}</TableCell>
                 </TableRow>
             )
         })

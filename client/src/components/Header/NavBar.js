@@ -97,11 +97,18 @@ const NavBar = (props) => {
                                     }
                                     </Drawer>
                                     <Link className ="nav-link" onClick={toggle}>Cart</Link>
+                                    <Link className ="nav-link" to='/dashboard'>Profile</Link>
+                                    <Link className ="nav-link" to='/store'>Store</Link>
+                                    <Link className ="nav-link" to='/logout'>Log Out</Link>
                                 </>
                             }
-                            <Link className ="nav-link" to='/dashboard'>Profile</Link>
-                            <Link className ="nav-link" to='/inventory'>Inventory</Link>
-                            <Link className ="nav-link" to='/logout'>Log Out</Link>
+                            {props.user.atype !== "Customer" &&
+                                <>
+                                    <Link className ="nav-link" to='/dashboard'>Profile</Link>
+                                    <Link className ="nav-link" to='/inventory'>Store</Link>
+                                    <Link className ="nav-link" to='/logout'>Log Out</Link>
+                                </>
+                            }
                         </Typography>
                     ) :
                     (

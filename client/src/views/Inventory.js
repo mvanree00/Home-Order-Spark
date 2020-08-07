@@ -24,7 +24,7 @@ const Inventory = (props) => {
     useEffect (() => {
         async function fetchData() {
             if(props.user.atype === "Customer"){
-                axios.get('/api/items')
+                axios.get('/api/items/'+props.location.state.email)
                         .then(response => {
                             setItems({ vals: response.data });
                         })

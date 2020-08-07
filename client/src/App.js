@@ -10,6 +10,7 @@ import NavBar from "./components/Header/NavBar.js"
 import Inventory from "./views/Inventory.js"
 import Checkout from "./views/Checkout.js"
 import Order from "./views/Order.js"
+import Store from "./views/Store.js"
 
 
 const App = () => {
@@ -57,6 +58,9 @@ const App = () => {
               return currentUser ? <Order {...props} user={currentUser}/> : <Redirect to="/login" />
           }}/>
 
+         <Route path="/store" render={(props) => {
+              return currentUser ? <Store {...props} user={currentUser}/> : <Redirect to="/login" />
+          }}/>
         <Route render={NotFound}/>
       </Switch>
     </div>

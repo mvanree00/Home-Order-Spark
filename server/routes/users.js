@@ -6,7 +6,7 @@ const express = require('express'),
 userRouter.route('/').get(userController.index).post(userController.create);
 
 userRouter.post('/authenticate', userController.authenticate);
-
+userRouter.route('/stores').get(userController.store);
 userRouter.use(verifyToken);
 userRouter.route('/:id').get(userController.show).patch(userController.update).delete(userController.destroy);
   

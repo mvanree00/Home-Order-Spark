@@ -69,5 +69,14 @@ module.exports = {
 
         const token = await signToken(user);
         res.json({success: true, message: "Token attached", token});
+    },
+
+    store: async (req, res) => {
+        try {
+            const users = await User.find({atype: "Store"});
+            res.json(users);
+        } catch(err) {
+            alert(err);
+        }
     }
 };
