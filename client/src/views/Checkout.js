@@ -16,7 +16,8 @@ import Input from '@material-ui/core/Input'
 const Checkout = (props) => {
     const [fields, setFields] = useState({status: '', email: props.user.email, ids: [], placed: '', total: 0.0, store: '', address: props.user.address});
     const [items, setItems] = useState([]);
-    const [totals, setTotal] = useState('');
+    const [totals, setTotal] = useState(0);
+    const [update, setUpdate] = useState('');
     let idss = [];
     let list = [];
     useEffect (() => {
@@ -28,7 +29,8 @@ const Checkout = (props) => {
                     item = response.data;
                     idss.push(item._id)
                     list.push(item)
-                    setTotal(currentItem._id)
+                    setTotal(props.location.state.total)
+                    setUpdate(currentItem._id) // forces update to show all items
                 })
                 .catch(function (error){
                     console.log(error);
@@ -67,7 +69,6 @@ const Checkout = (props) => {
 
     const placeOrder = async(e) => {
         e.preventDefault();
-        console.log(totals)
         fields.status='placed'
         fields.placed = new Date
         fields.store=items[0].store
@@ -88,15 +89,15 @@ const Checkout = (props) => {
                     <Table>
                         <TableBody>
                             {itemList()}
-                            {props.location.state ?
+                            {props.location.state || totals ?
                             (<div>
-                                <div>Total: {props.location.state.total}</div>
+                                <div>Total: ${totals}</div>
                                 <Typography variant="h1">Address</Typography>
                                 <div className="Input">
                                     <Input type="text" placeholder="Address" name="address" value={fields.address} />
                                 </div>
                             </div>)
-                            : (props.history.push("/inventory"))
+                            : (props.history.push("/store"))
                             }
                         </TableBody>
                     </Table>

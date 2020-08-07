@@ -19,18 +19,36 @@ import ViewItem from './ViewItem.js';
 const Inventory = (props) => {
     const [selectedItem, setSelectedItem] = useState('');
     const [filterText, setFilterText] = useState('');
+    const [store, setStore] = useState('');
     const [items, setItems] = useState({vals: []});
 
     useEffect (() => {
         async function fetchData() {
             if(props.user.atype === "Customer"){
-                axios.get('/api/items/'+props.location.state.email)
+                if(props.location.state !== undefined || store.length === 0){
+                    if(props.location.state !== undefined){
+                        axios.get('/api/items/'+props.location.state.email)
+                        .then(response => {
+                            setItems({ vals: response.data });
+                            setStore(props.location.state.email);
+                        })
+                        .catch(function (error){
+                            console.log(error);
+                        })
+                    }
+                    else{
+                        axios.get('/api/items/'+store)
                         .then(response => {
                             setItems({ vals: response.data });
                         })
                         .catch(function (error){
                             console.log(error);
                         })
+                    }
+                }
+                else{
+                    props.history.push('/store')
+                }
             }
             else if(props.user.atype === "Store"){
                 axios.get('/api/items/'+props.user.email)

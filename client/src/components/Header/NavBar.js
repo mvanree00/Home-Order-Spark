@@ -91,7 +91,7 @@ const NavBar = (props) => {
                                     {itemList()}
                                     {items.length !== 0 && 
                                     <>
-                                        <div>Total: {items.reduce(reducer)}</div>
+                                        <div>Total: ${items.reduce(reducer)}</div>
                                         <Button component={ Link } to={{pathname:"/checkout", state: {total:items.reduce(reducer)}}} variant="contained" color="primary" onClick={toggle}>Checkout</Button>
                                     </>
                                     }
