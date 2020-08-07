@@ -113,6 +113,7 @@ const Inventory = (props) => {
                         items={items}
                         filterText={filterText}
                         selectedUpdate={selectedUpdate.bind(this)}
+                        acc = {props.user}
                     />
                     <ViewItem
                         data={items}

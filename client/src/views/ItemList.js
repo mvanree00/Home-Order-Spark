@@ -47,9 +47,17 @@ const ItemList = (props) => {
                         <TableRow>
                             <TableCell>Name</TableCell>
                             <TableCell>Price</TableCell>
-                            <TableCell>Quantity</TableCell>
-                            <TableCell>Store</TableCell>
-                            <TableCell> </TableCell>
+                            {props.acc.atype === "Store" &&
+                                <>
+                                    <TableCell>Quantity</TableCell>
+                                </>
+                            }
+                            {props.acc.atype === "Customer" &&
+                                <>
+                                    <TableCell>Store</TableCell>
+                                    <TableCell> </TableCell>
+                                </>
+                            }
                         </TableRow>
                     </TableHead>
                     {itemList.map(currentItem => {
@@ -58,7 +66,11 @@ const ItemList = (props) => {
                                 <TableRow onClick={() => props.selectedUpdate(currentItem._id)}>
                                     <TableCell>{currentItem.itemName}</TableCell>
                                     <TableCell>${currentItem.price}</TableCell>
-                                    <TableCell>{currentItem.quantity}</TableCell>
+                                    {props.acc.atype === "Store" &&
+                                        <>
+                                            <TableCell>{currentItem.quantity}</TableCell>
+                                        </>
+                                    }
                                     {props.acc.atype === "Customer" &&
                                         <>
                                             <TableCell>{currentItem.store}</TableCell>
