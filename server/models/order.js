@@ -7,7 +7,8 @@ const orderSchema = new mongoose.Schema({
     total: {type: mongoose.Number},
     ids: [{type: String}],
     volunteer: {type: String},
-    store: {type: String}
+    store: {type: String},
+    address: {type: String}
 });
 
 module.exports = mongoose.model('order', orderSchema);

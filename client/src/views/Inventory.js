@@ -81,6 +81,7 @@ const Inventory = (props) => {
                     <TableCell>Date Placed: {new Date(currentOrder.placed).toDateString()}</TableCell>
                     <TableCell>{currentOrder.status}</TableCell>
                     <TableCell>{currentOrder.store}</TableCell>
+                    <TableCell>{currentOrder.address}</TableCell>
                     {currentOrder.status !== "delivered" &&
                                 <>
                                     <TableCell><Button variant="contained" color="primary" onClick={() => {completeOrder(currentOrder._id)}}>Delivered</Button></TableCell>

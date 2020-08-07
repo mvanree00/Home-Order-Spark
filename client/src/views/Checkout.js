@@ -11,9 +11,10 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Input from '@material-ui/core/Input'
 
 const Checkout = (props) => {
-    const [fields, setFields] = useState({status: '', email: props.user.email, ids: [], placed: '', total: 0.0, store: ''});
+    const [fields, setFields] = useState({status: '', email: props.user.email, ids: [], placed: '', total: 0.0, store: '', address: props.user.address});
     const [items, setItems] = useState([]);
     const [totals, setTotal] = useState('');
     let idss = [];
@@ -45,7 +46,7 @@ const Checkout = (props) => {
         }
         fetchData();
         setItems(list)
-        setFields({status: '', email: props.user.email, ids: idss, placed: '', total: 0, store: ''});
+        setFields({status: '', email: props.user.email, ids: idss, placed: '', total: 0, store: '', address: props.user.address});
     }, []);
 
     const itemList = () => {
@@ -60,6 +61,11 @@ const Checkout = (props) => {
         })
     };
 
+    const onInputChange = (e) => {
+        e.persist();
+        setFields(fields => ({...fields, [e.target.name]: e.target.value}))
+    };
+
     const placeOrder = async(e) => {
         e.preventDefault();
         console.log(totals)
@@ -67,12 +73,16 @@ const Checkout = (props) => {
         fields.placed = new Date
         fields.store=items[0].store
         fields.total=props.location.state.total
+        if(fields.address.length==0){
+            fields.address=props.user.address
+        }
         //await httpUser.addOrder({status: "placed", email: props.user.email, ids: idss, placed: new Date});
         await httpUser.addOrder(fields);
+        props.history.push('/dashboard')
     };
 
     return (
-        <form onSubmit={placeOrder}>
+        <form onSubmit={placeOrder} onChange={onInputChange}>
             <div align="center">
                 <TableContainer>
                     <Typography variant="h1">Welcome to checkout, {props.user.name}!</Typography>
@@ -80,7 +90,13 @@ const Checkout = (props) => {
                         <TableBody>
                             {itemList()}
                             {props.location.state ?
-                            (<div>Total: {props.location.state.total}</div>)
+                            (<div>
+                                <div>Total: {props.location.state.total}</div>
+                                <Typography variant="h1">Address</Typography>
+                                <div className="Input">
+                                    <Input type="text" placeholder="Address" name="address" value={fields.address} />
+                                </div>
+                            </div>)
                             : (props.history.push("/inventory"))
                             }
                         </TableBody>

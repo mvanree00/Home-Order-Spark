@@ -60,6 +60,7 @@ const Checkout = (props) => {
                     <div align='center'>Date Placed: {new Date(props.location.state.order.placed).toDateString()}</div>
                     <div align='center'>Status: {props.location.state.order.status}</div>
                     <div align='center'>Store: {props.location.state.order.store}</div>
+                    <div align='center'>Address: {props.location.state.order.address}</div>
                     <div>Total: ${props.location.state.order.total}</div>
                     <Table>
                         <TableBody>

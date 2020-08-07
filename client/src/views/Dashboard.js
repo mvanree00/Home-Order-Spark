@@ -59,6 +59,7 @@ const Dashboard = (props) => {
                     <TableCell>{currentOrder.store}</TableCell>
                     {props.user.atype === "Volunteer" && 
                         <>
+                            <TableCell>Customer Address: {currentOrder.address}</TableCell>
                             <TableCell><Button variant="contained" color="primary" onClick={() => {acceptOrder(currentOrder._id)}}>Accept Order</Button></TableCell>
                         </>
                     }
@@ -81,7 +82,7 @@ const Dashboard = (props) => {
         return (
             <div align="center">
                 <Typography variant="h1">Welcome to your volunteer dashboard, {props.user.name}!</Typography>
-                {orders.length!=undefined ? 
+                {orders.vals.length!=undefined ? 
                 (<div>
                     <Typography variant="h2">Current open orders:</Typography>
                     {itemList()}
