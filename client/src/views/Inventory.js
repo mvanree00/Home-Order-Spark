@@ -12,25 +12,13 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import axios from 'axios'
 import httpUser from '../httpUser'
-
-const useStyles = makeStyles({
-    table: {
-      minWidth: 700,
-      backgroundColor: "#DCDCDC",
-      //width: "80%",
-    },
-    wrap: {
-      minWidth: 700,
-      width: "80%",
-    },
-    head: {
-        backgroundColor: "#85D7C7",
-    }
-});
+import Search from './Search.js';
+import ItemList from './ItemList.js';
+import ViewItem from './ViewItem.js';
 
 const Inventory = (props) => {
-    const classes = useStyles();
-    const [fields, setFields] = useState({email: props.user.email, prodId: ''});
+    const [selectedItem, setSelectedItem] = useState('');
+    const [filterText, setFilterText] = useState('');
     const [items, setItems] = useState({vals: []});
 
     useEffect (() => {
@@ -67,27 +55,14 @@ const Inventory = (props) => {
         fetchData();
     }, []);
 
-    const onUpdate = () => {
-        console.log(fields)
-        httpUser.addCart(fields);
-        setFields({email: props.user.email, prodId: ''});
+    const filterUpdate = (value) => {
+        //Here you can set the filterText property of state to the value passed into this function
+        setFilterText(value)
     };
-    
-    const itemList = () => {
-        return items.vals.map(function(currentItem, i){
-            return (
-                <TableRow>
-                    <TableCell>{currentItem.itemName}</TableCell>
-                    <TableCell>{currentItem.price}</TableCell>
-                    <TableCell>{currentItem.quantity}</TableCell>
-                    {props.user.atype === "Customer" && 
-                        <>
-                            <TableCell><Button variant ="contained" color="primary" onClick={() => {fields.prodId=currentItem._id;onUpdate()}}>Add To Cart</Button></TableCell>
-                        </>
-                    }
-                </TableRow>
-            )
-        })
+
+    const selectedUpdate = (id) => {
+        //Here you can update the selectedItem property of state to the id passed into this function
+        setSelectedItem(id)
     };
 
     const completeOrder = (orderid) => {
@@ -131,21 +106,19 @@ const Inventory = (props) => {
             <div align="center">
                 <Typography variant="h1">Welcome to your store inventory, {props.user.name}!</Typography>
                 {items ?
-                (<TableContainer className={classes.wrap} component={Paper}>
+                (<div>
                     <Typography variant="h2">Here are the items you are currently selling:</Typography>
-                    <Table className={classes.table} >
-                        <TableHead className={classes.head}>
-                            <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Price</TableCell>
-                                <TableCell>Quantity</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            { itemList() }
-                        </TableBody>
-                    </Table>
-                </TableContainer>)
+                    <Search filterText={filterText} filterUpdate={filterUpdate.bind(this)}/>
+                    <ItemList
+                        items={items}
+                        filterText={filterText}
+                        selectedUpdate={selectedUpdate.bind(this)}
+                    />
+                    <ViewItem
+                        data={items}
+                        selectedItem={selectedItem}
+                    />
+                </div>)
                 : (<Typography variant="h2">Nothing currently being sold.</Typography>)}
             </div>
         )
@@ -153,22 +126,22 @@ const Inventory = (props) => {
     else{
         return (
             <div align="center">
-                <TableContainer className={classes.wrap} component={Paper}>
-                    <Typography variant="h3">Items List</Typography>
-                    <Table className={classes.table} >
-                        <TableHead className={classes.head}>
-                            <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Price</TableCell>
-                                <TableCell>Quantity</TableCell>
-                                <TableCell></TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            { itemList() }
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                <Typography variant="h3">Items List</Typography>
+                {items ?
+                (<div>
+                    <Search filterText={filterText} filterUpdate={filterUpdate.bind(this)}/>
+                    <ViewItem
+                        data={items}
+                        selectedItem={selectedItem}
+                    />
+                    <ItemList
+                        items={items}
+                        filterText={filterText}
+                        selectedUpdate={selectedUpdate.bind(this)}
+                        acc = {props.user}
+                    />
+                </div>)
+                : (<Typography variant="h2">Nothing currently being sold.</Typography>)}
             </div>
             
         )
