@@ -11,7 +11,7 @@ import './LogIn.css'
 import 'fontsource-roboto'
  
 const SignUp = (props) => {
-    const [fields, setFields] = useState({name: '', email: "", password: "", atype: "Customer", storeName: "", address: ""});
+    const [fields, setFields] = useState({name: '', email: "", password: "", atype: "Customer", storeName: "", address: "", activation:""});
     // used to update user input for either password or email
     const onInputChange = (e) => {
         e.persist();
@@ -24,7 +24,7 @@ const SignUp = (props) => {
         fields.storeName=fields.storeName+" "+fields.address;
         const user = await httpUser.signUp(fields);
  
-        setFields({name: '', email: "", password: "", atype: "Customer", storeName: "", address: ""});
+        setFields({name: '', email: "", password: "", atype: "Customer", storeName: "", address: "", activation:""});
         if(user) {
             props.onSignUpSuccess(user);
             props.history.push('/');
@@ -61,7 +61,15 @@ const SignUp = (props) => {
                         <Button onClick={() => {fields.atype="Customer"}}>Customer</Button>
                     </ButtonGroup>
                 </div>
- 
+                
+                {
+                    (fields.atype === "Store" || fields.atype === "Volunteer") &&
+                        <>
+                            <div className="Input">
+                                <Input type="text" placeholder="Activation Code" name="activation" value={fields.activation}/>
+                            </div>
+                        </>
+                }
  
                 {
                     fields.atype === "Store" &&
