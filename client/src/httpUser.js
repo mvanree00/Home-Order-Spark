@@ -60,7 +60,10 @@ httpUser.addCart = async function(itemInfo) {
 };
 
 httpUser.removeCart = async function(itemInfo) {
-    await axios.delete('/api/carts', {data: itemInfo});
+    await axios.delete('/api/carts', {data: itemInfo})
+    .then(() => {
+        window.location.reload();
+    })
 };
 
 httpUser.addOrder = async function(orderInfo) {
