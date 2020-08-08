@@ -17,11 +17,9 @@ import httpUser from '../../httpUser'
 const NavBar = (props) => {
     const[drawerOpen, setDrawerOpen] = useState({open: false});
     const toggle = () => setDrawerOpen({open: !drawerOpen.open});
-    const [cart, setCart] = useState({email: props.user.email, prodId: ''});
     const [items, setItems] = useState([]);
-    const [totals, setTotal] = useState(0.0);
+    const [cart, setCart] = useState({email: '', prodId: ''})
     let list = [];
-    let total = 0;
     useEffect (() => {
         function setData(response){
             response.forEach((currentItem) => {
@@ -62,12 +60,14 @@ const NavBar = (props) => {
     }
 
     const onAdd = () => {
+        cart.email = props.user.email;
         console.log(cart)
         httpUser.addCart(cart);
         setCart({email: props.user.email, prodId: ''});
     };
 
     const onRemove = () => {
+        cart.email = props.user.email;
         console.log(cart)
         httpUser.removeCart(cart);
         setCart({email: props.user.email, prodId: ''});
@@ -98,7 +98,7 @@ const NavBar = (props) => {
                 {props.user ?
                     (
                         <Typography>
-                            {props.user.atype === "Customer" && 
+                            {props.user.atype === "Customer" &&
                                 <>
                                     <Drawer
                                     docked={false}
@@ -110,17 +110,24 @@ const NavBar = (props) => {
                                     {itemList()}
                                     {items.length !== 0 && 
                                     <>
-                                        <div>Total: {items.reduce(reducer)}</div>
+                                        <div>Total: ${items.reduce(reducer)}</div>
                                         <Button component={ Link } to={{pathname:"/checkout", state: {total:items.reduce(reducer)}}} variant="contained" color="primary" onClick={toggle}>Checkout</Button>
                                     </>
                                     }
                                     </Drawer>
                                     <Link className ="nav-link" onClick={toggle}>Cart</Link>
+                                    <Link className ="nav-link" to='/dashboard'>Profile</Link>
+                                    <Link className ="nav-link" to='/store'>Store</Link>
+                                    <Link className ="nav-link" to='/logout'>Log Out</Link>
                                 </>
                             }
-                            <Link className ="nav-link" to='/dashboard'>Profile</Link>
-                            <Link className ="nav-link" to='/inventory'>Inventory</Link>
-                            <Link className ="nav-link" to='/logout'>Log Out</Link>
+                            {props.user.atype !== "Customer" &&
+                                <>
+                                    <Link className ="nav-link" to='/dashboard'>Profile</Link>
+                                    <Link className ="nav-link" to='/inventory'>Store</Link>
+                                    <Link className ="nav-link" to='/logout'>Log Out</Link>
+                                </>
+                            }
                         </Typography>
                     ) :
                     (
