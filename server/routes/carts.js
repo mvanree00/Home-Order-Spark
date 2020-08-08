@@ -3,5 +3,6 @@ const express = require('express'),
     cartController = require('../controllers/carts.js');
 
 cartRouter.route('/').get(cartController.index).post(cartController.create);
+cartRouter.route('/').get(cartController.index).delete(cartController.remove);
 cartRouter.route('/:email').get(cartController.show);
 module.exports = cartRouter;

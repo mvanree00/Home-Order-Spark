@@ -31,4 +31,13 @@ module.exports = {
             alert(err);
         }
     },
+    remove: async (req, res) => {
+        try{
+            const cart = await Cart.deleteOne(req.body);
+            res.json({success: true, message: "Item deleted"});
+        }
+        catch(err){
+            alert(err)
+        }
+    },
 };
