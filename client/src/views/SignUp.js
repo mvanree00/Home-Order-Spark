@@ -9,6 +9,8 @@ import ButtonGroup from '@material-ui/core/ButtonGroup'
 import ReactPasswordStrength from 'react-password-strength'
 import './LogIn.css'
 import 'fontsource-roboto'
+
+const activationCode = process.env.activation || require('../code.js').activation;
  
 const SignUp = (props) => {
     const [fields, setFields] = useState({name: '', email: "", password: "", atype: "Customer", storeName: "", address: "", activation:""});
@@ -21,13 +23,17 @@ const SignUp = (props) => {
     // used to submit user values for password and email
     const onFormSubmit = async (e) => {
         e.preventDefault();
-        fields.storeName=fields.storeName+" "+fields.address;
-        const user = await httpUser.signUp(fields);
- 
-        setFields({name: '', email: "", password: "", atype: "Customer", storeName: "", address: "", activation:""});
-        if(user) {
-            props.onSignUpSuccess(user);
-            props.history.push('/');
+        if(fields.activation == activationCode){
+            fields.storeName=fields.storeName+" "+fields.address;
+            const user = await httpUser.signUp(fields);
+     
+            setFields({name: '', email: "", password: "", atype: "Customer", storeName: "", address: "", activation:""});
+            if(user) {
+                props.onSignUpSuccess(user);
+                props.history.push('/');
+            }
+        }else{
+            setFields({activation:""});
         }
     };
  
