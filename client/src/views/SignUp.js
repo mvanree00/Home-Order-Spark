@@ -23,7 +23,17 @@ const SignUp = (props) => {
     // used to submit user values for password and email
     const onFormSubmit = async (e) => {
         e.preventDefault();
-        if(fields.activation == activationCode){
+        if(fields.atype == "Customer"){
+            fields.storeName=fields.storeName+" "+fields.address;
+            const user = await httpUser.signUp(fields);
+     
+            setFields({name: '', email: "", password: "", atype: "Customer", storeName: "", address: "", activation:""});
+            if(user) {
+                props.onSignUpSuccess(user);
+                props.history.push('/');
+            }
+        }
+        else if(fields.activation == activationCode){
             fields.storeName=fields.storeName+" "+fields.address;
             const user = await httpUser.signUp(fields);
      
