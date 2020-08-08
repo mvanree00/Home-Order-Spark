@@ -72,7 +72,7 @@ const Checkout = (props) => {
                             <Button variant="contained" color="primary" onClick={() => {cancelOrder(props.location.state.order._id)}}>Cancel Order</Button>
                         </>
                     }</div>)
-                    : (props.history.push("/inventory"))
+                    : (props.history.push("/store"))
                 }
             </TableContainer>
         </div>

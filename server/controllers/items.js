@@ -20,9 +20,7 @@ module.exports = {
     },
     show: async (req, res) => {
         try {
-            console.log(req)
             const items = await Item.find({email: req.params.email});
-            console.log(items)
             res.json(items);
         } catch(err) {
             alert(err);

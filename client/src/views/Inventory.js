@@ -85,6 +85,9 @@ const Inventory = (props) => {
 
     const completeOrder = (orderid) => {
         axios.patch('/api/orders/completed/'+orderid)
+        .then(() => {
+            window.location.reload();
+        })
         .catch(function (error){
             console.log(error);
         })

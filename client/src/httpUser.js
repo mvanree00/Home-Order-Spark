@@ -52,6 +52,7 @@ httpUser.addItem = async function(itemInfo) {
 
 httpUser.addCart = async function(itemInfo) {
     await axios.post('/api/carts', itemInfo);
+    window.location.reload();
 };
 
 httpUser.addOrder = async function(orderInfo) {

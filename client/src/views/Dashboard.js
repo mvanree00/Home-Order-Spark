@@ -36,6 +36,9 @@ const Dashboard = (props) => {
 
     const acceptOrder = (orderid) => {
         axios.patch('/api/orders/volunteer/'+orderid,{email: props.user.email})
+        .then(() => {
+            window.location.reload();
+        })
         .catch(function (error){
             console.log(error);
         })
@@ -43,6 +46,9 @@ const Dashboard = (props) => {
 
     const cancelOrder = (orderid) => {
         axios.patch('/api/orders/cancel/'+orderid)
+        .then(() => {
+            window.location.reload();
+        })
         .catch(function (error){
             console.log(error);
         })
