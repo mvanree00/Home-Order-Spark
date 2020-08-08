@@ -30,7 +30,6 @@ const ItemList = (props) => {
     const [fields, setFields] = useState({email: props.acc.email, prodId: ''});
     const classes = useStyles();
     const onUpdate = () => {
-        console.log(fields)
         httpUser.addCart(fields);
         setFields({email: props.acc.email, prodId: ''});
     };

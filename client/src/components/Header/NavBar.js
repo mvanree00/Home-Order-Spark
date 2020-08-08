@@ -17,6 +17,8 @@ const NavBar = (props) => {
     const[drawerOpen, setDrawerOpen] = useState({open: false});
     const toggle = () => setDrawerOpen({open: !drawerOpen.open});
     const [items, setItems] = useState([]);
+    const [total, setTotal] = useState(0)
+    const [loaded, setLoad] = useState(false)
     let list = [];
     useEffect (() => {
         function setData(response){
@@ -44,8 +46,23 @@ const NavBar = (props) => {
         if(props.user && props.user.atype==='Customer'){
             fetchData();
             setItems(list)
+            setLoad(true)
         }
     }, []);
+
+    const totaler = () => {
+        if(total===0 && items.length>0 && loaded){
+            if(items.length>1){
+                setTotal(items.reduce(reducer))
+            }
+            else if (items.length==1){
+                setTotal(items[0].price)
+            }
+            else{
+                setTotal(0)
+            }
+        }
+    }
 
     const reducer = (total, currentValue) => {
         if(total instanceof Object){
@@ -91,8 +108,9 @@ const NavBar = (props) => {
                                     {itemList()}
                                     {items.length !== 0 && 
                                     <>
-                                        <div>Total: ${items.reduce(reducer)}</div>
-                                        <Button component={ Link } to={{pathname:"/checkout", state: {total:items.reduce(reducer)}}} variant="contained" color="primary" onClick={toggle}>Checkout</Button>
+                                        {totaler()}
+                                        <div>Total: ${total}</div>
+                                        <Button component={ Link } to={{pathname:"/checkout", state: {total:total}}} variant="contained" color="primary" onClick={toggle}>Checkout</Button>
                                     </>
                                     }
                                     </Drawer>
