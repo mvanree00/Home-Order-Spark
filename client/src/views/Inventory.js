@@ -149,7 +149,7 @@ const Inventory = (props) => {
     else{
         return (
             <div align="center">
-                <Typography variant="h3">Items List</Typography>
+                <Typography variant="h3">{store} Inventory</Typography>
                 {items ?
                 (<div>
                     <Search filterText={filterText} filterUpdate={filterUpdate.bind(this)}/>
