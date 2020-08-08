@@ -51,8 +51,19 @@ httpUser.addItem = async function(itemInfo) {
 };
 
 httpUser.addCart = async function(itemInfo) {
-    await axios.post('/api/carts', itemInfo);
-    window.location.reload();
+    await axios.post('/api/carts', itemInfo)
+    .then((response) =>{
+        if(response.data.success){
+            window.location.reload();
+        }
+    })
+};
+
+httpUser.removeCart = async function(itemInfo) {
+    await axios.delete('/api/carts', {data: itemInfo})
+    .then(() => {
+        window.location.reload();
+    })
 };
 
 httpUser.addOrder = async function(orderInfo) {

@@ -12,11 +12,15 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import httpUser from '../../httpUser'
 
 const NavBar = (props) => {
     const[drawerOpen, setDrawerOpen] = useState({open: false});
     const toggle = () => setDrawerOpen({open: !drawerOpen.open});
     const [items, setItems] = useState([]);
+    const [total, setTotal] = useState(0)
+    const [loaded, setLoad] = useState(false)
+    const [cart, setCart] = useState({email: '', prodId: ''})
     let list = [];
     useEffect (() => {
         function setData(response){
@@ -44,8 +48,23 @@ const NavBar = (props) => {
         if(props.user && props.user.atype==='Customer'){
             fetchData();
             setItems(list)
+            setLoad(true)
         }
     }, []);
+
+    const totaler = () => {
+        if(total===0 && items.length>0 && loaded){
+            if(items.length>1){
+                setTotal(items.reduce(reducer))
+            }
+            else if (items.length==1){
+                setTotal(items[0].price)
+            }
+            else{
+                setTotal(0)
+            }
+        }
+    }
 
     const reducer = (total, currentValue) => {
         if(total instanceof Object){
@@ -56,6 +75,21 @@ const NavBar = (props) => {
         }
         return total + currentValue;
     }
+
+    const onAdd = () => {
+        cart.email = props.user.email;
+        console.log(cart)
+        httpUser.addCart(cart);
+        setCart({email: props.user.email, prodId: ''});
+    };
+
+    const onRemove = () => {
+        cart.email = props.user.email;
+        console.log(cart)
+        httpUser.removeCart(cart);
+        setCart({email: props.user.email, prodId: ''});
+    };
+
     const itemList = () => {
         return items.map(function(currentItem, i){
             return (
@@ -63,6 +97,8 @@ const NavBar = (props) => {
                     <TableCell>{currentItem.itemName}</TableCell>
                     <TableCell>{currentItem.price}</TableCell>
                     <TableCell>{currentItem.quantity}</TableCell>
+                    <TableCell><Button onClick={() => {cart.prodId=currentItem._id;onAdd()}}>+</Button></TableCell>
+                    <TableCell><Button onClick={() => {cart.prodId=currentItem._id;onRemove()}}>-</Button></TableCell>
                 </TableRow>
             )
         })
@@ -91,8 +127,9 @@ const NavBar = (props) => {
                                     {itemList()}
                                     {items.length !== 0 && 
                                     <>
-                                        <div>Total: ${items.reduce(reducer)}</div>
-                                        <Button component={ Link } to={{pathname:"/checkout", state: {total:items.reduce(reducer)}}} variant="contained" color="primary" onClick={toggle}>Checkout</Button>
+                                        {totaler()}
+                                        <div>Total: ${total}</div>
+                                        <Button component={ Link } to={{pathname:"/checkout", state: {total:total}}} variant="contained" color="primary" onClick={toggle}>Checkout</Button>
                                     </>
                                     }
                                     </Drawer>
