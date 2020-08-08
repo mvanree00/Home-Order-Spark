@@ -10,10 +10,8 @@ import ReactPasswordStrength from 'react-password-strength'
 import './LogIn.css'
 import 'fontsource-roboto'
  
-const activation = process.env.activation || require('../codes.js').activation;
-
 const SignUp = (props) => {
-    const [fields, setFields] = useState({name: '', email: "", password: "", atype: "Customer", storeName: "", address: "", activationCode: ""});
+    const [fields, setFields] = useState({name: '', email: "", password: "", atype: "Customer", storeName: "", address: ""});
     // used to update user input for either password or email
     const onInputChange = (e) => {
         e.persist();
@@ -23,17 +21,13 @@ const SignUp = (props) => {
     // used to submit user values for password and email
     const onFormSubmit = async (e) => {
         e.preventDefault();
-        if(fields.activationCode === activation){
-            fields.storeName=fields.storeName+" "+fields.address;
-            const user = await httpUser.signUp(fields);
-            console.log(activation);
-            setFields({name: '', email: "", password: "", atype: "Customer", storeName: "", address: "", activationCode: ""});
-            if(user) {
-                props.onSignUpSuccess(user);
-                props.history.push('/');
-            }
-        }else{
-            setFields({activationCode:""});
+        fields.storeName=fields.storeName+" "+fields.address;
+        const user = await httpUser.signUp(fields);
+ 
+        setFields({name: '', email: "", password: "", atype: "Customer", storeName: "", address: ""});
+        if(user) {
+            props.onSignUpSuccess(user);
+            props.history.push('/');
         }
     };
  
@@ -67,15 +61,7 @@ const SignUp = (props) => {
                         <Button onClick={() => {fields.atype="Customer"}}>Customer</Button>
                     </ButtonGroup>
                 </div>
-                
-                {
-                    (fields.atype === "Store" || fields.atype === "Volunteer") &&
-                        <>
-                            <div className="Input">
-                                <Input type="text" placeholder="Activation Code" name="activationCode" value={fields.activationCode} />
-                            </div>
-                        </>
-                }
+ 
  
                 {
                     fields.atype === "Store" &&
