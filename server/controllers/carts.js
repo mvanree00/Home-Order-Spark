@@ -11,9 +11,9 @@ module.exports = {
     },
     create: async (req, res) => {
         try{
-            Cart.find({prodId: req.body.prodId})
+            Cart.find({prodId: req.body.prodId, email: req.body.email})
             .then((response) => {
-                if(response.length>1){
+                if(response.length>0){
                     res.json({success: false, message: "Already in cart, alter quantity in cart"})
                 }
                 else{
