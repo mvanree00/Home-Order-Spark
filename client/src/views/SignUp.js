@@ -9,9 +9,11 @@ import ButtonGroup from '@material-ui/core/ButtonGroup'
 import ReactPasswordStrength from 'react-password-strength'
 import './LogIn.css'
 import 'fontsource-roboto'
+
+const activationCode = process.env.activation || require('../code.js').activation;
  
 const SignUp = (props) => {
-    const [fields, setFields] = useState({name: '', email: "", password: "", atype: "Customer", storeName: "", address: ""});
+    const [fields, setFields] = useState({name: '', email: "", password: "", atype: "Customer", storeName: "", address: "", activation:""});
     // used to update user input for either password or email
     const onInputChange = (e) => {
         e.persist();
@@ -21,13 +23,27 @@ const SignUp = (props) => {
     // used to submit user values for password and email
     const onFormSubmit = async (e) => {
         e.preventDefault();
-        fields.storeName=fields.storeName+" "+fields.address;
-        const user = await httpUser.signUp(fields);
- 
-        setFields({name: '', email: "", password: "", atype: "Customer", storeName: "", address: ""});
-        if(user) {
-            props.onSignUpSuccess(user);
-            props.history.push('/');
+        if(fields.atype == "Customer"){
+            fields.storeName=fields.storeName+" "+fields.address;
+            const user = await httpUser.signUp(fields);
+     
+            setFields({name: '', email: "", password: "", atype: "Customer", storeName: "", address: "", activation:""});
+            if(user) {
+                props.onSignUpSuccess(user);
+                props.history.push('/');
+            }
+        }
+        else if(fields.activation == activationCode){
+            fields.storeName=fields.storeName+" "+fields.address;
+            const user = await httpUser.signUp(fields);
+     
+            setFields({name: '', email: "", password: "", atype: "Customer", storeName: "", address: "", activation:""});
+            if(user) {
+                props.onSignUpSuccess(user);
+                props.history.push('/');
+            }
+        }else{
+            setFields({activation:""});
         }
     };
  
@@ -61,7 +77,15 @@ const SignUp = (props) => {
                         <Button onClick={() => {fields.atype="Customer"}}>Customer</Button>
                     </ButtonGroup>
                 </div>
- 
+                
+                {
+                    (fields.atype === "Store" || fields.atype === "Volunteer") &&
+                        <>
+                            <div className="Input">
+                                <Input type="text" placeholder="Activation Code" name="activation" value={fields.activation}/>
+                            </div>
+                        </>
+                }
  
                 {
                     fields.atype === "Store" &&

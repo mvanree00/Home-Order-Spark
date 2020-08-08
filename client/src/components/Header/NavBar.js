@@ -12,6 +12,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import httpUser from '../../httpUser'
 
 const NavBar = (props) => {
     const[drawerOpen, setDrawerOpen] = useState({open: false});
@@ -19,6 +20,7 @@ const NavBar = (props) => {
     const [items, setItems] = useState([]);
     const [total, setTotal] = useState(0)
     const [loaded, setLoad] = useState(false)
+    const [cart, setCart] = useState({email: '', prodId: ''})
     let list = [];
     useEffect (() => {
         function setData(response){
@@ -73,6 +75,21 @@ const NavBar = (props) => {
         }
         return total + currentValue;
     }
+
+    const onAdd = () => {
+        cart.email = props.user.email;
+        console.log(cart)
+        httpUser.addCart(cart);
+        setCart({email: props.user.email, prodId: ''});
+    };
+
+    const onRemove = () => {
+        cart.email = props.user.email;
+        console.log(cart)
+        httpUser.removeCart(cart);
+        setCart({email: props.user.email, prodId: ''});
+    };
+
     const itemList = () => {
         return items.map(function(currentItem, i){
             return (
@@ -80,6 +97,8 @@ const NavBar = (props) => {
                     <TableCell>{currentItem.itemName}</TableCell>
                     <TableCell>{currentItem.price}</TableCell>
                     <TableCell>{currentItem.quantity}</TableCell>
+                    <TableCell><Button onClick={() => {cart.prodId=currentItem._id;onAdd()}}>+</Button></TableCell>
+                    <TableCell><Button onClick={() => {cart.prodId=currentItem._id;onRemove()}}>-</Button></TableCell>
                 </TableRow>
             )
         })
