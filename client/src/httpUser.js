@@ -42,6 +42,7 @@ httpUser.signUp = async function(userInfo) {
         this.defaults.headers.common.token = this.setToken(token);
         return jwtDecode(token);
     } else {
+        console.log(response.data)
         return false;
     }
 };

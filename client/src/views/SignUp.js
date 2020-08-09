@@ -8,18 +8,33 @@ import Input from '@material-ui/core/Input'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import './LogIn.css'
 import 'fontsource-roboto'
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const activationCode = process.env.activation || require('../code.js').activation;
  
 const SignUp = (props) => {
     const [fields, setFields] = useState({name: '', email: "", password: "", atype: "Customer", storeName: "", address: "", activation:""});
     const [colors, setColors] = useState([false,false,true])
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState('')
     // used to update user input for either password or email
     const onInputChange = (e) => {
         e.persist();
         setFields(fields => ({...fields, [e.target.name]: e.target.value}))
     };
  
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     // used to submit user values for password and email
     const onFormSubmit = async (e) => {
         e.preventDefault();
@@ -32,6 +47,10 @@ const SignUp = (props) => {
                 props.onSignUpSuccess(user);
                 props.history.push('/');
             }
+            else{
+                setMessage('Email already in use!')
+                handleClickOpen();
+            }
         }
         else if(fields.activation == activationCode){
             fields.storeName=fields.storeName+" "+fields.address;
@@ -42,7 +61,13 @@ const SignUp = (props) => {
                 props.onSignUpSuccess(user);
                 props.history.push('/');
             }
+            else{
+                setMessage('Email or store name already in use!');
+                handleClickOpen();
+            }
         }else{
+            handleClickOpen();
+            setMessage('Invalid Activation Code!')
             setFields({activation:""});
         }
     };
@@ -58,6 +83,23 @@ const SignUp = (props) => {
 
     return(
         <div>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description">
+                <DialogTitle id="alert-dialog-title">Invalid Credentials!</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        {message}
+                    </DialogContentText>
+                    </DialogContent>
+                <DialogActions>
+                <Button onClick={handleClose} color="primary" autoFocus>
+                    Retry
+                </Button>
+                </DialogActions>
+            </Dialog>
             <Typography variant="h1" className="Header">Sign Up</Typography>
             <form onChange={onInputChange} onSubmit={onFormSubmit}>
                 <div className="Input">

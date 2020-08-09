@@ -10,6 +10,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import axios from 'axios';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 const useStyles = makeStyles({
     table: {
       minWidth: 700,
@@ -28,10 +34,27 @@ const useStyles = makeStyles({
 const ItemList = (props) => {
     //console.log('This is my currentItem file', this.props.data);
     const [fields, setFields] = useState({email: props.acc.email, prodId: ''});
+    const [open, setOpen] = useState(false);
     const classes = useStyles();
-    const onUpdate = () => {
-        httpUser.addCart(fields);
+    const onUpdate = async(e) => {
+        await axios.post('/api/carts', fields)
+        .then((response) =>{
+            if(response.data.success){
+                window.location.reload();
+            }
+            else{
+                handleClickOpen();
+            }
+        })
         setFields({email: props.acc.email, prodId: ''});
+    };
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
     };
 
     if(props.items.vals.length>0){
@@ -40,49 +63,68 @@ const ItemList = (props) => {
             return currentItem.itemName.toLowerCase().indexOf(props.filterText.toLowerCase()) !== -1
         })
         return (
-            <TableContainer className={classes.wrap} component={Paper}>
-                <Table className={classes.table} >
-                    <TableHead className={classes.head}>
-                        <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Price</TableCell>
-                            {props.acc.atype === "Store" &&
-                                <>
-                                    <TableCell>Quantity</TableCell>
-                                </>
-                            }
-                            {props.acc.atype === "Customer" &&
-                                <>
-                                    <TableCell>Store</TableCell>
-                                    <TableCell> </TableCell>
-                                </>
-                            }
-                        </TableRow>
-                    </TableHead>
-                    {itemList.map(currentItem => {
-                        return (
-                            <TableBody>
-                                <TableRow onClick={() => props.selectedUpdate(currentItem._id)}>
-                                    <TableCell>{currentItem.itemName}</TableCell>
-                                    <TableCell>${currentItem.price}</TableCell>
-                                    {props.acc.atype === "Store" &&
-                                        <>
-                                            <TableCell>{currentItem.quantity}</TableCell>
-                                        </>
-                                    }
-                                    {props.acc.atype === "Customer" &&
-                                        <>
-                                            <TableCell>{currentItem.store}</TableCell>
-                                            <TableCell><Button variant ="contained" color="primary" onClick={() => {fields.prodId=currentItem._id;onUpdate()}}>Add To Cart</Button></TableCell>
-                                        </>
-                                    }
-                                </TableRow>
-                            </TableBody>
-                            
-                        )
-                    })}
-                </Table>
-            </TableContainer>
+            <div>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description">
+                    <DialogTitle id="alert-dialog-title">Item is already in cart!</DialogTitle>
+                    <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        You can change quantity in cart.
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={handleClose} color="primary" autoFocus>
+                        Ok
+                    </Button>
+                    </DialogActions>
+                </Dialog>
+                <TableContainer className={classes.wrap} component={Paper}>
+                    <Table className={classes.table} >
+                        <TableHead className={classes.head}>
+                            <TableRow>
+                                <TableCell>Name</TableCell>
+                                <TableCell>Price</TableCell>
+                                {props.acc.atype === "Store" &&
+                                    <>
+                                        <TableCell>Quantity</TableCell>
+                                    </>
+                                }
+                                {props.acc.atype === "Customer" &&
+                                    <>
+                                        <TableCell>Store</TableCell>
+                                        <TableCell> </TableCell>
+                                    </>
+                                }
+                            </TableRow>
+                        </TableHead>
+                        {itemList.map(currentItem => {
+                            return (
+                                <TableBody>
+                                    <TableRow onClick={() => props.selectedUpdate(currentItem._id)}>
+                                        <TableCell>{currentItem.itemName}</TableCell>
+                                        <TableCell>${currentItem.price}</TableCell>
+                                        {props.acc.atype === "Store" &&
+                                            <>
+                                                <TableCell>{currentItem.quantity}</TableCell>
+                                            </>
+                                        }
+                                        {props.acc.atype === "Customer" &&
+                                            <>
+                                                <TableCell>{currentItem.store}</TableCell>
+                                                <TableCell><Button variant ="contained" color="primary" onClick={() => {fields.prodId=currentItem._id;onUpdate()}}>Add To Cart</Button></TableCell>
+                                            </>
+                                        }
+                                    </TableRow>
+                                </TableBody>
+                                
+                            )
+                        })}
+                    </Table>
+                </TableContainer>
+            </div>
         );
         return <div>{itemList}</div>;
     }
