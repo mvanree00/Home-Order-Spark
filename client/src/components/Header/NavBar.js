@@ -134,15 +134,23 @@ const NavBar = (props) => {
                                     }
                                     </Drawer>
                                     <Link className ="nav-link" onClick={toggle}>Cart</Link>
-                                    <Link className ="nav-link" to='/dashboard'>Profile</Link>
+                                    <Link className ="nav-link" to='/dashboard'>Orders</Link>
                                     <Link className ="nav-link" to='/store'>Store</Link>
+                                    <Link className ="nav-link" to='/work'>Create Job</Link>
                                     <Link className ="nav-link" to='/logout'>Log Out</Link>
                                 </>
                             }
-                            {props.user.atype !== "Customer" &&
+                            {props.user.atype === "Volunteer" &&
                                 <>
-                                    <Link className ="nav-link" to='/dashboard'>Profile</Link>
-                                    <Link className ="nav-link" to='/inventory'>Store</Link>
+                                    <Link className ="nav-link" to='/dashboard'>Accept Orders</Link>
+                                    <Link className ="nav-link" to='/inventory'>Current Orders</Link>
+                                    <Link className ="nav-link" to='/logout'>Log Out</Link>
+                                </>
+                            }
+                            {props.user.atype === "Store" &&
+                                <>
+                                    <Link className ="nav-link" to='/dashboard'>Add Items</Link>
+                                    <Link className ="nav-link" to='/inventory'>Store Inventory</Link>
                                     <Link className ="nav-link" to='/logout'>Log Out</Link>
                                 </>
                             }

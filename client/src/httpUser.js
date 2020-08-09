@@ -70,6 +70,10 @@ httpUser.addOrder = async function(orderInfo) {
     await axios.post('/api/orders', orderInfo);
 };
 
+httpUser.addJob = async function(jobInfo) {
+    await axios.post('/api/jobs', jobInfo);
+};
+
 httpUser.logOut = function() {
     localStorage.removeItem('token');
     delete this.defaults.headers.common.token;
