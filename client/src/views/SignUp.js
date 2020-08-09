@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography'
 import Select from '@material-ui/core/Select'
 import Input from '@material-ui/core/Input'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
-import ReactPasswordStrength from 'react-password-strength'
 import './LogIn.css'
 import 'fontsource-roboto'
 
@@ -14,6 +13,7 @@ const activationCode = process.env.activation || require('../code.js').activatio
  
 const SignUp = (props) => {
     const [fields, setFields] = useState({name: '', email: "", password: "", atype: "Customer", storeName: "", address: "", activation:""});
+    const [colors, setColors] = useState([false,false,true])
     // used to update user input for either password or email
     const onInputChange = (e) => {
         e.persist();
@@ -47,6 +47,15 @@ const SignUp = (props) => {
         }
     };
  
+    const getColor = (index) => {
+        return colors[index] ? "primary" : "disabled"
+    }
+
+    const setVals = (index) => {
+        colors.fill(false);
+        colors[index]=true;
+    }
+
     return(
         <div>
             <Typography variant="h1" className="Header">Sign Up</Typography>
@@ -64,17 +73,11 @@ const SignUp = (props) => {
                     <Input type="password" placeholder="Password" name="password" value={fields.password} />
                 </div>
  
-                {/*<ReactPasswordStrength 
-                    minLength={5}
-                    minScore={2}
-                    scoreWords={['weak', 'okay', 'good', 'strong', 'stronger']}
-                />*/}
- 
                 <div align="center">
-                    <ButtonGroup color="primary" onClick={onInputChange}>
-                        <Button onClick={() => {fields.atype="Volunteer"}}>Volunteer</Button>
-                        <Button onClick={() => {fields.atype="Store"}}>Store Owner</Button>
-                        <Button onClick={() => {fields.atype="Customer"}}>Customer</Button>
+                    <ButtonGroup variant="contained" onClick={onInputChange}>
+                        <Button color={getColor(0)} onClick={() => {fields.atype="Volunteer";setVals(0)}}>Volunteer</Button>
+                        <Button color={getColor(1)} onClick={() => {fields.atype="Store";setVals(1)}}>Store Owner</Button>
+                        <Button color={getColor(2)} onClick={() => {fields.atype="Customer";setVals(2)}}>Customer</Button>
                     </ButtonGroup>
                 </div>
                 
