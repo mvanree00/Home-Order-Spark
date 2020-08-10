@@ -9,12 +9,15 @@ import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography'
 import NativeSelect from '@material-ui/core/NativeSelect'
 //import {DropzoneArea} from 'material-ui-dropzone'
-import {ExcelRenderer} from 'react-excel-renderer'
+import readXlsxFile from 'read-excel-file'
+//import {OutTable, ExcelRenderer} from 'react-excel-renderer'
 import './LogIn.css'
 
 const AddItems = (props) => {
     const [fields, setFields] = useState({email: props.user.email, itemName: "", description: "", price: "", quantity: "", store: "", category: ""});
     // used to update user input for either password or email
+
+
     const onInputChange = (e) => {
         e.persist();
         setFields(fields => ({...fields, [e.target.name]: e.target.value}))
@@ -29,17 +32,39 @@ const AddItems = (props) => {
         setFields({email: props.user.email, itemName: "", description: "", price: "", quantity: "", store: "", category: ""});
     };
 
-    const parseFile = async (e) =>{
+    let parseFile = async (e) =>{
         let template = e.target.files[0];
         console.log("Entered");
         //pass in template as parameter
-        ExcelRenderer(template, (err,resp) =>{
-            if(err){
-                console.log(err)
-            }else{
-                console.log("worked")
+        var items = new Array();
+        if(template){
+            await readXlsxFile(template).then((data) => {
+                // `data` is an array of rows
+                // each row being an array of cells.
+                let i = 1;
+                while(data[i][0] != null){
+                    let item = {
+                        email: props.user.email,
+                        itemName: data[i][0],
+                        description: data[i][1],
+                        price: data[i][2],
+                        quantity: data[i][3],
+                        store: props.user.storeName,
+                        category: data[i++][4]
+                    }
+                    //setFields({itemName: item.category})
+                    items.push(item)
+                }
+            })
+            console.log("printing items")
+            console.log(items)
+            console.log("huh")
+            console.log(items[1])
+            for(var x = 0;x < items.length; x++){
+                await httpUser.addItem(items[x])
             }
-        })
+            //setFields({itemName: "did it"})
+        }
     }
 
     return (
@@ -48,7 +73,7 @@ const AddItems = (props) => {
             <Typography variant="h1" className="Header">Welcome to your store dashboard, {props.user.name}!</Typography>
             <form onChange={onInputChange} onSubmit={onUpdate}>
                 <Typography variant="h2" className="Title">Add New Item from Your Store</Typography>
-                <div class="AddItem">
+                <div className="AddItem">
                     <div className="Input">
                         <Input type="text" placeholder="Item Name" name="itemName" value={fields.itemName}/>
                     </div>
@@ -89,6 +114,7 @@ const AddItems = (props) => {
                         <Input type="file" onChange={parseFile}/>
                     </div>
 
+                    
                 </div>
             </form>
         </div>
