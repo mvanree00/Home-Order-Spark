@@ -45,7 +45,6 @@ module.exports = {
     },
     comments: async (req, res) => {
         try {
-            console.log(req.body)
             const orders = await Post.find({_id: req.params.id});
             res.json(orders);
         } catch(err) {

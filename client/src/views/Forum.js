@@ -73,18 +73,22 @@ const Forum = (props) => {
 
     return(
         <div>
-            <Typography variant="h1" className="Header">Create Post</Typography>
-            <form onChange={onInputChange} onSubmit={onFormSubmit}>
-                <div className="Input">
-                    <Input type="text" placeholder="Title" name="title" value={fields.title} />
-                </div>
-                <div className="Input">
-                    <textarea name="info" placeholder="Description" rows="4" cols="50" value={fields.info} />
-                </div>
-                <div className = "button" >
-                    <Button variant ="contained" color="primary" type="submit">Create Post</Button>
-                </div>
-            </form>
+            {props.user.atype === "Customer" &&
+            <>
+                <Typography variant="h1" className="Header">Create Post</Typography>
+                <form onChange={onInputChange} onSubmit={onFormSubmit}>
+                    <div className="Input">
+                        <Input type="text" placeholder="Title" name="title" value={fields.title} />
+                    </div>
+                    <div className="Input">
+                        <textarea name="info" placeholder="Description" rows="4" cols="50" value={fields.info} />
+                    </div>
+                    <div className = "button" >
+                        <Button variant ="contained" color="primary" type="submit">Create Post</Button>
+                    </div>
+                </form>
+            </>
+            }
             <Typography variant="h1" className="Header">Posts</Typography>
             {posts.vals.map(currentPost => {
                 return (
