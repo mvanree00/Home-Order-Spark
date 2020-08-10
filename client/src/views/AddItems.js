@@ -8,7 +8,7 @@ import httpUser from '../httpUser'
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography'
 import NativeSelect from '@material-ui/core/NativeSelect'
-import {DropzoneArea} from 'material-ui-dropzone'
+//import {DropzoneArea} from 'material-ui-dropzone'
 import {ExcelRenderer} from 'react-excel-renderer'
 import './LogIn.css'
 

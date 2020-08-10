@@ -9,6 +9,7 @@
     "material-ui": "^1.0.0-beta.47",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-excel-renderer": "^1.1.0",
     "react-password-strength": "^2.4.0",
     "react-scripts": "^3.4.1",
     "save": "^2.4.0"
