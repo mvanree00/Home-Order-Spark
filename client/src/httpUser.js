@@ -75,6 +75,10 @@ httpUser.addJob = async function(jobInfo) {
     await axios.post('/api/jobs', jobInfo);
 };
 
+httpUser.addPost = async function(jobInfo) {
+    await axios.post('/api/forum', jobInfo);
+};
+
 httpUser.logOut = function() {
     localStorage.removeItem('token');
     delete this.defaults.headers.common.token;

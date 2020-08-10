@@ -13,7 +13,8 @@ import Order from "./views/Order.js"
 import Work from "./views/Work.js"
 import Store from "./views/Store.js"
 import Job from "./views/Job.js"
-
+import Forum from "./views/Forum.js"
+import Post from "./views/Post.js"
 
 const App = () => {
     const [currentUser, setCurrentUser] = useState(httpUser.getCurrentUser());
@@ -70,6 +71,14 @@ const App = () => {
           
          <Route path="/work" render={(props) => {
               return currentUser ? <Job {...props} user={currentUser}/> : <Redirect to="/login" />
+          }}/>
+
+         <Route path="/forum" render={(props) => {
+              return currentUser ? <Forum {...props} user={currentUser}/> : <Redirect to="/login" />
+          }}/>
+
+         <Route path="/post" render={(props) => {
+              return currentUser ? <Post {...props} user={currentUser}/> : <Redirect to="/login" />
           }}/>
 
         <Route render={NotFound}/>
