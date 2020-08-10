@@ -10,12 +10,20 @@ import axios from 'axios';
 
 const Dashboard = (props) => {
     const [orders, setOrders] = useState({vals: []});
+    const [jobs, setJobs] = useState({vals: []});
     useEffect (() => {
         async function fetchData() {
             if(props.user.atype === "Customer"){
                 axios.get('/api/orders/customer/'+props.user.email)
                 .then(response => {
                     setOrders({ vals: response.data });
+                })
+                .catch(function (error){
+                    console.log(error);
+                })
+                axios.get('/api/jobs/customer/'+props.user.email)
+                .then(response => {
+                    setJobs({ vals: response.data });
                 })
                 .catch(function (error){
                     console.log(error);
@@ -28,6 +36,13 @@ const Dashboard = (props) => {
                 })
                 .catch(function (error){
                     console.log(error);
+                })
+                axios.get('/api/jobs/volunteer')
+                .then(response => {
+                    setJobs({vals: response.data})
+                })
+                .catch(function(error){
+                    console.log(error)
                 })
             }
         }
@@ -54,6 +69,26 @@ const Dashboard = (props) => {
         })
     };
 
+    const acceptJob = (orderid) => {
+        axios.patch('/api/jobs/volunteer/'+orderid,{email: props.user.email})
+        .then(() => {
+            window.location.reload();
+        })
+        .catch(function (error){
+            console.log(error);
+        })
+    };
+
+    const cancelJob = (orderid) => {
+        axios.patch('/api/jobs/cancel/'+orderid)
+        .then(() => {
+            window.location.reload();
+        })
+        .catch(function (error){
+            console.log(error);
+        })
+    };
+
     const itemList = () => {
         return orders.vals.map(function(currentOrder, i){
             return (
@@ -66,6 +101,7 @@ const Dashboard = (props) => {
                     {props.user.atype === "Volunteer" && 
                         <>
                             <TableCell>Customer Address: {currentOrder.address}</TableCell>
+                            <Button component={ Link } to={{pathname:"/order", state: {order: currentOrder}}} variant="contained" color="primary">View Order</Button>
                             <TableCell><Button variant="contained" color="primary" onClick={() => {acceptOrder(currentOrder._id)}}>Accept Order</Button></TableCell>
                         </>
                     }
@@ -84,16 +120,57 @@ const Dashboard = (props) => {
         })
     };
 
+    const jobList = () => {
+        return jobs.vals.map(function(currentOrder, i){
+            return (
+                <TableRow>
+                    <TableCell>{currentOrder.title}</TableCell>
+                    <TableCell>Date Placed: {new Date(currentOrder.placed).toDateString()}</TableCell>
+                    <TableCell>{currentOrder.status}</TableCell>
+                    {props.user.atype === "Volunteer" && 
+                        <>
+                            <TableCell>Customer Address: {currentOrder.address}</TableCell>
+                            <TableCell><Button component={ Link } to={{pathname:"/job", state: {order: currentOrder}}} variant="contained" color="primary">View Job</Button></TableCell>
+                            <TableCell><Button variant="contained" color="primary" onClick={() => {acceptJob(currentOrder._id)}}>Accept Job</Button></TableCell>
+                        </>
+                    }
+                    {props.user.atype === "Customer" &&
+                        <>
+                            <Button component={ Link } to={{pathname:"/job", state: {order: currentOrder}}} variant="contained" color="primary">View Job</Button>
+                        </>
+                    }
+                    {props.user.atype === "Customer" && currentOrder.status === "placed" &&
+                        <>
+                            <Button variant="contained" color="primary" onClick={() => {cancelJob(currentOrder._id)}}>Cancel Job</Button>
+                        </>
+                    }
+                </TableRow>
+            )
+        })
+    };
+
     if(props.user.atype === "Volunteer"){
         return (
             <div align="center">
                 <Typography variant="h1">Welcome to your volunteer dashboard, {props.user.name}!</Typography>
-                {orders.vals.length!=undefined ? 
-                (<div>
-                    <Typography variant="h2">Current open orders:</Typography>
-                    {itemList()}
-                </div>)
-                : (<Typography variant="h2">No orders to accept.</Typography>)}
+                <div className='row'>
+                    <div className='column1'>
+                        {orders.vals.length!=undefined ? 
+                        (<div>
+                            <Typography variant="h2">Current open deliveries:</Typography>
+                            {itemList()}
+                        </div>)
+                        : (<Typography variant="h2">No deliveries to accept.</Typography>)}
+                    </div>
+                    <div className='column2'>
+                        {jobs.vals.length!=undefined ? 
+                        (<div>
+                            <Typography variant="h2">Current open jobs:</Typography>
+                            {jobList()}
+                        </div>)
+                        : (<Typography variant="h2">No jobs to accept.</Typography>)}
+                    </div>
+                </div>
             </div>
         )
     }
@@ -106,10 +183,14 @@ const Dashboard = (props) => {
     }
     else{
         return (
-            <div align="center">
-                <Typography variant="h1">Welcome to your dashboard, {props.user.name}!</Typography>
-                <Typography variant="h2">Recent orders:</Typography>
-                {itemList()}
+            <div>
+                <div align="center">
+                    <Typography variant="h1">Welcome to your dashboard, {props.user.name}!</Typography>
+                    <Typography variant="h2">Recent orders:</Typography>
+                    {itemList()}
+                    <Typography variant="h2">Recent jobs:</Typography>
+                    {jobList()}
+                </div>
             </div>
             
         )

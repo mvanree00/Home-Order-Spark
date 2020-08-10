@@ -42,6 +42,7 @@ httpUser.signUp = async function(userInfo) {
         this.defaults.headers.common.token = this.setToken(token);
         return jwtDecode(token);
     } else {
+        console.log(response.data)
         return false;
     }
 };
@@ -68,6 +69,14 @@ httpUser.removeCart = async function(itemInfo) {
 
 httpUser.addOrder = async function(orderInfo) {
     await axios.post('/api/orders', orderInfo);
+};
+
+httpUser.addJob = async function(jobInfo) {
+    await axios.post('/api/jobs', jobInfo);
+};
+
+httpUser.addPost = async function(jobInfo) {
+    await axios.post('/api/forum', jobInfo);
 };
 
 httpUser.logOut = function() {

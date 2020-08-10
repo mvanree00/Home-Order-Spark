@@ -6,20 +6,35 @@ import Typography from '@material-ui/core/Typography'
 import Select from '@material-ui/core/Select'
 import Input from '@material-ui/core/Input'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
-import ReactPasswordStrength from 'react-password-strength'
 import './LogIn.css'
 import 'fontsource-roboto'
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const activationCode = process.env.activation || require('../code.js').activation;
  
 const SignUp = (props) => {
     const [fields, setFields] = useState({name: '', email: "", password: "", atype: "Customer", storeName: "", address: "", activation:""});
+    const [colors, setColors] = useState([false,false,true])
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState('')
     // used to update user input for either password or email
     const onInputChange = (e) => {
         e.persist();
         setFields(fields => ({...fields, [e.target.name]: e.target.value}))
     };
  
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     // used to submit user values for password and email
     const onFormSubmit = async (e) => {
         e.preventDefault();
@@ -32,6 +47,10 @@ const SignUp = (props) => {
                 props.onSignUpSuccess(user);
                 props.history.push('/');
             }
+            else{
+                setMessage('Email already in use!')
+                handleClickOpen();
+            }
         }
         else if(fields.activation == activationCode){
             fields.storeName=fields.storeName+" "+fields.address;
@@ -42,13 +61,45 @@ const SignUp = (props) => {
                 props.onSignUpSuccess(user);
                 props.history.push('/');
             }
+            else{
+                setMessage('Email or store name already in use!');
+                handleClickOpen();
+            }
         }else{
+            handleClickOpen();
+            setMessage('Invalid Activation Code!')
             setFields({activation:""});
         }
     };
  
+    const getColor = (index) => {
+        return colors[index] ? "primary" : "disabled"
+    }
+
+    const setVals = (index) => {
+        colors.fill(false);
+        colors[index]=true;
+    }
+
     return(
         <div>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description">
+                <DialogTitle id="alert-dialog-title">Invalid Credentials!</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        {message}
+                    </DialogContentText>
+                    </DialogContent>
+                <DialogActions>
+                <Button onClick={handleClose} color="primary" autoFocus>
+                    Retry
+                </Button>
+                </DialogActions>
+            </Dialog>
             <Typography variant="h1" className="Header">Sign Up</Typography>
             <form onChange={onInputChange} onSubmit={onFormSubmit}>
                 <div className="Input">
@@ -64,17 +115,11 @@ const SignUp = (props) => {
                     <Input type="password" placeholder="Password" name="password" value={fields.password} />
                 </div>
  
-                {/*<ReactPasswordStrength 
-                    minLength={5}
-                    minScore={2}
-                    scoreWords={['weak', 'okay', 'good', 'strong', 'stronger']}
-                />*/}
- 
                 <div align="center">
-                    <ButtonGroup color="primary" onClick={onInputChange}>
-                        <Button onClick={() => {fields.atype="Volunteer"}}>Volunteer</Button>
-                        <Button onClick={() => {fields.atype="Store"}}>Store Owner</Button>
-                        <Button onClick={() => {fields.atype="Customer"}}>Customer</Button>
+                    <ButtonGroup variant="contained" onClick={onInputChange}>
+                        <Button color={getColor(0)} onClick={() => {fields.atype="Volunteer";setVals(0)}}>Volunteer</Button>
+                        <Button color={getColor(1)} onClick={() => {fields.atype="Store";setVals(1)}}>Store Owner</Button>
+                        <Button color={getColor(2)} onClick={() => {fields.atype="Customer";setVals(2)}}>Customer</Button>
                     </ButtonGroup>
                 </div>
                 

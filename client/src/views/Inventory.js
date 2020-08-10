@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import Button from '@material-ui/core/Button'
 import 'fontsource-roboto'
+import { Link } from 'react-router-dom'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -21,6 +22,7 @@ const Inventory = (props) => {
     const [filterText, setFilterText] = useState('');
     const [store, setStore] = useState('');
     const [items, setItems] = useState({vals: []});
+    const [jobs, setJobs] = useState({vals: []});
 
     useEffect (() => {
         async function fetchData() {
@@ -67,6 +69,13 @@ const Inventory = (props) => {
                 .catch(function (error){
                     console.log(error);
                 })
+                axios.get('/api/jobs/email/'+props.user.email)
+                .then(response => {
+                    setJobs({ vals: response.data });
+                })
+                .catch(function (error){
+                    console.log(error);
+                })
             }
         }
 
@@ -93,6 +102,16 @@ const Inventory = (props) => {
         })
     };
 
+    const completeJob = (orderid) => {
+        axios.patch('/api/jobs/completed/'+orderid)
+        .then(() => {
+            window.location.reload();
+        })
+        .catch(function (error){
+            console.log(error);
+        })
+    };
+
     const orderList = () => {
         return items.vals.map(function(currentOrder, i){
             return (
@@ -103,10 +122,30 @@ const Inventory = (props) => {
                     <TableCell>{currentOrder.status}</TableCell>
                     <TableCell>{currentOrder.store}</TableCell>
                     <TableCell>{currentOrder.address}</TableCell>
+                    <TableCell><Button component={ Link } to={{pathname:"/order", state: {order: currentOrder}}} variant="contained" color="primary">View Order</Button></TableCell>
                     {currentOrder.status !== "delivered" &&
-                                <>
-                                    <TableCell><Button variant="contained" color="primary" onClick={() => {completeOrder(currentOrder._id)}}>Delivered</Button></TableCell>
-                                </>
+                        <>
+                            <TableCell><Button variant="contained" color="primary" onClick={() => {completeOrder(currentOrder._id)}}>Delivered</Button></TableCell>
+                        </>
+                    }
+                </TableRow>
+            )
+        })
+    };
+
+    const jobList = () => {
+        return jobs.vals.map(function(currentOrder, i){
+            return (
+                <TableRow>
+                    <TableCell>{currentOrder.title}</TableCell>
+                    <TableCell>Date Placed: {new Date(currentOrder.placed).toDateString()}</TableCell>
+                    <TableCell>{currentOrder.status}</TableCell>
+                    <TableCell>{currentOrder.address}</TableCell>
+                    <TableCell><Button component={ Link } to={{pathname:"/job", state: {order: currentOrder}}} variant="contained" color="primary">View Job</Button></TableCell>
+                    {currentOrder.status !== "completed" &&
+                        <>
+                            <TableCell><Button variant="contained" color="primary" onClick={() => {completeJob(currentOrder._id)}}>Completed</Button></TableCell>
+                        </>
                     }
                 </TableRow>
             )
@@ -119,6 +158,10 @@ const Inventory = (props) => {
                 <Typography variant="h1">Here are your current and past accepted orders, {props.user.name}!</Typography>
                 <TableBody>
                     { orderList() }
+                </TableBody>
+                <Typography variant="h1">Here are your current and past accepted jobs, {props.user.name}!</Typography>
+                <TableBody>
+                    { jobList() }
                 </TableBody>
             </div>
         )

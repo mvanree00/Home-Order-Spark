@@ -6,8 +6,9 @@ const path = require('path'),
     userRouter = require('./routes/users.js'),
     itemRouter = require('./routes/items.js'),
     cartRouter = require('./routes/carts.js'),
-    orderRouter = require('./routes/orders.js');
-
+    jobRouter = require('./routes/jobs.js'),
+    orderRouter = require('./routes/orders.js'),
+    postRouter = require('./routes/posts.js');
 // Use env port or default
 const port = process.env.PORT || 5000;
 
@@ -30,6 +31,8 @@ app.use('/api/users', userRouter);
 app.use('/api/items', itemRouter);
 app.use('/api/carts', cartRouter);
 app.use('/api/orders', orderRouter);
+app.use('/api/jobs', jobRouter);
+app.use('/api/forum', postRouter);
 if (process.env.NODE_ENV === 'production') {
     // Serve any static files
     app.use(express.static(path.join(__dirname, '../client/build')));

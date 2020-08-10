@@ -12,7 +12,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-const Checkout = (props) => {
+const Order = (props) => {
     const [items, setItems] = useState([]);
     useEffect (() => {
         async function fetchData() {
@@ -34,6 +34,9 @@ const Checkout = (props) => {
 
     const cancelOrder = (orderid) => {
         axios.patch('/api/orders/cancel/'+orderid)
+        .then(() => {
+            props.history.push("/dashboard")
+        })
         .catch(function (error){
             console.log(error);
         })
@@ -79,4 +82,4 @@ const Checkout = (props) => {
     )
 };
 
-export default Checkout;
+export default Order;
