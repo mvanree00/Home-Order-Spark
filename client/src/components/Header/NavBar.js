@@ -98,6 +98,9 @@ const NavBar = (props) => {
     };
 
     const itemList = () => {
+        if(items.length===0 && loaded){
+            return <div>Cart is empty!</div>
+        }
         return items.map(function(currentItem, i){
             return (
                 <TableRow>
