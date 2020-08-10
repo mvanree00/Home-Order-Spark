@@ -39,7 +39,25 @@ module.exports = {
             res.json({success: true, message: "Item deleted"});
         }
         catch(err){
-            alert(err)
+            alert(err);
         }
     },
+    addQuantity: async (req, res) => {
+        try{
+            const cart = await Cart.findOneAndUpdate({_id: req.params.id}, {$inc: {quantity: 1}});
+            res.json({success: true, message: "Quantity updated"});
+        }
+        catch(err){
+            alert(err);
+        }
+    },
+    removeQuantity: async (req, res) => {
+        try{
+            const cart = await Cart.findOneAndUpdate({_id: req.params.id}, {$inc: {quantity: -1}});
+            res.json({success: true, message: "Quantity updated"});
+        }
+        catch(err){
+            alert(err);
+        }
+    }
 };

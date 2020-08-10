@@ -18,11 +18,15 @@ const NavBar = (props) => {
     const[drawerOpen, setDrawerOpen] = useState({open: false});
     const toggle = () => setDrawerOpen({open: !drawerOpen.open});
     const [items, setItems] = useState([]);
+    const [idCart, setIdCart] = useState([]);
+    const [quantities, setQuantities] = useState([]);
     const [total, setTotal] = useState(0)
     const [loaded, setLoad] = useState(false)
     const [addCart, setAddCart] = useState({email: '', prodId: '', quantity: 1})
     const [removeCart, setRemoveCart] = useState({email: '', prodId: ''})
     let list = [];
+    let cartIds = [];
+    let quantList = [];
     useEffect (() => {
         function setData(response){
             response.forEach((currentItem) => {
@@ -31,6 +35,8 @@ const NavBar = (props) => {
                 .then(response => {
                     item = response.data;
                     list.push(item)
+                    cartIds.push(currentItem._id)
+                    quantList.push(currentItem.quantity)
                 })
                 .catch(function (error){
                     console.log(error);
@@ -50,6 +56,8 @@ const NavBar = (props) => {
             fetchData();
             setItems(list)
             setLoad(true)
+            setIdCart(cartIds)
+            setQuantities(quantList)
         }
     }, []);
 
@@ -77,19 +85,22 @@ const NavBar = (props) => {
         return total + currentValue;
     }
 
-    const onAdd = () => {
+    const onAdd = (id) => {
         addCart.email = props.user.email;
-        addCart.quantity = 1;
         console.log(addCart)
-        httpUser.addCart(addCart);
+        httpUser.addQuantity(id);
         setAddCart({email: props.user.email, prodId: '', quantity: 1});
     };
 
-    const onRemove = () => {
-        removeCart.email = props.user.email;
-        console.log(removeCart)
-        httpUser.removeCart(removeCart);
-        setRemoveCart({email: props.user.email, prodId: ''});
+    const onRemove = (id, quantity) => {
+        if(quantity <= 1){
+            removeCart.email = props.user.email;
+            httpUser.removeCart(removeCart);
+            setRemoveCart({email: props.user.email, prodId: ''});
+        }
+        else{
+            httpUser.removeQuantity(id);
+        }
     };
 
     const itemList = () => {
@@ -98,9 +109,9 @@ const NavBar = (props) => {
                 <TableRow>
                     <TableCell>{currentItem.itemName}</TableCell>
                     <TableCell>{currentItem.price}</TableCell>
-                    <TableCell>{currentItem.quantity}</TableCell>
-                    <TableCell><Button onClick={() => {addCart.prodId=currentItem._id;onAdd()}}>+</Button></TableCell>
-                    <TableCell><Button onClick={() => {removeCart.prodId=currentItem._id;onRemove()}}>-</Button></TableCell>
+                    <TableCell>{quantities[i]}</TableCell>
+                    <TableCell><Button onClick={() => {addCart.prodId=currentItem._id;addCart.quantity=currentItem.quantity + 1;onAdd(idCart[i])}}>+</Button></TableCell>
+                    <TableCell><Button onClick={() => {removeCart.prodId=currentItem._id;onRemove(idCart[i], quantities[i])}}>-</Button></TableCell>
                 </TableRow>
             )
         })

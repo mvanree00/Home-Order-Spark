@@ -4,5 +4,7 @@ const express = require('express'),
 
 cartRouter.route('/').get(cartController.index).post(cartController.create);
 cartRouter.route('/').get(cartController.index).delete(cartController.remove);
+cartRouter.route('/add/:id').patch(cartController.addQuantity);
+cartRouter.route('/remove/:id').patch(cartController.removeQuantity);
 cartRouter.route('/:email').get(cartController.show);
 module.exports = cartRouter;

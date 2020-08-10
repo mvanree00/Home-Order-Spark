@@ -67,6 +67,20 @@ httpUser.removeCart = async function(itemInfo) {
     })
 };
 
+httpUser.addQuantity = async function(id) {
+    await axios.patch('/api/carts/add/' + id)
+    .then(() => {
+        window.location.reload();
+    })
+}
+
+httpUser.removeQuantity = async function(id) {
+    await axios.patch('/api/carts/remove/' + id)
+    .then(() => {
+        window.location.reload();
+    })
+}
+
 httpUser.addOrder = async function(orderInfo) {
     await axios.post('/api/orders', orderInfo);
 };
