@@ -33,7 +33,7 @@ const useStyles = makeStyles({
 
 const ItemList = (props) => {
     //console.log('This is my currentItem file', this.props.data);
-    const [fields, setFields] = useState({email: props.acc.email, prodId: ''});
+    const [fields, setFields] = useState({email: props.acc.email, prodId: '', quantity: 1});
     const [open, setOpen] = useState(false);
     const classes = useStyles();
     const onUpdate = async(e) => {
@@ -46,7 +46,7 @@ const ItemList = (props) => {
                 handleClickOpen();
             }
         })
-        setFields({email: props.acc.email, prodId: ''});
+        setFields({email: props.acc.email, prodId: '', quantity: 1});
     };
 
     const handleClickOpen = () => {

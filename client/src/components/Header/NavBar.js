@@ -20,7 +20,8 @@ const NavBar = (props) => {
     const [items, setItems] = useState([]);
     const [total, setTotal] = useState(0)
     const [loaded, setLoad] = useState(false)
-    const [cart, setCart] = useState({email: '', prodId: ''})
+    const [addCart, setAddCart] = useState({email: '', prodId: '', quantity: 1})
+    const [removeCart, setRemoveCart] = useState({email: '', prodId: ''})
     let list = [];
     useEffect (() => {
         function setData(response){
@@ -77,17 +78,18 @@ const NavBar = (props) => {
     }
 
     const onAdd = () => {
-        cart.email = props.user.email;
-        console.log(cart)
-        httpUser.addCart(cart);
-        setCart({email: props.user.email, prodId: ''});
+        addCart.email = props.user.email;
+        addCart.quantity = 1;
+        console.log(addCart)
+        httpUser.addCart(addCart);
+        setAddCart({email: props.user.email, prodId: '', quantity: 1});
     };
 
     const onRemove = () => {
-        cart.email = props.user.email;
-        console.log(cart)
-        httpUser.removeCart(cart);
-        setCart({email: props.user.email, prodId: ''});
+        removeCart.email = props.user.email;
+        console.log(removeCart)
+        httpUser.removeCart(removeCart);
+        setRemoveCart({email: props.user.email, prodId: ''});
     };
 
     const itemList = () => {
@@ -97,8 +99,8 @@ const NavBar = (props) => {
                     <TableCell>{currentItem.itemName}</TableCell>
                     <TableCell>{currentItem.price}</TableCell>
                     <TableCell>{currentItem.quantity}</TableCell>
-                    <TableCell><Button onClick={() => {cart.prodId=currentItem._id;onAdd()}}>+</Button></TableCell>
-                    <TableCell><Button onClick={() => {cart.prodId=currentItem._id;onRemove()}}>-</Button></TableCell>
+                    <TableCell><Button onClick={() => {addCart.prodId=currentItem._id;onAdd()}}>+</Button></TableCell>
+                    <TableCell><Button onClick={() => {removeCart.prodId=currentItem._id;onRemove()}}>-</Button></TableCell>
                 </TableRow>
             )
         })
