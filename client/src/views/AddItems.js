@@ -52,18 +52,12 @@ const AddItems = (props) => {
                         store: props.user.storeName,
                         category: data[i++][4]
                     }
-                    //setFields({itemName: item.category})
                     items.push(item)
                 }
             })
-            console.log("printing items")
-            console.log(items)
-            console.log("huh")
-            console.log(items[1])
             for(var x = 0;x < items.length; x++){
                 await httpUser.addItem(items[x])
             }
-            //setFields({itemName: "did it"})
         }
     }
 
