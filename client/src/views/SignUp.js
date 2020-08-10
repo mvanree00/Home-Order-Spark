@@ -56,10 +56,11 @@ const SignUp = (props) => {
             fields.storeName=fields.storeName+" "+fields.address;
             const user = await httpUser.signUp(fields);
      
-            setFields({name: '', email: "", password: "", atype: "Customer", storeName: "", address: "", activation:""});
             if(user) {
                 props.onSignUpSuccess(user);
                 props.history.push('/');
+                setFields({name: '', email: "", password: "", atype: "Customer", storeName: "", address: "", activation:""});
+                setColors([false,false,true]);
             }
             else{
                 setMessage('Email or store name already in use!');

@@ -6,6 +6,11 @@ import Typography from '@material-ui/core/Typography'
 import Input from '@material-ui/core/Input'
 import './LogIn.css'
 import 'fontsource-roboto'
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const inputStyle = {
     align: "center",
@@ -14,11 +19,20 @@ const inputStyle = {
 
 const LogIn = (props) => {
     const [fields, setFields] = useState({email: "", password: ""});
+    const [open, setOpen] = useState(false);
 
     // used to update user input for either password or email
     const onInputChange = (e) => {
         e.persist();
         setFields(fields => ({...fields, [e.target.name]: e.target.value}))
+    };
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
     };
 
     // used to submit user values for password and email
@@ -28,14 +42,34 @@ const LogIn = (props) => {
 
         setFields({email: '', password: ''} );
         if(user) {
-            console.log('hello');
-            props.onLoginSuccess(user);
+            await props.onLoginSuccess(user);
             props.history.push('/');
+            window.location.reload();
+        }
+        else{
+            handleClickOpen();
         }
     };
 
     return(
         <div>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description">
+                <DialogTitle id="alert-dialog-title">Invalid Credentials!</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Incorrect username or password.
+                    </DialogContentText>
+                    </DialogContent>
+                <DialogActions>
+                <Button onClick={handleClose} color="primary" autoFocus>
+                    Retry
+                </Button>
+                </DialogActions>
+            </Dialog>
             <Typography variant="h1" className="Header">Home Order</Typography>
             <form onChange={onInputChange} onSubmit={onFormSubmit}>
                 <div className="Input">
