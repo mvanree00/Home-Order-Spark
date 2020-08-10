@@ -20,7 +20,7 @@ const NavBar = (props) => {
     const [items, setItems] = useState([]);
     const [idCart, setIdCart] = useState([]);
     const [quantities, setQuantities] = useState([]);
-    const [total, setTotal] = useState(0)
+    const [total, setTotal] = useState(0.00)
     const [loaded, setLoad] = useState(false)
     const [addCart, setAddCart] = useState({email: '', prodId: '', quantity: 1})
     const [removeCart, setRemoveCart] = useState({email: '', prodId: ''})
@@ -64,25 +64,19 @@ const NavBar = (props) => {
     const totaler = () => {
         if(total===0 && items.length>0 && loaded){
             if(items.length>1){
-                setTotal(items.reduce(reducer))
+                let tot = 0.00
+                for(let i=0;i<items.length;i++){
+                    tot+=items[i].price*quantities[i]
+                }
+                setTotal(tot.toFixed(2))
             }
             else if (items.length==1){
-                setTotal(items[0].price)
+                setTotal((items[0].price*quantities[0]).toFixed(2))
             }
             else{
-                setTotal(0)
+                setTotal(0.00)
             }
         }
-    }
-
-    const reducer = (total, currentValue) => {
-        if(total instanceof Object){
-            total = parseFloat(total.price)
-        }
-        if(currentValue instanceof Object){
-            currentValue = parseFloat(currentValue.price)
-        }
-        return total + currentValue;
     }
 
     const onAdd = (id) => {
@@ -108,7 +102,7 @@ const NavBar = (props) => {
             return (
                 <TableRow>
                     <TableCell>{currentItem.itemName}</TableCell>
-                    <TableCell>{currentItem.price}</TableCell>
+                    <TableCell>${parseFloat(currentItem.price).toFixed(2)}</TableCell>
                     <TableCell>{quantities[i]}</TableCell>
                     <TableCell><Button onClick={() => {addCart.prodId=currentItem._id;addCart.quantity=currentItem.quantity + 1;onAdd(idCart[i])}}>+</Button></TableCell>
                     <TableCell><Button onClick={() => {removeCart.prodId=currentItem._id;onRemove(idCart[i], quantities[i])}}>-</Button></TableCell>
