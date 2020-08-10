@@ -25,7 +25,7 @@ const Inventory = (props) => {
     useEffect (() => {
         async function fetchData() {
             if(props.user.atype === "Customer"){
-                if(props.location.state !== undefined || store.length > 0){
+                if(props.location.state !== undefined || store.length === 0){
                     if(props.location.state !== undefined){
                         axios.get('/api/items/'+props.location.state.email)
                         .then(response => {
@@ -149,7 +149,7 @@ const Inventory = (props) => {
     else{
         return (
             <div align="center">
-                <Typography variant="h3">{store} Inventory</Typography>
+                <Typography variant="h3">Items List</Typography>
                 {items ?
                 (<div>
                     <Search filterText={filterText} filterUpdate={filterUpdate.bind(this)}/>
