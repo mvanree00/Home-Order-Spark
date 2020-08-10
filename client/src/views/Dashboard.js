@@ -101,7 +101,7 @@ const Dashboard = (props) => {
                     {props.user.atype === "Volunteer" && 
                         <>
                             <TableCell>Customer Address: {currentOrder.address}</TableCell>
-                            <Button component={ Link } to={{pathname:"/order", state: {order: currentOrder}}} variant="contained" color="primary">View Order</Button>
+                            <TableCell><Button component={ Link } to={{pathname:"/order", state: {order: currentOrder}}} variant="contained" color="primary">View Order</Button></TableCell>
                             <TableCell><Button variant="contained" color="primary" onClick={() => {acceptOrder(currentOrder._id)}}>Accept Order</Button></TableCell>
                         </>
                     }
@@ -155,7 +155,7 @@ const Dashboard = (props) => {
                 <Typography variant="h1">Welcome to your volunteer dashboard, {props.user.name}!</Typography>
                 <div className='row'>
                     <div className='column1'>
-                        {orders.vals.length!=undefined ? 
+                        {orders.vals.length!==0 ? 
                         (<div>
                             <Typography variant="h2">Current open deliveries:</Typography>
                             {itemList()}
@@ -163,7 +163,7 @@ const Dashboard = (props) => {
                         : (<Typography variant="h2">No deliveries to accept.</Typography>)}
                     </div>
                     <div className='column2'>
-                        {jobs.vals.length!=undefined ? 
+                        {jobs.vals.length!==0 ? 
                         (<div>
                             <Typography variant="h2">Current open jobs:</Typography>
                             {jobList()}
@@ -186,10 +186,22 @@ const Dashboard = (props) => {
             <div>
                 <div align="center">
                     <Typography variant="h1">Welcome to your dashboard, {props.user.name}!</Typography>
-                    <Typography variant="h2">Recent orders:</Typography>
-                    {itemList()}
-                    <Typography variant="h2">Recent jobs:</Typography>
-                    {jobList()}
+                    <div className='column1'>
+                        {orders.vals.length!==0 ? 
+                        (<div>
+                            <Typography variant="h2">Recent orders:</Typography>
+                            {itemList()}
+                        </div>)
+                        : (<Typography variant="h2">No orders.</Typography>)}
+                    </div>
+                    <div className='column2'>
+                        {jobs.vals.length!==0 ? 
+                        (<div>
+                            <Typography variant="h2">Recent jobs:</Typography>
+                            {jobList()}
+                        </div>)
+                        : (<Typography variant="h2">No jobs.</Typography>)}
+                    </div>
                 </div>
             </div>
             
