@@ -87,6 +87,10 @@ const LogIn = (props) => {
                         <Typography to="/signup">Don't have an account?</Typography>
                         <Link to="/signup"> Sign up</Link>
                     </Typography>
+                    <Typography className="Text">
+                        <Typography to="/faq">What is HomeOrder?</Typography>
+                        <Link to="/faq">FAQ</Link>
+                        </Typography>
                 </div>
             </form>
         </div>
