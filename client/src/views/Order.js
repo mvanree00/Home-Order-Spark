@@ -54,6 +54,16 @@ const Order = (props) => {
         })
     };
 
+    const hyperLink = (inputString) => {
+        var str = inputString;
+        var map = "http://maps.google.com/?q=";
+        var replaced = str.split(' ').join('+');
+        replaced = map.concat(replaced)
+        return (
+            <a href={replaced}>{inputString}</a>
+        )
+    }
+
     return (
         <div align="center">
             <TableContainer>
@@ -63,7 +73,7 @@ const Order = (props) => {
                     <div align='center'>Date Placed: {new Date(props.location.state.order.placed).toDateString()}</div>
                     <div align='center'>Status: {props.location.state.order.status}</div>
                     <div align='center'>Store: {props.location.state.order.store}</div>
-                    <div align='center'>Address: {props.location.state.order.address}</div>
+                    <div align='center'>Address: {hyperLink(props.location.state.order.address)}</div>
                     <div>Total: ${props.location.state.order.total}</div>
                     <Table>
                         <TableBody>
