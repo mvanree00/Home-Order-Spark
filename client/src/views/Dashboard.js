@@ -170,7 +170,7 @@ const Dashboard = (props) => {
                             <TableContainer>
                                 <Table className="table">
                                     <TableHead className="Head">
-                                        <TableCell colspan={5}>
+                                        <TableCell colspan={8}>
                                             <Typography variant="h2">Current open deliveries:</Typography>
                                         </TableCell>
                                     </TableHead>
@@ -188,7 +188,7 @@ const Dashboard = (props) => {
                             <TableContainer>
                                 <Table className="table">
                                     <TableHead className="Head">
-                                        <TableCell>
+                                        <TableCell colspan={6}>
                                             <Typography variant="h2">Current open jobs:</Typography>
                                         </TableCell>
                                     </TableHead>
