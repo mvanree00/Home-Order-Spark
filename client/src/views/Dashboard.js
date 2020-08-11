@@ -167,12 +167,18 @@ const Dashboard = (props) => {
                     <Grid item xs={6}>
                         {orders.vals.length!==0 ? 
                         (<div>
+                            <Typography variant="h2">Current open deliveries:</Typography>
                             <TableContainer>
                                 <Table className="table">
                                     <TableHead className="Head">
-                                        <TableCell colspan={8}>
-                                            <Typography variant="h2">Current open deliveries:</Typography>
-                                        </TableCell>
+                                        <TableCell>Amount</TableCell>
+                                        <TableCell>Price</TableCell>
+                                        <TableCell>Date</TableCell>
+                                        <TableCell>Status</TableCell>
+                                        <TableCell>Address</TableCell>
+                                        <TableCell>Deliver To</TableCell>
+                                        <TableCell></TableCell>
+                                        <TableCell></TableCell>
                                     </TableHead>
                                     <TableBody>
                                         {itemList()}
@@ -185,12 +191,16 @@ const Dashboard = (props) => {
                     <Grid item xs={6}>
                         {jobs.vals.length!==0 ? 
                         (<div>
+                            <Typography variant="h2">Current open jobs:</Typography>
                             <TableContainer>
                                 <Table className="table">
                                     <TableHead className="Head">
-                                        <TableCell colspan={6}>
-                                            <Typography variant="h2">Current open jobs:</Typography>
-                                        </TableCell>
+                                        <TableCell>Category</TableCell>
+                                        <TableCell>Date</TableCell>
+                                        <TableCell>Status</TableCell>
+                                        <TableCell>Address</TableCell>
+                                        <TableCell></TableCell>
+                                        <TableCell></TableCell>
                                     </TableHead>
                                     <TableBody>
                                         {jobList()}
