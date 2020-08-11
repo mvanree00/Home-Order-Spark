@@ -94,7 +94,7 @@ const Order = (props) => {
 
                                     <TableRow>
                                         <TableCell>
-                                            <Typography>Date Place</Typography>
+                                            <Typography>Date Placed</Typography>
                                         </TableCell>
                                         <TableCell>
                                             <Typography align='center'>{new Date(props.location.state.order.placed).toDateString()}</Typography>
@@ -115,7 +115,7 @@ const Order = (props) => {
                                             <Typography>Store</Typography>
                                         </TableCell>
                                         <TableCell>
-                                            <Typography align='center'>{props.location.state.order.store}</Typography>
+                                            <Typography align='center'>{hyperLink(props.location.state.order.store)}</Typography>
                                         </TableCell>
                                     </TableRow>
 
@@ -125,15 +125,6 @@ const Order = (props) => {
                                         </TableCell>
                                         <TableCell>
                                             <Typography align='center'>{hyperLink(props.location.state.order.address)}</Typography>
-                                        </TableCell>
-                                    </TableRow>
-
-                                    <TableRow>
-                                        <TableCell>
-                                            <Typography>Total</Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography align='center'>${props.location.state.order.total}</Typography>
                                         </TableCell>
                                     </TableRow>
 
@@ -158,6 +149,11 @@ const Order = (props) => {
                                 </TableHead>
                                 <TableBody>
                                     {itemList()}
+                                    <TableRow>
+                                        <TableCell>
+                                            <Typography>Total: ${props.location.state.order.total}</Typography>
+                                        </TableCell>
+                                    </TableRow>
                                 </TableBody>
                             </Table>
                         </TableContainer>
