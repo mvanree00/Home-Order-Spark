@@ -1,0 +1,21 @@
+.message {
+    margin-bottom: 15px;
+    background: #DCDCDC;
+    border: 5px solid #282c34;
+}
+.image {
+    float:left; margin-right: 10px;
+}
+.user {
+    float:left; font-weight:bold; color:#009; margin-bottom: 5px; 
+}
+.content { 
+    margin-left: 30px;
+}
+.comment{
+    padding: 20px 20px;
+}
+
+.comment:nth-child(odd){
+    background: #85D7C7;
+}

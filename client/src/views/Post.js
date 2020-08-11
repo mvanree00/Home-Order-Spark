@@ -11,6 +11,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import './Post.css'
 
 const Post = (props) => {
     const [fields, setFields] = useState({comment: ''})
@@ -51,27 +52,35 @@ const Post = (props) => {
             <TableContainer>
                 {props.location.state ?
                     (<div>
-                    <div align='center'>{props.location.state.post.title}</div>
-                    <div align='center'>{props.location.state.post.info}</div>
-                    <div align='center'>{new Date(props.location.state.post.placed).toDateString()}</div>
-                    <div align='center'>{props.location.state.post.status}</div>
+                        <Typography align='center' variant="h2">{props.location.state.post.title}</Typography>
+                        <div className="message">
+                            <Typography align='center' className="content">{props.location.state.post.info}</Typography>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <Typography align='center' variant="subtitle1">{new Date(props.location.state.post.placed).toDateString()}</Typography>
+                            <Typography align='center' vairant="subtitle1">{props.location.state.post.status}</Typography>
+                        </div>
                     </div>)
                     : (props.history.push('/forum'))
                 }
             </TableContainer>
 
+            
+
+            {comments.map(current => {
+                return(<Typography className="comment">{current}</Typography>)
+             })}
+
+            <br/>
+            <br/>
+            <br/>
             <form onChange={onInputChange}>
                 <div className="Input">
                     <textarea name="comment" placeholder="Reply" rows="4" cols="50" value={fields.comment} />
                 </div>
             </form>
-
             <Button variant="contained" color="primary" type="submit" onClick={() => {commentSubmit()}}>Comment</Button>
-
-            {comments.map(current => {
-                return(<div>{current}</div>)
-             })}
-
         </div>
     )
 };
