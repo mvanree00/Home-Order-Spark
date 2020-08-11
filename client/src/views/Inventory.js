@@ -140,7 +140,7 @@ const Inventory = (props) => {
             return (
                 <TableRow>
                     <TableCell>{currentOrder.title}</TableCell>
-                    <TableCell>Date Placed: {new Date(currentOrder.placed).toDateString()}</TableCell>
+                    <TableCell>{new Date(currentOrder.placed).toDateString()}</TableCell>
                     <TableCell>{currentOrder.status}</TableCell>
                     <TableCell>{currentOrder.address}</TableCell>
                     <TableCell><Button component={ Link } to={{pathname:"/job", state: {order: currentOrder}}} variant="contained" color="primary">View Job</Button></TableCell>

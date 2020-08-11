@@ -101,12 +101,12 @@ const Dashboard = (props) => {
                 <TableRow>
                     <TableCell>{currentOrder.ids.length} items</TableCell>
                     <TableCell>${currentOrder.total}</TableCell>
-                    <TableCell>Date Placed: {new Date(currentOrder.placed).toDateString()}</TableCell>
+                    <TableCell>{new Date(currentOrder.placed).toDateString()}</TableCell>
                     <TableCell>{currentOrder.status}</TableCell>
                     <TableCell>{currentOrder.store}</TableCell>
                     {props.user.atype === "Volunteer" && 
                         <>
-                            <TableCell>Customer Address: {currentOrder.address}</TableCell>
+                            <TableCell>{currentOrder.address}</TableCell>
                             <TableCell><Button component={ Link } to={{pathname:"/order", state: {order: currentOrder}}} variant="contained" color="primary">View Order</Button></TableCell>
                             <TableCell><Button variant="contained" color="primary" onClick={() => {acceptOrder(currentOrder._id)}}>Accept Order</Button></TableCell>
                         </>
@@ -137,7 +137,7 @@ const Dashboard = (props) => {
                     <TableCell>{currentOrder.status}</TableCell>
                     {props.user.atype === "Volunteer" && 
                         <>
-                            <TableCell>Customer Address: {currentOrder.address}</TableCell>
+                            <TableCell>{currentOrder.address}</TableCell>
                             <TableCell><Button component={ Link } to={{pathname:"/job", state: {order: currentOrder}}} variant="contained" color="primary">View Job</Button></TableCell>
                             <TableCell><Button variant="contained" color="primary" onClick={() => {acceptJob(currentOrder._id)}}>Accept Job</Button></TableCell>
                         </>
