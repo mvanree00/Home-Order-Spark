@@ -12,6 +12,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Input from '@material-ui/core/Input'
+import '../components/Header/NavBar.css'
 
 const Checkout = (props) => {
     const [fields, setFields] = useState({status: '', email: props.user.email, ids: [], placed: '', total: 0.0, store: '', address: props.user.address});
@@ -105,9 +106,14 @@ const Checkout = (props) => {
                 <TableRow>
                     <TableCell>{currentItem.itemName}</TableCell>
                     <TableCell>{currentItem.price}</TableCell>
-                    <TableCell>{quantities[i]}</TableCell>
+                    {/*<TableCell>{quantities[i]}</TableCell>
                     <TableCell><Button onClick={() => {addCart.prodId=currentItem._id;addCart.quantity=currentItem.quantity + 1;onAdd(idCart[i])}}>+</Button></TableCell>
-                    <TableCell><Button onClick={() => {removeCart.prodId=currentItem._id;onRemove(idCart[i], quantities[i])}}>-</Button></TableCell>
+                    <TableCell><Button onClick={() => {removeCart.prodId=currentItem._id;onRemove(idCart[i], quantities[i])}}>-</Button></TableCell>*/}
+                    <TableCell>
+                        <Button onClick={() => {removeCart.prodId=currentItem._id;onRemove(idCart[i], quantities[i])}}>-</Button>
+                        {quantities[i]}
+                        <Button onClick={() => {addCart.prodId=currentItem._id;addCart.quantity=currentItem.quantity + 1;onAdd(idCart[i])}}>+</Button>
+                    </TableCell>
                 </TableRow>
             )
         })
@@ -136,29 +142,41 @@ const Checkout = (props) => {
     return (
         <form onSubmit={placeOrder} onChange={onInputChange}>
             <div align="center">
-                <TableContainer>
+                <TableContainer className="Wrap">
                     <Typography variant="h1">Welcome to checkout, {props.user.name}!</Typography>
-                    <Table>
+                    <Table className="table">
+                        <TableHead className="Head">
+                            <TableCell>Item</TableCell>
+                            <TableCell>Price</TableCell>
+                            <TableCell>Quantity</TableCell>
+                        </TableHead>
                         <TableBody>
                             {itemList()}
-                            {props.location.state ?
-                            (<div>
-                                {items.length===props.location.state.items.length &&
-                                    <>
-                                    {totaler()}
-                                    </>
-                                }
-                                <div>Total: ${totals}</div>
-                                <Typography variant="h1">Address</Typography>
-                                <div className="Input">
-                                    <Input type="text" placeholder="Address" name="address" value={fields.address} />
-                                </div>
-                            </div>)
-                            : (props.history.push("/store"))
-                            }
                         </TableBody>
                     </Table>
                 </TableContainer>
+                {props.location.state ?
+                    (<div>
+                        {items.length===props.location.state.items.length &&
+                            <>
+                            {totaler()}
+                            </>
+                        }
+                        <Typography className="Total" variant="h4">Total: ${totals}</Typography>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <Typography variant="h4">Shipping Address</Typography>
+                        <Typography variant="caption">Please input the address where you would like your order delivered</Typography>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div className="Input">
+                            <Input type="text" placeholder="Address" name="address" value={fields.address} />
+                        </div>
+                    </div>)
+                    : (props.history.push("/store"))
+                }
                 <Button variant="contained" color="primary" type="submit">Place Order</Button>
             </div>
         </form>
