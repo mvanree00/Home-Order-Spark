@@ -208,6 +208,7 @@ const handleRemove=(itemId)=>{
                                         
                                     </>
                                 }
+                                <TableCell onClick={()=> handlePriceSort()} onUpdate={()=> props.selectedUpdate()}></TableCell>
                             </TableRow>
                         </TableHead>
                         {itemList.map(currentItem => {
@@ -217,6 +218,7 @@ const handleRemove=(itemId)=>{
                                         {currentItem.img!==undefined ?
                                         (<TableCell><img className="img" src={currentItem.img}/></TableCell>)
                                         : (<TableCell></TableCell>)}
+                                        <TableCell>{currentItem.itemName}</TableCell>
                                         <TableCell>${currentItem.price}</TableCell>
                                         {props.acc.atype === "Store" &&
                                             <>
