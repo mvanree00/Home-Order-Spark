@@ -13,6 +13,8 @@ import readXlsxFile from 'read-excel-file'
 //import {OutTable, ExcelRenderer} from 'react-excel-renderer'
 import './LogIn.css'
 
+var items = new Array();
+
 const AddItems = (props) => {
     const [fields, setFields] = useState({email: props.user.email, itemName: "", description: "", price: "", quantity: "", store: "", category: ""});
     // used to update user input for either password or email
@@ -36,7 +38,6 @@ const AddItems = (props) => {
         let template = e.target.files[0];
         console.log("Entered");
         //pass in template as parameter
-        var items = new Array();
         if(template){
             await readXlsxFile(template).then((data) => {
                 // `data` is an array of rows
@@ -55,10 +56,13 @@ const AddItems = (props) => {
                     items.push(item)
                 }
             })
+        }
+    }
+
+    let uploadFile = async (e) =>{
             for(var x = 0;x < items.length; x++){
                 await httpUser.addItem(items[x])
             }
-        }
     }
 
     return (
@@ -108,7 +112,8 @@ const AddItems = (props) => {
                         <Input type="file" onChange={parseFile}/>
                     </div>
 
-                    
+                    <Button variant ="contained" color="primary" type="submit" onClick={uploadFile}>Upload Spreadsheet</Button>
+                    <br/>
                 </div>
             </form>
         </div>
