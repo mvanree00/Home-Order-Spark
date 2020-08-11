@@ -7,6 +7,12 @@ import AddItems from './AddItems.js'
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import axios from 'axios';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import Grid from '@material-ui/core/Grid';
+import '../components/Header/NavBar.css'
 
 const Dashboard = (props) => {
     const [orders, setOrders] = useState({vals: []});
@@ -107,7 +113,9 @@ const Dashboard = (props) => {
                     }
                     {props.user.atype === "Customer" &&
                         <>
-                            <Button component={ Link } to={{pathname:"/order", state: {order: currentOrder}}} variant="contained" color="primary">View Order</Button>
+                            <TableCell>
+                                <Button component={ Link } to={{pathname:"/order", state: {order: currentOrder}}} variant="contained" color="primary" classNam="align-middle">View Order</Button>
+                            </TableCell>
                         </>
                     }
                     {props.user.atype === "Customer" && currentOrder.status === "placed" &&
@@ -131,17 +139,21 @@ const Dashboard = (props) => {
                         <>
                             <TableCell>Customer Address: {currentOrder.address}</TableCell>
                             <TableCell><Button component={ Link } to={{pathname:"/job", state: {order: currentOrder}}} variant="contained" color="primary">View Job</Button></TableCell>
-                            <TableCell><Button variant="contained" color="primary" onClick={() => {acceptJob(currentOrder._id)}}>Accept Job</Button></TableCell>
+                            <TableCell><Button variant="contained" color="secondary" onClick={() => {acceptJob(currentOrder._id)}}>Accept Job</Button></TableCell>
                         </>
                     }
                     {props.user.atype === "Customer" &&
                         <>
-                            <Button component={ Link } to={{pathname:"/job", state: {order: currentOrder}}} variant="contained" color="primary">View Job</Button>
+                            <TableCell>
+                                <Button component={ Link } to={{pathname:"/job", state: {order: currentOrder}}} variant="contained" color="primary">View Job</Button>
+                            </TableCell>
                         </>
                     }
                     {props.user.atype === "Customer" && currentOrder.status === "placed" &&
                         <>
-                            <Button variant="contained" color="primary" onClick={() => {cancelJob(currentOrder._id)}}>Cancel Job</Button>
+                            <TableCell>
+                                <Button variant="contained" color="primary" onClick={() => {cancelJob(currentOrder._id)}}>Cancel Job</Button>
+                            </TableCell>
                         </>
                     }
                 </TableRow>
@@ -181,27 +193,54 @@ const Dashboard = (props) => {
             </div>
         )
     }
-    else{
+    else{           // user is a Customer
         return (
             <div>
                 <div align="center">
                     <Typography variant="h1">Welcome to your dashboard, {props.user.name}!</Typography>
-                    <div className='column1'>
-                        {orders.vals.length!==0 ? 
-                        (<div>
-                            <Typography variant="h2">Recent orders:</Typography>
-                            {itemList()}
-                        </div>)
-                        : (<Typography variant="h2">No orders.</Typography>)}
-                    </div>
-                    <div className='column2'>
-                        {jobs.vals.length!==0 ? 
-                        (<div>
-                            <Typography variant="h2">Recent jobs:</Typography>
-                            {jobList()}
-                        </div>)
-                        : (<Typography variant="h2">No jobs.</Typography>)}
-                    </div>
+                    <br/><br/><br/>
+                    <Grid container spacing={3}>
+                        <Grid item xs={6}>
+                            {orders.vals.length!==0 ? 
+                            (<div>
+                                <TableContainer className="Wrap">
+                                    <Table className="table">
+                                        <TableHead className="Head">
+                                            <TableCell colspan={6}>
+                                                <Typography variant="h2" align='center'>Recent orders:</Typography>
+                                            </TableCell>
+                                        </TableHead>
+                                        
+                                        <TableBody>
+                                            {itemList()}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </div>)
+                            : (<Typography variant="h2">No orders</Typography>)}
+                        </Grid>
+
+                        <Grid item xs={6}>
+                            {jobs.vals.length!==0 ? 
+                            (<div>
+                                <TableContainer>
+                                    <Table className="table">
+                                        <TableHead className="Head">
+                                            <TableRow>
+                                                <TableCell colspan={6}>
+                                                    <Typography variant="h2" align='center'>Recent jobs:</Typography>
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {jobList()}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </div>)
+                            : (<Typography variant="h2">No jobs</Typography>)}
+                        </Grid>
+                    </Grid>
                 </div>
             </div>
             

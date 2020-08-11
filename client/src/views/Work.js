@@ -11,6 +11,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import '../components/Header/NavBar.css'
 
 const Work = (props) => {
 
@@ -40,12 +41,12 @@ const Work = (props) => {
                 <Typography variant="h1">Here is the job, {props.user.name}!</Typography>
                 {props.location.state ?
                     (<div>
-                        <TableContainer className="orderWrap">
+                        <TableContainer>
                             <Table className="table">
                                 <TableHead className="Head">
                                     <TableRow>
-                                        <TableCell colSpan={3}>
-                                            <Typography align='center' variant="h3">Order Details</Typography>
+                                        <TableCell colspan={2}>
+                                            <Typography variant="h3" align='center'>Job Details</Typography>
                                         </TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -60,47 +61,51 @@ const Work = (props) => {
                                     </TableRow>
 
                                     <TableRow>
-                                    <TableCell>
-                                        <Typography>Status</Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography align='center'>{props.location.state.order.status}</Typography>
-                                    </TableCell>
-                                        
+                                        <TableCell>
+                                            Status: 
+                                        </TableCell>
+                                        <TableCell>
+                                            <div align='center'>{props.location.state.order.status}</div>
+                                        </TableCell>    
+                                    </TableRow>
+
+                                    <TableRow>
+                                        <TableCell>
+                                            Address
+                                        </TableCell>
+                                        <TableCell>
+                                            <div align='center'>{props.location.state.order.address}</div>
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow>
+                                        <TableCell>
+                                            Type: 
+                                        </TableCell>
+                                        <TableCell>
+                                            <div align='center'>{props.location.state.order.title}</div>
+                                        </TableCell>
                                     </TableRow>
                                     <TableRow>
                                         <TableCell>
-                                            <Typography>Address</Typography>
+                                            Description: 
                                         </TableCell>
                                         <TableCell>
-                                            <Typography align='center'>{hyperLink(props.location.state.order.address)}</Typography>
+                                            <div align='center'>{props.location.state.order.info}</div>
                                         </TableCell>
                                     </TableRow>
-                                    <TableRow>
-                                        <TableCell>
-                                            <Typography>Type</Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography align='center'>{props.location.state.order.title}</Typography>
-                                        </TableCell>
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell>
-                                            <Typography>Description</Typography>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Typography align='center'>{props.location.state.order.info}</Typography>
-                                        </TableCell>
-                                    </TableRow>
+                                    
+                                    
                                 </TableBody>
                             </Table>
                         </TableContainer>
                         {props.location.state.order.status === "placed" && props.user.atype === "Customer" &&
-                            <>
-                                <Button variant="contained" color="primary" onClick={() => {cancelOrder(props.location.state.order._id)}}>Cancel Job</Button>
-                            </>
-                        }</div>)
-                        : (props.history.push("/store"))
+                                        <>
+                                            <Button variant="contained" color="primary" onClick={() => {cancelOrder(props.location.state.order._id)}}>Cancel Job</Button>
+                                        </>
+                                    }
+                    </div>)
+                    : (props.history.push("/store"))
                 }
             </TableContainer>
         </div>
