@@ -15,6 +15,7 @@ import Store from "./views/Store.js"
 import Job from "./views/Job.js"
 import Forum from "./views/Forum.js"
 import Post from "./views/Post.js"
+import Faq from "./views/FAQ.js"
 
 const App = () => {
     const [currentUser, setCurrentUser] = useState(httpUser.getCurrentUser());
@@ -79,6 +80,10 @@ const App = () => {
 
          <Route path="/post" render={(props) => {
               return currentUser ? <Post {...props} user={currentUser}/> : <Redirect to="/login" />
+          }}/>
+
+         <Route path="/faq" render={(props) => {
+              return <Faq/>
           }}/>
 
         <Route render={NotFound}/>
