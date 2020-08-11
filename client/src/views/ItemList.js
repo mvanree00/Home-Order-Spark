@@ -123,6 +123,7 @@ return comparison;
 }
 
 
+
     const handleNameSort = () => {
         const itemSort = props.items.vals;
     itemSort.sort(compareName);
@@ -159,6 +160,11 @@ const itemSort = props.items.vals;
     const handleClose = () => {
         setOpen(false);
     };
+
+const handleRemove=(itemId)=>{
+    props.items.vals.splice(props.items.vals.indexOf(itemId));
+
+}
 
     if(props.items.vals.length>0){
         const itemList = props.items.vals
@@ -198,7 +204,7 @@ const itemSort = props.items.vals;
                                 {props.acc.atype === "Customer" &&
                                     <>
                                         <TableCell onClick={()=> handleStoreSort()} onUpdate={()=>props.selectedUpdate()}>Store</TableCell>
-                                        <TableCell> </TableCell>
+                                        
                                     </>
                                 }
                             </TableRow>
@@ -212,7 +218,7 @@ const itemSort = props.items.vals;
                                         {props.acc.atype === "Store" &&
                                             <>
                                                 <TableCell>{currentItem.quantity}</TableCell>
-                                                <TableCell><Button variant = "contained" color="primary" onClick={()=>{fields.prodId=currentItem._id;onUpdate()}}>Delete</Button></TableCell>
+                                                <TableCell><Button variant = "contained" color="primary" onClick={()=>{handleRemove(currentItem._id)}} onUpdate={()=>props.selectedUpdate()}>Delete</Button></TableCell>
                                             </>
                                         }
                                         {props.acc.atype === "Customer" &&
