@@ -11,6 +11,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import '../components/Header/NavBar.css'
+import './Post.css'
 
 const Order = (props) => {
     const [items, setItems] = useState([]);
@@ -69,22 +71,102 @@ const Order = (props) => {
             <TableContainer>
                 <Typography variant="h1">Here is your order, {props.user.name}!</Typography>
                 {props.location.state ?
-                    (<div><div align='center'>{props.location.state.order.ids.length} items</div>
-                    <div align='center'>Date Placed: {new Date(props.location.state.order.placed).toDateString()}</div>
-                    <div align='center'>Status: {props.location.state.order.status}</div>
-                    <div align='center'>Store: {props.location.state.order.store}</div>
-                    <div align='center'>Address: {hyperLink(props.location.state.order.address)}</div>
-                    <div>Total: ${props.location.state.order.total}</div>
-                    <Table>
-                        <TableBody>
-                            {itemList()}
-                        </TableBody>
-                    </Table>
-                    {props.location.state.order.status === "placed" &&
-                        <>
-                            <Button variant="contained" color="primary" onClick={() => {cancelOrder(props.location.state.order._id)}}>Cancel Order</Button>
-                        </>
-                    }</div>)
+                    (
+                    <div>
+                        <TableContainer className="orderWrap">
+                            <Table className="table">
+                                <TableHead className="Head">
+                                    <TableRow>
+                                        <TableCell colSpan={3}>
+                                            <Typography align='center' variant="h3">Order Details</Typography>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell>
+                                            <Typography>Item Count</Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography align='center'>{props.location.state.order.ids.length}</Typography>
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow>
+                                        <TableCell>
+                                            <Typography>Date Place</Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography align='center'>{new Date(props.location.state.order.placed).toDateString()}</Typography>
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow>
+                                    <TableCell>
+                                        <Typography>Status</Typography>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Typography align='center'>{props.location.state.order.status}</Typography>
+                                    </TableCell>
+                                        
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>
+                                            <Typography>Store</Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography align='center'>{props.location.state.order.store}</Typography>
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow>
+                                        <TableCell>
+                                            <Typography>Address</Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography align='center'>{hyperLink(props.location.state.order.address)}</Typography>
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow>
+                                        <TableCell>
+                                            <Typography>Total</Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography align='center'>${props.location.state.order.total}</Typography>
+                                        </TableCell>
+                                    </TableRow>
+
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <br/>
+                        <br/>
+                        <TableContainer>
+                            <Table className="table">
+                                <TableHead className="Head">
+                                    <TableRow>
+                                        <TableCell colspan={3}>
+                                            <Typography align='center' variant="h3">Item List</Typography>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Item</TableCell>
+                                        <TableCell>Price</TableCell>
+                                        <TableCell>Quantity</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {itemList()}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        {props.location.state.order.status === "placed" &&
+                            <>
+                                <Button variant="contained" color="primary" onClick={() => {cancelOrder(props.location.state.order._id)}}>Cancel Order</Button>
+                            </>
+                        }
+                    </div>)
                     : (props.history.push("/store"))
                 }
             </TableContainer>

@@ -19,3 +19,7 @@
 .comment:nth-child(odd){
     background: #85D7C7;
 }
+
+.orderWrap{
+    width: 300px;
+}
