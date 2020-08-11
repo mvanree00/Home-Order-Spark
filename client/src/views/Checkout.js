@@ -129,6 +129,7 @@ const Checkout = (props) => {
         }
         //await httpUser.addOrder({status: "placed", email: props.user.email, ids: idss, placed: new Date});
         await httpUser.addOrder(fields);
+        await httpUser.resetCart({email: props.user.address})
         props.history.push('/dashboard')
     };
 
