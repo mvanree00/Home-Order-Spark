@@ -29,6 +29,25 @@ const StoreList = (props) => {
     //console.log('This is my currentItem file', this.props.data);
     const classes = useStyles();
 
+    function compareStore(a,b){
+    const storeA = a.storeName.toUpperCase();
+const storeB = b.storeName.toUpperCase();
+
+let comparison = 0;
+if(storeA>storeB){
+    comparison = 1;
+}else if (storeA<storeB)
+{
+    comparison = -1;
+}
+return comparison;
+}
+
+ const handleStoreSort=()=>{
+        const itemSort = props.items.vals;
+        itemSort.sort(compareStore);
+    }
+
     if(props.items.vals.length>0){
         const itemList = props.items.vals
         .filter(currentItem => {
@@ -39,7 +58,7 @@ const StoreList = (props) => {
                 <Table className={classes.table} >
                     <TableHead className={classes.head}>
                         <TableRow>
-                            <TableCell>Store</TableCell>
+                            <TableCell onClick={()=> handleStoreSort()} onUpdate={()=>props.selectedUpdate()}>Store</TableCell>
                         </TableRow>
                     </TableHead>
                     {itemList.map(currentItem => {

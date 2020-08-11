@@ -49,6 +49,109 @@ const ItemList = (props) => {
         setFields({email: props.acc.email, prodId: '', quantity: 1});
     };
 
+
+function compareName(a,b){
+const nameA = a.itemName.toUpperCase();
+const nameB = b.itemName.toUpperCase();
+
+let comparison = 0;
+if(nameA>nameB){
+    comparison = 1;
+}else if (nameA<nameB)
+{
+    comparison = -1;
+}
+return comparison;
+}
+
+function comparePrice(a,b){
+const priceA = a.price;
+const priceB = b.price;
+
+let comparison = 0;
+if(priceA>priceB){
+    comparison = 1;
+}else if (priceA<priceB)
+{
+    comparison = -1;
+}
+return comparison;
+}
+
+function compareQuantity(a,b){
+    const quantA = a.quantity;
+const quantB = b.quantity;
+
+let comparison = 0;
+if(quantA>quantB){
+    comparison = 1;
+}else if (quantA<quantB)
+{
+    comparison = -1;
+}
+return comparison;
+
+}
+
+function compareCategory(a,b){
+    const catA = a.category.toUpperCase();
+const catB = b.category.toUpperCase();
+
+let comparison = 0;
+if(catA>catB){
+    comparison = 1;
+}else if (catA<catB)
+{
+    comparison = -1;
+}
+return comparison;
+
+}
+
+function compareStore(a,b){
+    const storeA = a.storeName.toUpperCase();
+const storeB = b.storeName.toUpperCase();
+
+let comparison = 0;
+if(storeA>storeB){
+    comparison = 1;
+}else if (storeA<storeB)
+{
+    comparison = -1;
+}
+return comparison;
+}
+
+
+    const handleNameSort = () => {
+        const itemSort = props.items.vals;
+    itemSort.sort(compareName);
+   // console.log(itemSort);
+
+    }
+
+    const handlePriceSort = () =>{
+const itemSort = props.items.vals;
+    itemSort.sort(comparePrice);
+   // console.log(itemSort);
+    }
+
+    const handleQuantitySort=()=>
+    {
+const itemSort = props.items.vals;
+    itemSort.sort(compareQuantity);
+    //console.log(itemSort);
+    }
+
+    const handleCategorySort=()=>{
+        const itemSort = props.items.vals;
+        itemSort.sort(compareCategory);
+    }
+
+    const handleStoreSort=()=>{
+        const itemSort = props.items.vals;
+        itemSort.sort(compareStore);
+    }
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -85,16 +188,16 @@ const ItemList = (props) => {
                     <Table className={classes.table} >
                         <TableHead className={classes.head}>
                             <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Price</TableCell>
+                                <TableCell  onClick={()=> handleNameSort()} onUpdate={()=> props.selectedUpdate()}>Name</TableCell>
+                                <TableCell onClick={()=> handlePriceSort()} onUpdate={()=> props.selectedUpdate()}>Price</TableCell>
                                 {props.acc.atype === "Store" &&
                                     <>
-                                        <TableCell>Quantity</TableCell>
+                                        <TableCell onClick={()=> handleQuantitySort()} onUpdate={()=>props.selectedUpdate()}>Quantity</TableCell>
                                     </>
                                 }
                                 {props.acc.atype === "Customer" &&
                                     <>
-                                        <TableCell>Store</TableCell>
+                                        <TableCell onClick={()=> handleStoreSort()} onUpdate={()=>props.selectedUpdate()}>Store</TableCell>
                                         <TableCell> </TableCell>
                                     </>
                                 }
@@ -109,6 +212,7 @@ const ItemList = (props) => {
                                         {props.acc.atype === "Store" &&
                                             <>
                                                 <TableCell>{currentItem.quantity}</TableCell>
+                                                <TableCell><Button variant = "contained" color="primary" onClick={()=>{fields.prodId=currentItem._id;onUpdate()}}>Delete</Button></TableCell>
                                             </>
                                         }
                                         {props.acc.atype === "Customer" &&
