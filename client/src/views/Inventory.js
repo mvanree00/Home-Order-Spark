@@ -120,7 +120,7 @@ const Inventory = (props) => {
                 <TableRow>
                     <TableCell>{currentOrder.ids.length} items</TableCell>
                     <TableCell>${currentOrder.total}</TableCell>
-                    <TableCell>Date Placed: {new Date(currentOrder.placed).toDateString()}</TableCell>
+                    <TableCell>{new Date(currentOrder.placed).toDateString()}</TableCell>
                     <TableCell>{currentOrder.status}</TableCell>
                     <TableCell>{currentOrder.store}</TableCell>
                     <TableCell>{currentOrder.address}</TableCell>
