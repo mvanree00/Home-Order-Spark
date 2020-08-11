@@ -106,9 +106,9 @@ const NavBar = (props) => {
                 <TableRow>
                     <TableCell>{currentItem.itemName}</TableCell>
                     <TableCell>${parseFloat(currentItem.price).toFixed(2)}</TableCell>
+                    <TableCell><Button onClick={() => {removeCart.prodId=currentItem._id;onRemove(idCart[i], quantities[i])}}>-</Button></TableCell>
                     <TableCell>{quantities[i]}</TableCell>
                     <TableCell><Button onClick={() => {addCart.prodId=currentItem._id;addCart.quantity=currentItem.quantity + 1;onAdd(idCart[i])}}>+</Button></TableCell>
-                    <TableCell><Button onClick={() => {removeCart.prodId=currentItem._id;onRemove(idCart[i], quantities[i])}}>-</Button></TableCell>
                 </TableRow>
             )
         })
@@ -133,17 +133,33 @@ const NavBar = (props) => {
                                     width={50000}
                                     open={drawerOpen.open}
                                     onRequestChange={toggle}
-                                    variant="persistent">
-                                    {itemList()}
-                                    {items.length !== 0 && 
-                                    <>
-                                        {totaler()}
-                                        <div>Total: ${total}</div>
-                                        <Button component={ Link } to={{pathname:"/checkout", state: {total:total}}} variant="contained" color="primary" onClick={toggle}>Checkout</Button>
-                                    </>
-                                    }
+                                    variant="persistent"
+                                    classes = {{paper: 'table'}}>
+                                        <TableContainer className="Wrap">
+                                            <Table className="table">
+                                                <TableHead className="Head">
+                                                    <TableRow>
+                                                        <TableCell>Item</TableCell>
+                                                        <TableCell>Price</TableCell>
+                                                        <TableCell></TableCell>
+                                                        <TableCell>Quantity</TableCell>
+                                                        <TableCell></TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                <TableBody>
+                                                    {itemList()}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                        {items.length !== 0 && 
+                                        <>
+                                            {totaler()}
+                                            <Typography className="Total">Total: ${total}</Typography>
+                                            <Button component={ Link } to={{pathname:"/checkout", state: {total:total}}} variant="contained" color="primary" onClick={toggle}>Checkout</Button>
+                                        </>
+                                        }
                                     </Drawer>
-                                    <Link className ="nav-link" onClick={toggle}>Cart</Link>
+                                    <Link className ="nav-link" onClick={toggle}><img className="Cart" src= {"../../cart.svg"} alt="Cart"/></Link>
                                     <Link className ="nav-link" to='/dashboard'>Orders</Link>
                                     <Link className ="nav-link" to='/store'>Store</Link>
                                     <Link className ="nav-link" to='/work'>Create Job</Link>

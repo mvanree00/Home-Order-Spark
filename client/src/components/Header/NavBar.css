@@ -39,3 +39,30 @@
     background-color: #08bd9a;
 }
 
+.table {
+    min-Width: 700;
+    background: #DCDCDC !important;
+}
+
+.Wrap {
+    min-Width: 700;
+    width: "80%";
+}
+
+.Head {
+    background: #85D7C7;
+}
+
+.Total{
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.Cart{
+    height: 3.8%;
+    width: 3.8%;
+    vertical-align: text-bottom !important;
+    margin-bottom: -5px;
+}
+
