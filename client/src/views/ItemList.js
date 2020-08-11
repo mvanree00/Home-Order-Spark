@@ -16,6 +16,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+//import ArrowUpwardIcon from '@material-ui/svg-icons/navigation/arrow-upward';
+//import ArrowDownward from '@material-ui/svg-icons/navigation/arrow-downward';
+
 const useStyles = makeStyles({
     table: {
       minWidth: 700,
@@ -51,74 +54,97 @@ const ItemList = (props) => {
 
 
 function compareName(a,b){
-const nameA = a.itemName.toUpperCase();
-const nameB = b.itemName.toUpperCase();
+    let comparison = 0;
 
-let comparison = 0;
+if(a.itemName!== undefined && b.itemName!== undefined)
+{
+    const nameA = a.itemName.toUpperCase();
+const nameB = b.itemName.toUpperCase();
 if(nameA>nameB){
     comparison = 1;
 }else if (nameA<nameB)
 {
     comparison = -1;
 }
+}
+
 return comparison;
 }
 
 function comparePrice(a,b){
+    let comparison = 0;
+
+if(a.price!==undefined && b.price !==undefined)
+{
 const priceA = a.price;
 const priceB = b.price;
-
-let comparison = 0;
 if(priceA>priceB){
     comparison = 1;
 }else if (priceA<priceB)
 {
     comparison = -1;
 }
+}
+
 return comparison;
 }
 
 function compareQuantity(a,b){
-    const quantA = a.quantity;
-const quantB = b.quantity;
 
 let comparison = 0;
+if(a.quantity !== undefined && b.quantity !== undefined)
+{
+    const quantA = a.quantity;
+const quantB = b.quantity;
 if(quantA>quantB){
     comparison = 1;
 }else if (quantA<quantB)
 {
     comparison = -1;
 }
+}
+
 return comparison;
 
 }
 
 function compareCategory(a,b){
-    const catA = a.category.toUpperCase();
-const catB = b.category.toUpperCase();
-
+   
 let comparison = 0;
+if(a.catagory!== undefined && b.category!== undefined)
+{
+     const catA = a.category.toUpperCase();
+    const catB = b.category.toUpperCase();
 if(catA>catB){
     comparison = 1;
-}else if (catA<catB)
-{
+    }else if (catA<catB)
+    {
     comparison = -1;
+    }
 }
+
 return comparison;
 
 }
 
 function compareStore(a,b){
-    const storeA = a.storeName.toUpperCase();
-const storeB = b.storeName.toUpperCase();
-
+    
 let comparison = 0;
-if(storeA>storeB){
+
+if(a.storeName !== undefined && b.storeName!== undefined)
+{
+   const storeA = a.storeName;
+const storeB = b.storeName;
+    if(storeA>storeB){
     comparison = 1;
 }else if (storeA<storeB)
 {
     comparison = -1;
 }
+
+}
+
+
 return comparison;
 }
 
@@ -146,7 +172,9 @@ const itemSort = props.items.vals;
 
     const handleCategorySort=()=>{
         const itemSort = props.items.vals;
-        itemSort.sort(compareCategory);
+        
+            itemSort.sort(compareCategory);
+        
     }
 
     const handleStoreSort=()=>{
@@ -197,6 +225,7 @@ const handleRemove=(itemId)=>{
                             <TableCell  onClick={()=> handleNameSort()} onUpdate={()=> props.selectedUpdate()}></TableCell>
                                 <TableCell  onClick={()=> handleNameSort()} onUpdate={()=> props.selectedUpdate()}>Name</TableCell>
                                 <TableCell onClick={()=> handlePriceSort()} onUpdate={()=> props.selectedUpdate()}>Price</TableCell>
+                                <TableCell onClick={()=> handleCategorySort()} onUpdate={()=> props.selectedUpdate()}>Category</TableCell>
                                 {props.acc.atype === "Store" &&
                                     <>
                                         <TableCell onClick={()=> handleQuantitySort()} onUpdate={()=>props.selectedUpdate()}>Quantity</TableCell>
@@ -220,6 +249,7 @@ const handleRemove=(itemId)=>{
                                         : (<TableCell></TableCell>)}
                                         <TableCell>{currentItem.itemName}</TableCell>
                                         <TableCell>${currentItem.price}</TableCell>
+                                        <TableCell>{currentItem.category}</TableCell>
                                         {props.acc.atype === "Store" &&
                                             <>
                                                 <TableCell>{currentItem.quantity}</TableCell>

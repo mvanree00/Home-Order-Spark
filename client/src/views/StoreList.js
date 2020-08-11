@@ -49,9 +49,11 @@ const StoreList = (props) => {
     }, []);
 
     function compareStore(a,b){
-        const storeA = a.storeName.toUpperCase();
-        const storeB = b.storeName.toUpperCase();
         let comparison = 0;
+        if(a.storeName !== undefined && b.storeName != undefined)
+        {
+    const storeA = a.storeName.toUpperCase();
+        const storeB = b.storeName.toUpperCase();
         if(storeA>storeB){
             comparison = 1;
         }else if (storeA<storeB)
@@ -60,11 +62,16 @@ const StoreList = (props) => {
         }
         return comparison;
         }
+        }
+        
+        
+        
 
     const handleStoreSort=()=>{
         const itemSort = props.items.vals;
         itemSort.sort(compareStore);
     }
+
     {console.log(item)}
     if(!item){
         const itemList = props.items.vals
@@ -76,7 +83,7 @@ const StoreList = (props) => {
                 <Table className={classes.table} >
                     <TableHead className={classes.head}>
                         <TableRow>
-                            <TableCell onClick={()=> handleStoreSort()} onUpdate={()=>props.selectedUpdate()}>Store</TableCell>
+                            <TableCell onClick={()=> handleStoreSort()} onUpdate={()=>props.selectedUpdate()}> Store</TableCell>
                         </TableRow>
                     </TableHead>
                     {itemList.map(currentItem => {
@@ -99,7 +106,7 @@ const StoreList = (props) => {
                 <Table className={classes.table} >
                     <TableHead className={classes.head}>
                         <TableRow>
-                            <TableCell onClick={()=> handleStoreSort()} onUpdate={()=>props.selectedUpdate()}>Store</TableCell>
+                        <TableCell onClick={()=> handleStoreSort()} onUpdate={()=>props.selectedUpdate()}> Store</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
