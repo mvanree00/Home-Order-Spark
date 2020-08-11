@@ -16,7 +16,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-
+import Grid from '@material-ui/core/Grid';
+import '../components/Header/NavBar.css'
  
 const Forum = (props) => {
     const [fields, setFields] = useState({status: '', email: props.user.email, placed: '', title: '', info: ''});
@@ -73,42 +74,58 @@ const Forum = (props) => {
 
     return(
         <div>
-            {props.user.atype === "Customer" &&
-            <>
-                <Typography variant="h1" className="Header">Create Post</Typography>
-                <form onChange={onInputChange} onSubmit={onFormSubmit}>
-                    <div className="Input">
-                        <Input type="text" placeholder="Title" name="title" value={fields.title} />
-                    </div>
-                    <div className="Input">
-                        <textarea name="info" placeholder="Description" rows="4" cols="50" value={fields.info} />
-                    </div>
-                    <div className = "button" >
-                        <Button variant ="contained" color="primary" type="submit">Create Post</Button>
-                    </div>
-                </form>
-            </>
-            }
-            <Typography variant="h1" className="Header">Posts</Typography>
-            {posts.vals.map(currentPost => {
-                return (
-                    <div align="center">
-                        <TableBody>
-                            <TableRow>
-                                <TableCell>{new Date(currentPost.placed).toDateString()}</TableCell>
-                                <TableCell>{currentPost.status}</TableCell>
-                                <TableCell>{currentPost.title}</TableCell>
-                                <TableCell><Button component={ Link } to={{pathname:"/post", state: {post: currentPost}}} variant="contained" color="primary">View Posting</Button></TableCell>
-                                {currentPost.status !== "Answered" && props.user.atype !== "Customer" &&
-                                    <>
-                                        <TableCell><Button variant="contained" color="primary" onClick={() => {completePost(currentPost._id)}}>Answered</Button></TableCell>
-                                    </>
-                                }
-                            </TableRow>
-                        </TableBody>
-                    </div>
-                )
-            })}
+            <Grid container spacing={3}>
+            <Grid item xs={6}>
+                {props.user.atype === "Customer" &&
+                <>
+                    <Typography variant="h1" className="Header">Create Post</Typography>
+                    <form onChange={onInputChange} onSubmit={onFormSubmit}>
+                        <div className="Input">
+                            <Input type="text" placeholder="Title" name="title" value={fields.title} />
+                        </div>
+                        <div className="Input">
+                            <textarea name="info" placeholder="Description" rows="4" cols="50" value={fields.info} />
+                        </div>
+                        <div className = "button" >
+                            <Button variant ="contained" color="primary" type="submit">Create Post</Button>
+                        </div>
+                    </form>
+                </>
+                }
+            </Grid>
+            <Grid item xs={6}>
+            <Typography variant="h1" align='center'>Posts</Typography>
+                {posts.vals.map(currentPost => {
+                    return (
+                        <div align="center">
+                            <TableContainer>
+                                <Table className="table">
+                                    <TableHead className="Head">
+                                        <TableCell>Date Placed</TableCell>
+                                        <TableCell>Status</TableCell>
+                                        <TableCell>Title</TableCell>
+                                        <TableCell></TableCell>
+                                    </TableHead>
+                                    <TableBody>
+                                        <TableRow>
+                                            <TableCell>{new Date(currentPost.placed).toDateString()}</TableCell>
+                                            <TableCell>{currentPost.status}</TableCell>
+                                            <TableCell>{currentPost.title}</TableCell>
+                                            <TableCell><Button component={ Link } to={{pathname:"/post", state: {post: currentPost}}} variant="contained" color="primary">View Posting</Button></TableCell>
+                                            {currentPost.status !== "Answered" && props.user.atype !== "Customer" &&
+                                                <>
+                                                    <TableCell><Button variant="contained" color="primary" onClick={() => {completePost(currentPost._id)}}>Answered</Button></TableCell>
+                                                </>
+                                            }
+                                        </TableRow>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </div>
+                    )
+                })}
+            </Grid>
+            </Grid>
         </div>
     )
 };
