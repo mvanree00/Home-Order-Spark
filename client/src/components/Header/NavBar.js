@@ -155,7 +155,7 @@ const NavBar = (props) => {
                                         <>
                                             {totaler()}
                                             <Typography className="Total">Total: ${total}</Typography>
-                                            <Button component={ Link } to={{pathname:"/checkout", state: {total:total}}} variant="contained" color="primary" onClick={toggle}>Checkout</Button>
+                                            <Button component={ Link } to={{pathname:"/checkout", state: {items:items}}} variant="contained" color="primary" onClick={toggle}>Checkout</Button>
                                         </>
                                         }
                                     </Drawer>

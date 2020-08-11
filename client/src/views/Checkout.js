@@ -12,16 +12,18 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Input from '@material-ui/core/Input'
+import '../components/Header/NavBar.css'
 
 const Checkout = (props) => {
     const [fields, setFields] = useState({status: '', email: props.user.email, ids: [], placed: '', total: 0.0, store: '', address: props.user.address});
     const [items, setItems] = useState([]);
-    const [totals, setTotal] = useState(0);
+    const [totals, setTotal] = useState(0.00);
     const [update, setUpdate] = useState('');
     const [idCart, setIdCart] = useState([]);
     const [quantities, setQuantities] = useState([]);
     const [addCart, setAddCart] = useState({email: '', prodId: '', quantity: 1})
     const [removeCart, setRemoveCart] = useState({email: '', prodId: ''})
+    const [loaded, setLoad] = useState(false)
     let idss = [];
     let list = [];
     let quantList = [];
@@ -37,7 +39,6 @@ const Checkout = (props) => {
                     list.push(item)
                     quantList.push(currentItem.quantity)
                     cartIds.push(currentItem._id);
-                    setTotal(props.location.state.total)
                     setUpdate(currentItem._id) // forces update to show all items
                 })
                 .catch(function (error){
@@ -59,6 +60,7 @@ const Checkout = (props) => {
         setQuantities(quantList)
         setIdCart(cartIds);
         setFields({status: '', email: props.user.email, ids: idss, placed: '', total: 0, store: '', address: props.user.address});
+        setLoad(true);
     }, []);
 
     const onAdd = (id) => {
@@ -79,15 +81,39 @@ const Checkout = (props) => {
         }
     };
 
+    const totaler = () => {
+        if(totals===0 && items.length>0 && loaded===true){
+            if(items.length>1){
+                let tot = 0.00
+                for(let i=0;i<items.length;i++){
+                    tot+=items[i].price*quantities[i]
+                }
+                setTotal(tot.toFixed(2))
+            }
+            else if (items.length==1){
+                console.log('hello')
+                setTotal((items[0].price*quantities[0]).toFixed(2))
+            }
+            else{
+                setTotal(0.00)
+            }
+        }
+    }
+
     const itemList = () => {
         return items.map(function(currentItem, i){
             return (
                 <TableRow>
                     <TableCell>{currentItem.itemName}</TableCell>
                     <TableCell>{currentItem.price}</TableCell>
-                    <TableCell>{quantities[i]}</TableCell>
+                    {/*<TableCell>{quantities[i]}</TableCell>
                     <TableCell><Button onClick={() => {addCart.prodId=currentItem._id;addCart.quantity=currentItem.quantity + 1;onAdd(idCart[i])}}>+</Button></TableCell>
-                    <TableCell><Button onClick={() => {removeCart.prodId=currentItem._id;onRemove(idCart[i], quantities[i])}}>-</Button></TableCell>
+                    <TableCell><Button onClick={() => {removeCart.prodId=currentItem._id;onRemove(idCart[i], quantities[i])}}>-</Button></TableCell>*/}
+                    <TableCell>
+                        <Button onClick={() => {removeCart.prodId=currentItem._id;onRemove(idCart[i], quantities[i])}}>-</Button>
+                        {quantities[i]}
+                        <Button onClick={() => {addCart.prodId=currentItem._id;addCart.quantity=currentItem.quantity + 1;onAdd(idCart[i])}}>+</Button>
+                    </TableCell>
                 </TableRow>
             )
         })
@@ -103,36 +129,54 @@ const Checkout = (props) => {
         fields.status='placed'
         fields.placed = new Date
         fields.store=items[0].store
-        fields.total=props.location.state.total
+        fields.total=totals
         if(fields.address.length==0){
             fields.address=props.user.address
         }
         //await httpUser.addOrder({status: "placed", email: props.user.email, ids: idss, placed: new Date});
         await httpUser.addOrder(fields);
+        await httpUser.resetCart({email: props.user.address})
         props.history.push('/dashboard')
     };
 
     return (
         <form onSubmit={placeOrder} onChange={onInputChange}>
             <div align="center">
-                <TableContainer>
+                <TableContainer className="Wrap">
                     <Typography variant="h1">Welcome to checkout, {props.user.name}!</Typography>
-                    <Table>
+                    <Table className="table">
+                        <TableHead className="Head">
+                            <TableCell>Item</TableCell>
+                            <TableCell>Price</TableCell>
+                            <TableCell>Quantity</TableCell>
+                        </TableHead>
                         <TableBody>
                             {itemList()}
-                            {props.location.state || totals ?
-                            (<div>
-                                <div>Total: ${totals}</div>
-                                <Typography variant="h1">Address</Typography>
-                                <div className="Input">
-                                    <Input type="text" placeholder="Address" name="address" value={fields.address} />
-                                </div>
-                            </div>)
-                            : (props.history.push("/store"))
-                            }
                         </TableBody>
                     </Table>
                 </TableContainer>
+                {props.location.state ?
+                    (<div>
+                        {items.length===props.location.state.items.length &&
+                            <>
+                            {totaler()}
+                            </>
+                        }
+                        <Typography className="Total" variant="h4">Total: ${totals}</Typography>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <Typography variant="h4">Shipping Address</Typography>
+                        <Typography variant="caption">Please input the address where you would like your order delivered</Typography>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div className="Input">
+                            <Input type="text" placeholder="Address" name="address" value={fields.address} />
+                        </div>
+                    </div>)
+                    : (props.history.push("/store"))
+                }
                 <Button variant="contained" color="primary" type="submit">Place Order</Button>
             </div>
         </form>

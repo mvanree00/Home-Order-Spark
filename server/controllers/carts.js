@@ -42,6 +42,16 @@ module.exports = {
             alert(err);
         }
     },
+    removeAll: async (req, res) => {
+        try{
+            console.log(req.body)
+            const cart = await Cart.deleteMany({email: req.body.email});
+            res.json({success: true, message: "Item deleted"});
+        }
+        catch(err){
+            alert(err);
+        }
+    },
     addQuantity: async (req, res) => {
         try{
             const cart = await Cart.findOneAndUpdate({_id: req.params.id}, {$inc: {quantity: 1}});

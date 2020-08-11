@@ -11,6 +11,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import '../components/Header/NavBar.css'
 
 const Work = (props) => {
 
@@ -24,22 +25,86 @@ const Work = (props) => {
         })
     };
 
+    const hyperLink = (inputString) => {
+        var str = inputString;
+        var map = "http://maps.google.com/?q=";
+        var replaced = str.split(' ').join('+');
+        replaced = map.concat(replaced)
+        return (
+            <a href={replaced}>{inputString}</a>
+        )
+    }
+
     return (
         <div align="center">
             <TableContainer>
                 <Typography variant="h1">Here is the job, {props.user.name}!</Typography>
                 {props.location.state ?
                     (<div>
-                    <div align='center'>Date Placed: {new Date(props.location.state.order.placed).toDateString()}</div>
-                    <div align='center'>Status: {props.location.state.order.status}</div>
-                    <div align='center'>Address: {props.location.state.order.address}</div>
-                    <div align='center'>Type: {props.location.state.order.title}</div>
-                    <div align='center'>Description: {props.location.state.order.info}</div>
-                    {props.location.state.order.status === "placed" && props.user.atype === "Customer" &&
-                        <>
-                            <Button variant="contained" color="primary" onClick={() => {cancelOrder(props.location.state.order._id)}}>Cancel Job</Button>
-                        </>
-                    }</div>)
+                        <TableContainer>
+                            <Table className="table">
+                                <TableHead className="Head">
+                                    <TableRow>
+                                        <TableCell colspan={2}>
+                                            <Typography variant="h3" align='center'>Job Details</Typography>
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell>
+                                            <Typography>Date Placed</Typography>
+                                        </TableCell>
+                                        <TableCell>
+                                            <Typography align='center'>{new Date(props.location.state.order.placed).toDateString()}</Typography>
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow>
+                                        <TableCell>
+                                            Status: 
+                                        </TableCell>
+                                        <TableCell>
+                                            <div align='center'>{props.location.state.order.status}</div>
+                                        </TableCell>    
+                                    </TableRow>
+
+                                    <TableRow>
+                                        <TableCell>
+                                            Address
+                                        </TableCell>
+                                        <TableCell>
+                                            <div align='center'>{props.location.state.order.address}</div>
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow>
+                                        <TableCell>
+                                            Type: 
+                                        </TableCell>
+                                        <TableCell>
+                                            <div align='center'>{props.location.state.order.title}</div>
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>
+                                            Description: 
+                                        </TableCell>
+                                        <TableCell>
+                                            <div align='center'>{props.location.state.order.info}</div>
+                                        </TableCell>
+                                    </TableRow>
+                                    
+                                    
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        {props.location.state.order.status === "placed" && props.user.atype === "Customer" &&
+                                        <>
+                                            <Button variant="contained" color="primary" onClick={() => {cancelOrder(props.location.state.order._id)}}>Cancel Job</Button>
+                                        </>
+                                    }
+                    </div>)
                     : (props.history.push("/store"))
                 }
             </TableContainer>
