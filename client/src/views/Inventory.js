@@ -16,6 +16,8 @@ import httpUser from '../httpUser'
 import Search from './Search.js';
 import ItemList from './ItemList.js';
 import ViewItem from './ViewItem.js';
+import Grid from '@material-ui/core/Grid';
+import '../components/Header/NavBar.css'
 
 const Inventory = (props) => {
     const [selectedItem, setSelectedItem] = useState('');
@@ -155,14 +157,41 @@ const Inventory = (props) => {
     if(props.user.atype === "Volunteer"){
         return (
             <div align="center">
-                <Typography variant="h1">Here are your current and past accepted orders, {props.user.name}!</Typography>
-                <TableBody>
-                    { orderList() }
-                </TableBody>
-                <Typography variant="h1">Here are your current and past accepted jobs, {props.user.name}!</Typography>
-                <TableBody>
-                    { jobList() }
-                </TableBody>
+                <Grid container spacing={3}>
+                    <Grid item xs={6}>
+                        <Typography variant="h1">Here are your current and past accepted orders, {props.user.name}!</Typography>
+                        <Table className="table">
+                            <TableHead className="Head">
+                                <TableCell>Amount</TableCell>
+                                <TableCell>Price</TableCell>
+                                <TableCell>Date</TableCell>
+                                <TableCell>Status</TableCell>
+                                <TableCell>Store</TableCell>
+                                <TableCell>Address</TableCell>
+                                <TableCell></TableCell>
+                                <TableCell></TableCell>
+                            </TableHead>
+                            <TableBody>
+                                { orderList() }
+                            </TableBody>
+                        </Table>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Typography variant="h1">Here are your current and past accepted jobs, {props.user.name}!</Typography>
+                        <Table className="table">
+                            <TableHead className="Head">
+                                <TableCell>Title</TableCell>
+                                <TableCell>Date</TableCell>
+                                <TableCell>Status</TableCell>
+                                <TableCell>Address</TableCell>
+                                <TableCell></TableCell>
+                            </TableHead>
+                            <TableBody>
+                                { jobList() }
+                            </TableBody>
+                        </Table>
+                    </Grid>
+                </Grid>
             </div>
         )
     }
