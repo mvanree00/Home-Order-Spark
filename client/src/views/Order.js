@@ -48,9 +48,11 @@ const Order = (props) => {
         return items.map(function(currentItem, i){
             return (
                 <TableRow>
+                    {currentItem.img!==undefined ?
+                    (<TableCell><img className="img" src={currentItem.img}/></TableCell>)
+                    : (<TableCell></TableCell>)}
                     <TableCell>{currentItem.itemName}</TableCell>
-                    <TableCell>{currentItem.price}</TableCell>
-                    <TableCell>{currentItem.quantity}</TableCell>
+                    <TableCell>${currentItem.price}</TableCell>
                 </TableRow>
             )
         })
@@ -142,9 +144,9 @@ const Order = (props) => {
                                         </TableCell>
                                     </TableRow>
                                     <TableRow>
+                                        <TableCell></TableCell>
                                         <TableCell>Item</TableCell>
                                         <TableCell>Price</TableCell>
-                                        <TableCell>Quantity</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>

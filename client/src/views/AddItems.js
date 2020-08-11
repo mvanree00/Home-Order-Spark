@@ -16,7 +16,7 @@ import './LogIn.css'
 var items = new Array();
 
 const AddItems = (props) => {
-    const [fields, setFields] = useState({email: props.user.email, itemName: "", description: "", price: "", quantity: "", store: "", category: ""});
+    const [fields, setFields] = useState({email: props.user.email, itemName: "", description: "", price: "", quantity: "", store: "", category: "", img: ""});
     // used to update user input for either password or email
 
 
@@ -31,7 +31,7 @@ const AddItems = (props) => {
         e.preventDefault();
         console.log(fields);
         await httpUser.addItem(fields);
-        setFields({email: props.user.email, itemName: "", description: "", price: "", quantity: "", store: "", category: ""});
+        setFields({email: props.user.email, itemName: "", description: "", price: "", quantity: "", store: "", category: "", img: ""});
     };
 
     let parseFile = async (e) =>{
@@ -51,9 +51,11 @@ const AddItems = (props) => {
                         price: data[i][2],
                         quantity: data[i][3],
                         store: props.user.storeName,
-                        category: data[i++][4]
+                        category: data[i][4],
+                        img: data[i++][5]
                     }
                     items.push(item)
+                    console.log(item)
                 }
             })
         }
@@ -84,6 +86,9 @@ const AddItems = (props) => {
                     <div className="Input">
                         <Input type="text" placeholder="Item Description" name="description" value={fields.description}/>
                     </div>
+                    <div className="Input">
+                        <Input type="text" placeholder="Image" name="img" value={fields.img}/>
+                    </div>
                     <div>
                         <NativeSelect
                             className="select"
@@ -107,11 +112,13 @@ const AddItems = (props) => {
                     <br/>
                     <Button variant ="contained" color="primary" type="submit">Add Inventory Item</Button>
                     <br/>
-                    
+                    <br/>
+                    <a href='ItemTemplate.xlsx' download>Sample SpreadSheet</a>
+                    <br/>
                     <div>
                         <Input type="file" onChange={parseFile}/>
                     </div>
-
+                    <br/>
                     <Button variant ="contained" color="primary" type="submit" onClick={uploadFile}>Upload Spreadsheet</Button>
                     <br/>
                 </div>

@@ -115,12 +115,12 @@ const Dashboard = (props) => {
                         <>
                             <TableCell>
                                 <Button component={ Link } to={{pathname:"/order", state: {order: currentOrder}}} variant="contained" color="primary" classNam="align-middle">View Order</Button>
+                                {currentOrder.status==="placed" &&
+                                <>
+                                    <Button variant="contained" color="primary" onClick={() => {cancelOrder(currentOrder._id)}}>Cancel Order</Button>
+                                </>
+                                }
                             </TableCell>
-                        </>
-                    }
-                    {props.user.atype === "Customer" && currentOrder.status === "placed" &&
-                        <>
-                            <Button variant="contained" color="primary" onClick={() => {cancelOrder(currentOrder._id)}}>Cancel Order</Button>
                         </>
                     }
                 </TableRow>
@@ -146,13 +146,11 @@ const Dashboard = (props) => {
                         <>
                             <TableCell>
                                 <Button component={ Link } to={{pathname:"/job", state: {order: currentOrder}}} variant="contained" color="primary">View Job</Button>
-                            </TableCell>
-                        </>
-                    }
-                    {props.user.atype === "Customer" && currentOrder.status === "placed" &&
-                        <>
-                            <TableCell>
-                                <Button variant="contained" color="primary" onClick={() => {cancelJob(currentOrder._id)}}>Cancel Job</Button>
+                                {currentOrder.status==="placed" &&
+                                <>
+                                    <Button variant="contained" color="primary" onClick={() => {cancelJob(currentOrder._id)}}>&nbsp;&nbsp;&nbsp;Cancel Job</Button>
+                                </>
+                                }
                             </TableCell>
                         </>
                     }

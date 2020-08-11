@@ -123,6 +123,7 @@ return comparison;
 }
 
 
+
     const handleNameSort = () => {
         const itemSort = props.items.vals;
     itemSort.sort(compareName);
@@ -160,6 +161,11 @@ const itemSort = props.items.vals;
         setOpen(false);
     };
 
+const handleRemove=(itemId)=>{
+    props.items.vals.splice(props.items.vals.indexOf(itemId));
+
+}
+
     if(props.items.vals.length>0){
         const itemList = props.items.vals
         .filter(currentItem => {
@@ -188,6 +194,7 @@ const itemSort = props.items.vals;
                     <Table className={classes.table} >
                         <TableHead className={classes.head}>
                             <TableRow>
+                            <TableCell  onClick={()=> handleNameSort()} onUpdate={()=> props.selectedUpdate()}></TableCell>
                                 <TableCell  onClick={()=> handleNameSort()} onUpdate={()=> props.selectedUpdate()}>Name</TableCell>
                                 <TableCell onClick={()=> handlePriceSort()} onUpdate={()=> props.selectedUpdate()}>Price</TableCell>
                                 {props.acc.atype === "Store" &&
@@ -198,7 +205,7 @@ const itemSort = props.items.vals;
                                 {props.acc.atype === "Customer" &&
                                     <>
                                         <TableCell onClick={()=> handleStoreSort()} onUpdate={()=>props.selectedUpdate()}>Store</TableCell>
-                                        <TableCell> </TableCell>
+                                        
                                     </>
                                 }
                             </TableRow>
@@ -207,12 +214,14 @@ const itemSort = props.items.vals;
                             return (
                                 <TableBody>
                                     <TableRow onClick={() => props.selectedUpdate(currentItem._id)}>
-                                        <TableCell>{currentItem.itemName}</TableCell>
+                                        {currentItem.img!==undefined ?
+                                        (<TableCell><img className="img" src={currentItem.img}/></TableCell>)
+                                        : (<TableCell></TableCell>)}
                                         <TableCell>${currentItem.price}</TableCell>
                                         {props.acc.atype === "Store" &&
                                             <>
                                                 <TableCell>{currentItem.quantity}</TableCell>
-                                                <TableCell><Button variant = "contained" color="primary" onClick={()=>{fields.prodId=currentItem._id;onUpdate()}}>Delete</Button></TableCell>
+                                                <TableCell><Button variant = "contained" color="primary" onClick={()=>{handleRemove(currentItem._id)}} onUpdate={()=>props.selectedUpdate()}>Delete</Button></TableCell>
                                             </>
                                         }
                                         {props.acc.atype === "Customer" &&

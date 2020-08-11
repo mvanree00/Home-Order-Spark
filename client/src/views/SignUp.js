@@ -145,6 +145,11 @@ const SignUp = (props) => {
                 <div className = "button" >
                     <Button variant ="contained" color="primary" type="submit">Sign Up</Button>
                 </div>
+
+                <Typography className="Text">
+                        <Typography to="/faq">What is HomeOrder?</Typography>
+                        <Link to="/faq">FAQ</Link>
+                </Typography>
             </form>
         </div>
     )

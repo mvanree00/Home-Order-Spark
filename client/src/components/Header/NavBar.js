@@ -104,6 +104,9 @@ const NavBar = (props) => {
         return items.map(function(currentItem, i){
             return (
                 <TableRow>
+                    {currentItem.img!==undefined ?
+                    (<TableCell><img className="img" src={currentItem.img}/></TableCell>)
+                    : (<TableCell></TableCell>)}
                     <TableCell>{currentItem.itemName}</TableCell>
                     <TableCell>${parseFloat(currentItem.price).toFixed(2)}</TableCell>
                     <TableCell><Button onClick={() => {removeCart.prodId=currentItem._id;onRemove(idCart[i], quantities[i])}}>-</Button></TableCell>
@@ -139,6 +142,7 @@ const NavBar = (props) => {
                                             <Table className="table">
                                                 <TableHead className="Head">
                                                     <TableRow>
+                                                        <TableCell></TableCell>
                                                         <TableCell>Item</TableCell>
                                                         <TableCell>Price</TableCell>
                                                         <TableCell></TableCell>
