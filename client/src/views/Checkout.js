@@ -16,12 +16,13 @@ import Input from '@material-ui/core/Input'
 const Checkout = (props) => {
     const [fields, setFields] = useState({status: '', email: props.user.email, ids: [], placed: '', total: 0.0, store: '', address: props.user.address});
     const [items, setItems] = useState([]);
-    const [totals, setTotal] = useState(0);
+    const [totals, setTotal] = useState(0.00);
     const [update, setUpdate] = useState('');
     const [idCart, setIdCart] = useState([]);
     const [quantities, setQuantities] = useState([]);
     const [addCart, setAddCart] = useState({email: '', prodId: '', quantity: 1})
     const [removeCart, setRemoveCart] = useState({email: '', prodId: ''})
+    const [loaded, setLoad] = useState(false)
     let idss = [];
     let list = [];
     let quantList = [];
@@ -37,7 +38,6 @@ const Checkout = (props) => {
                     list.push(item)
                     quantList.push(currentItem.quantity)
                     cartIds.push(currentItem._id);
-                    setTotal(props.location.state.total)
                     setUpdate(currentItem._id) // forces update to show all items
                 })
                 .catch(function (error){
@@ -59,6 +59,7 @@ const Checkout = (props) => {
         setQuantities(quantList)
         setIdCart(cartIds);
         setFields({status: '', email: props.user.email, ids: idss, placed: '', total: 0, store: '', address: props.user.address});
+        setLoad(true);
     }, []);
 
     const onAdd = (id) => {
@@ -78,6 +79,25 @@ const Checkout = (props) => {
             httpUser.removeQuantity(id);
         }
     };
+
+    const totaler = () => {
+        if(totals===0 && items.length>0 && loaded===true){
+            if(items.length>1){
+                let tot = 0.00
+                for(let i=0;i<items.length;i++){
+                    tot+=items[i].price*quantities[i]
+                }
+                setTotal(tot.toFixed(2))
+            }
+            else if (items.length==1){
+                console.log('hello')
+                setTotal((items[0].price*quantities[0]).toFixed(2))
+            }
+            else{
+                setTotal(0.00)
+            }
+        }
+    }
 
     const itemList = () => {
         return items.map(function(currentItem, i){
@@ -103,7 +123,7 @@ const Checkout = (props) => {
         fields.status='placed'
         fields.placed = new Date
         fields.store=items[0].store
-        fields.total=props.location.state.total
+        fields.total=totals
         if(fields.address.length==0){
             fields.address=props.user.address
         }
@@ -120,8 +140,13 @@ const Checkout = (props) => {
                     <Table>
                         <TableBody>
                             {itemList()}
-                            {props.location.state || totals ?
+                            {props.location.state ?
                             (<div>
+                                {items.length===props.location.state.items.length &&
+                                    <>
+                                    {totaler()}
+                                    </>
+                                }
                                 <div>Total: ${totals}</div>
                                 <Typography variant="h1">Address</Typography>
                                 <div className="Input">
