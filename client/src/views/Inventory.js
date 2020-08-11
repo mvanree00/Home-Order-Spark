@@ -16,6 +16,7 @@ import httpUser from '../httpUser'
 import Search from './Search.js';
 import ItemList from './ItemList.js';
 import ViewItem from './ViewItem.js';
+import Grid from '@material-ui/core/Grid';
 
 const Inventory = (props) => {
     const [selectedItem, setSelectedItem] = useState('');
@@ -155,14 +156,20 @@ const Inventory = (props) => {
     if(props.user.atype === "Volunteer"){
         return (
             <div align="center">
-                <Typography variant="h1">Here are your current and past accepted orders, {props.user.name}!</Typography>
-                <TableBody>
-                    { orderList() }
-                </TableBody>
-                <Typography variant="h1">Here are your current and past accepted jobs, {props.user.name}!</Typography>
-                <TableBody>
-                    { jobList() }
-                </TableBody>
+                <Grid container spacing={3}>
+                    <Grid item xs={6}>
+                        <Typography variant="h1">Here are your current and past accepted orders, {props.user.name}!</Typography>
+                        <TableBody>
+                            { orderList() }
+                        </TableBody>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Typography variant="h1">Here are your current and past accepted jobs, {props.user.name}!</Typography>
+                        <TableBody>
+                            { jobList() }
+                        </TableBody>
+                    </Grid>
+                </Grid>
             </div>
         )
     }
