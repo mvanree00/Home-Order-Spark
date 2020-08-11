@@ -18,7 +18,6 @@
 }
 
 .nav-items {
-
     display:flex;
     margin-left: auto;
     margin-right: 5%;
@@ -57,13 +56,6 @@
     padding-top: 10px;
     padding-bottom: 10px;
     font-weight: bold;
-}
-
-.Cart{
-    height: 3.8%;
-    width: 3.8%;
-    vertical-align: text-bottom !important;
-    margin-bottom: -5px;
 }
 
 .img{
