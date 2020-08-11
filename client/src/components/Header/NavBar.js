@@ -163,16 +163,18 @@ const NavBar = (props) => {
                                         </>
                                         }
                                     </Drawer>
-                                    <Link className ="nav-link" onClick={toggle}><img className="Cart" src= {"../../cart.svg"} alt="Cart"/></Link>
+                                    <Link className ="nav-link" onClick={toggle}>Cart</Link>
                                     <Link className ="nav-link" to='/dashboard'>Orders</Link>
                                     <Link className ="nav-link" to='/store'>Store</Link>
                                     <Link className ="nav-link" to='/work'>Create Job</Link>
                                     <Link className ="nav-link" to='/forum'>Forum</Link>
+                                    <Link className ="nav-link" to='/faq'>FAQ</Link>
                                     <Link className ="nav-link" to='/logout'>Log Out</Link>
                                 </>
                             }
                             {props.user.atype === "Volunteer" &&
                                 <>
+                                    <Link className ="nav-link" to='/faq'>FAQ</Link>
                                     <Link className ="nav-link" to='/forum'>Forum</Link>
                                     <Link className ="nav-link" to='/dashboard'>Accept Orders</Link>
                                     <Link className ="nav-link" to='/inventory'>Current Orders</Link>
@@ -181,6 +183,7 @@ const NavBar = (props) => {
                             }
                             {props.user.atype === "Store" &&
                                 <>
+                                    <Link className ="nav-link" to='/faq'>FAQ</Link>
                                     <Link className ="nav-link" to='/forum'>Forum</Link>
                                     <Link className ="nav-link" to='/dashboard'>Add Items</Link>
                                     <Link className ="nav-link" to='/inventory'>Store Inventory</Link>
@@ -191,6 +194,7 @@ const NavBar = (props) => {
                     ) :
                     (
                     <Typography>
+                        <Link className ="nav-link" to='/faq'>FAQ</Link>
                         <Link className ="nav-link" to="/login">Log In</Link>
                         <Link className ="nav-link" to="/signup">Sign Up</Link>
                     </Typography>
