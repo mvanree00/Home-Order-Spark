@@ -104,6 +104,9 @@ const Checkout = (props) => {
         return items.map(function(currentItem, i){
             return (
                 <TableRow>
+                    {currentItem.img!==undefined ?
+                    (<TableCell><img className="img" src={currentItem.img}/></TableCell>)
+                    : (<TableCell></TableCell>)}
                     <TableCell>{currentItem.itemName}</TableCell>
                     <TableCell>{currentItem.price}</TableCell>
                     {/*<TableCell>{quantities[i]}</TableCell>
@@ -146,6 +149,7 @@ const Checkout = (props) => {
                     <Typography variant="h1">Welcome to checkout, {props.user.name}!</Typography>
                     <Table className="table">
                         <TableHead className="Head">
+                            <TableCell></TableCell>
                             <TableCell>Item</TableCell>
                             <TableCell>Price</TableCell>
                             <TableCell>Quantity</TableCell>

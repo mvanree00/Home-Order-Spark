@@ -188,6 +188,7 @@ const itemSort = props.items.vals;
                     <Table className={classes.table} >
                         <TableHead className={classes.head}>
                             <TableRow>
+                            <TableCell  onClick={()=> handleNameSort()} onUpdate={()=> props.selectedUpdate()}></TableCell>
                                 <TableCell  onClick={()=> handleNameSort()} onUpdate={()=> props.selectedUpdate()}>Name</TableCell>
                                 <TableCell onClick={()=> handlePriceSort()} onUpdate={()=> props.selectedUpdate()}>Price</TableCell>
                                 {props.acc.atype === "Store" &&
@@ -207,7 +208,9 @@ const itemSort = props.items.vals;
                             return (
                                 <TableBody>
                                     <TableRow onClick={() => props.selectedUpdate(currentItem._id)}>
-                                        <TableCell>{currentItem.itemName}</TableCell>
+                                        {currentItem.img!==undefined ?
+                                        (<TableCell><img className="img" src={currentItem.img}/></TableCell>)
+                                        : (<TableCell></TableCell>)}
                                         <TableCell>${currentItem.price}</TableCell>
                                         {props.acc.atype === "Store" &&
                                             <>
