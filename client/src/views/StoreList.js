@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useEffect,useState} from 'react';
 import Button from '@material-ui/core/Button';
 import httpUser from '../httpUser';
 import Typography from '@material-ui/core/Typography'
@@ -10,6 +10,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import axios from 'axios';
 const useStyles = makeStyles({
     table: {
       minWidth: 700,
@@ -28,27 +29,44 @@ const useStyles = makeStyles({
 const StoreList = (props) => {
     //console.log('This is my currentItem file', this.props.data);
     const classes = useStyles();
+    const [item,setItem] = useState(0)
+    useEffect (() => {
+        async function fetchData() {
+            axios.get('/api/carts/'+props.acc.email)
+            .then(response => {
+                if(response.data.length>=1){
+                    axios.get('/api/items/search/'+response.data[0].prodId)
+                    .then(response => {
+                        setItem(response.data)
+                    })
+                }
+            })
+            .catch(function (error){
+                console.log(error);
+            })
+        }
+        fetchData();
+    }, []);
 
     function compareStore(a,b){
-    const storeA = a.storeName.toUpperCase();
-const storeB = b.storeName.toUpperCase();
+        const storeA = a.storeName.toUpperCase();
+        const storeB = b.storeName.toUpperCase();
+        let comparison = 0;
+        if(storeA>storeB){
+            comparison = 1;
+        }else if (storeA<storeB)
+        {
+            comparison = -1;
+        }
+        return comparison;
+        }
 
-let comparison = 0;
-if(storeA>storeB){
-    comparison = 1;
-}else if (storeA<storeB)
-{
-    comparison = -1;
-}
-return comparison;
-}
-
- const handleStoreSort=()=>{
+    const handleStoreSort=()=>{
         const itemSort = props.items.vals;
         itemSort.sort(compareStore);
     }
-
-    if(props.items.vals.length>0){
+    {console.log(item)}
+    if(!item){
         const itemList = props.items.vals
         .filter(currentItem => {
             return currentItem.storeName.toLowerCase().indexOf(props.filterText.toLowerCase()) !== -1
@@ -74,6 +92,24 @@ return comparison;
             </TableContainer>
         );
         return <div>{itemList}</div>;
+    }
+    else if(item){
+        return(
+            <TableContainer className={classes.wrap} component={Paper}>
+                <Table className={classes.table} >
+                    <TableHead className={classes.head}>
+                        <TableRow>
+                            <TableCell onClick={()=> handleStoreSort()} onUpdate={()=>props.selectedUpdate()}>Store</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        <TableRow onClick={() => props.selectedUpdate(item.email)}>
+                            <TableCell>{item.store}</TableCell>
+                        </TableRow>
+                    </TableBody> 
+                </Table>
+            </TableContainer>
+        )
     }
     else{
         return <div></div>;

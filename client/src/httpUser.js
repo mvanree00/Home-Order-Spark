@@ -67,6 +67,13 @@ httpUser.removeCart = async function(itemInfo) {
     })
 };
 
+httpUser.resetCart = async function(itemInfo) {
+    await axios.delete('/api/carts/reset', {data: itemInfo})
+    .then(() => {
+        window.location.reload();
+    })
+};
+
 httpUser.addQuantity = async function(id) {
     await axios.patch('/api/carts/add/' + id)
     .then(() => {
