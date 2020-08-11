@@ -25,6 +25,16 @@ const Work = (props) => {
         })
     };
 
+    const hyperLink = (inputString) => {
+        var str = inputString;
+        var map = "http://maps.google.com/?q=";
+        var replaced = str.split(' ').join('+');
+        replaced = map.concat(replaced)
+        return (
+            <a href={replaced}>{inputString}</a>
+        )
+    }
+
     return (
         <div align="center">
             <TableContainer>
@@ -43,10 +53,10 @@ const Work = (props) => {
                                 <TableBody>
                                     <TableRow>
                                         <TableCell>
-                                            Date Placed
+                                            <Typography>Date Placed</Typography>
                                         </TableCell>
                                         <TableCell>
-                                            <div align='center'>{new Date(props.location.state.order.placed).toDateString()}</div>
+                                            <Typography align='center'>{new Date(props.location.state.order.placed).toDateString()}</Typography>
                                         </TableCell>
                                     </TableRow>
 
