@@ -1,0 +1,33 @@
+body {
+    margin: 0
+
+}
+
+.Header{
+    display: block;
+    padding-bottom: 2px;
+    text-align: center;
+}
+
+.Input {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.Text {
+    padding-top: 10px;
+    padding-bottom: 50px;
+    text-align: center;
+    
+}
+.button {
+    text-align:center;
+    padding-top: 30px;
+}
+.topHeader {
+    display: block;
+    padding-bottom: 60px;
+    padding-top: 70px;
+    text-align: center;
+  
+}
