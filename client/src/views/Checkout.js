@@ -18,8 +18,12 @@ const Checkout = (props) => {
     const [items, setItems] = useState([]);
     const [totals, setTotal] = useState(0);
     const [update, setUpdate] = useState('');
+    const [quantities, setQuantities] = useState([]);
+    const [addCart, setAddCart] = useState({email: '', prodId: '', quantity: 1})
+    const [removeCart, setRemoveCart] = useState({email: '', prodId: ''})
     let idss = [];
     let list = [];
+    let quantList = [];
     useEffect (() => {
         function setData(response){
             response.forEach((currentItem) => {
@@ -29,6 +33,7 @@ const Checkout = (props) => {
                     item = response.data;
                     idss.push(item._id)
                     list.push(item)
+                    quantList.push(currentItem.quantity)
                     setTotal(props.location.state.total)
                     setUpdate(currentItem._id) // forces update to show all items
                 })
@@ -48,8 +53,27 @@ const Checkout = (props) => {
         }
         fetchData();
         setItems(list)
+        setQuantities(quantList)
         setFields({status: '', email: props.user.email, ids: idss, placed: '', total: 0, store: '', address: props.user.address});
     }, []);
+
+    const onAdd = (id) => {
+        addCart.email = props.user.email;
+        console.log(addCart)
+        httpUser.addQuantity(id);
+        setAddCart({email: props.user.email, prodId: '', quantity: 1});
+    };
+
+    const onRemove = (id, quantity) => {
+        if(quantity <= 1){
+            removeCart.email = props.user.email;
+            httpUser.removeCart(removeCart);
+            setRemoveCart({email: props.user.email, prodId: ''});
+        }
+        else{
+            httpUser.removeQuantity(id);
+        }
+    };
 
     const itemList = () => {
         return items.map(function(currentItem, i){
@@ -57,6 +81,9 @@ const Checkout = (props) => {
                 <TableRow>
                     <TableCell>{currentItem.itemName}</TableCell>
                     <TableCell>{currentItem.price}</TableCell>
+                    <TableCell>{quantities[i]}</TableCell>
+                    <TableCell><Button onClick={() => {addCart.prodId=currentItem._id;addCart.quantity=currentItem.quantity + 1;onAdd(idss[i])}}>+</Button></TableCell>
+                    <TableCell><Button onClick={() => {removeCart.prodId=currentItem._id;onRemove(idss[i], quantities[i])}}>-</Button></TableCell>
                 </TableRow>
             )
         })
