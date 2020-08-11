@@ -139,7 +139,7 @@ const Dashboard = (props) => {
                         <>
                             <TableCell>Customer Address: {currentOrder.address}</TableCell>
                             <TableCell><Button component={ Link } to={{pathname:"/job", state: {order: currentOrder}}} variant="contained" color="primary">View Job</Button></TableCell>
-                            <TableCell><Button variant="contained" color="secondary" onClick={() => {acceptJob(currentOrder._id)}}>Accept Job</Button></TableCell>
+                            <TableCell><Button variant="contained" color="primary" onClick={() => {acceptJob(currentOrder._id)}}>Accept Job</Button></TableCell>
                         </>
                     }
                     {props.user.atype === "Customer" &&
