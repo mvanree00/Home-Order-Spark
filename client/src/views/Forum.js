@@ -93,7 +93,7 @@ const Forum = (props) => {
                 </>
                 }
             </Grid>
-            <Grid item xs={ props.user.type === "Customer" ? 6 : 12}>
+            <Grid item xs={ (props.user.atype === "Customer") ? 6 : 12}>
             <Typography variant="h1" align='center'>Posts</Typography>
                 {posts.vals.map(currentPost => {
                     return (
