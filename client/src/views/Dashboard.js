@@ -165,24 +165,44 @@ const Dashboard = (props) => {
         return (
             <div align="center">
                 <Typography variant="h1">Welcome to your volunteer dashboard, {props.user.name}!</Typography>
-                <div className='row'>
-                    <div className='column1'>
+                <Grid container spacing={3}>
+                    <Grid item xs={6}>
                         {orders.vals.length!==0 ? 
                         (<div>
-                            <Typography variant="h2">Current open deliveries:</Typography>
-                            {itemList()}
+                            <TableContainer>
+                                <Table className="table">
+                                    <TableHead className="Head">
+                                        <TableCell colspan={5}>
+                                            <Typography variant="h2">Current open deliveries:</Typography>
+                                        </TableCell>
+                                    </TableHead>
+                                    <TableBody>
+                                        {itemList()}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
                         </div>)
                         : (<Typography variant="h2">No deliveries to accept.</Typography>)}
-                    </div>
-                    <div className='column2'>
+                    </Grid>
+                    <Grid item xs={6}>
                         {jobs.vals.length!==0 ? 
                         (<div>
-                            <Typography variant="h2">Current open jobs:</Typography>
-                            {jobList()}
+                            <TableContainer>
+                                <Table className="table">
+                                    <TableHead className="Head">
+                                        <TableCell>
+                                            <Typography variant="h2">Current open jobs:</Typography>
+                                        </TableCell>
+                                    </TableHead>
+                                    <TableBody>
+                                        {jobList()}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
                         </div>)
                         : (<Typography variant="h2">No jobs to accept.</Typography>)}
-                    </div>
-                </div>
+                    </Grid>
+                </Grid>
             </div>
         )
     }
